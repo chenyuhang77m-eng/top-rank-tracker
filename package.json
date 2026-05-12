@@ -1,0 +1,12 @@
+{
+  "name": "top-rank-tracker",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "crawl": "node scripts/crawl.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
