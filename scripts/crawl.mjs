@@ -247,9 +247,46 @@ async function main() {
   const json = `${JSON.stringify(payload, null, 2)}\n`;
   await fs.writeFile(path.join(dataDir, `${date}.json`), json, "utf8");
   await fs.writeFile(path.join(dataDir, "latest.json"), json, "utf8");
+  await writeArchiveFiles(capturedAt);
 
   const totalItems = lists.reduce((sum, list) => sum + list.itemCount, 0);
   console.log(`Captured ${lists.length} lists and ${totalItems} items for ${date}.`);
+}
+
+async function writeArchiveFiles(updatedAt) {
+  const files = await fs.readdir(dataDir);
+  const dailyFiles = files
+    .filter((file) => /^\d{4}-\d{2}-\d{2}\.json$/.test(file))
+    .sort();
+
+  const snapshots = [];
+
+  for (const file of dailyFiles) {
+    const content = await fs.readFile(path.join(dataDir, file), "utf8");
+    snapshots.push(JSON.parse(content));
+  }
+
+  const dates = snapshots.map((snapshot) => snapshot.date);
+  const index = {
+    updatedAt,
+    totalDays: dates.length,
+    dates,
+    files: dailyFiles.map((file) => ({
+      date: file.replace(".json", ""),
+      path: `data/${file}`,
+      rawUrl: `https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/${file}`
+    }))
+  };
+
+  const all = {
+    updatedAt,
+    totalDays: snapshots.length,
+    dates,
+    snapshots
+  };
+
+  await fs.writeFile(path.join(dataDir, "index.json"), `${JSON.stringify(index, null, 2)}\n`, "utf8");
+  await fs.writeFile(path.join(dataDir, "all.json"), `${JSON.stringify(all, null, 2)}\n`, "utf8");
 }
 
 main().catch((error) => {
