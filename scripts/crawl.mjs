@@ -28,7 +28,7 @@ const sources = [
     category: "shopping",
     categoryName: "热销榜",
     url: "https://tophub.today/c/shopping?q=%E4%BA%AC%E4%B8%9C",
-    selectedNodeIds: ["4598", "4575"]
+    selectedNodeIds: ["4598"]
   }
 ];
 
