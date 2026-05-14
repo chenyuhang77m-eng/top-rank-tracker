@@ -5,6 +5,8 @@
 - 热搜榜：https://tophub.today/c/news?q=%E7%83%AD%E6%90%9C
 - 热销榜：https://tophub.today/c/shopping
 
+完整搭建教程见：[GitHub Actions 每日榜单抓取工作流搭建指南](WORKFLOW_GUIDE.md)
+
 ## 默认抓取范围
 
 热搜榜默认选取：
