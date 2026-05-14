@@ -4,7 +4,8 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "crawl": "node scripts/crawl.mjs"
+    "crawl": "node scripts/crawl.mjs",
+    "crawl:daily": "node scripts/crawl.mjs --skip-if-exists"
   },
   "engines": {
     "node": ">=20"

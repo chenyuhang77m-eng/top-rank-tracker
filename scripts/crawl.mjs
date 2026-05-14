@@ -241,6 +241,13 @@ async function main() {
   }
 
   const { date, capturedAt } = getShanghaiDateParts();
+  const dailyFile = path.join(dataDir, `${date}.json`);
+
+  if (process.argv.includes("--skip-if-exists") && existsSync(dailyFile)) {
+    console.log(`Data for ${date} already exists. Skipping crawl.`);
+    return;
+  }
+
   const lists = (await Promise.all(sources.map(crawlSource))).flat();
 
   const payload = {
@@ -251,7 +258,7 @@ async function main() {
   };
 
   const json = `${JSON.stringify(payload, null, 2)}\n`;
-  await fs.writeFile(path.join(dataDir, `${date}.json`), json, "utf8");
+  await fs.writeFile(dailyFile, json, "utf8");
   await fs.writeFile(path.join(dataDir, "latest.json"), json, "utf8");
   await writeArchiveFiles(capturedAt);
 

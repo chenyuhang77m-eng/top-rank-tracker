@@ -3,6 +3,8 @@ name: Daily Tophub Crawl
 on:
   schedule:
     - cron: "7 2 * * *"
+    - cron: "37 2 * * *"
+    - cron: "7 3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -22,7 +24,7 @@ jobs:
           node-version: 20
 
       - name: Crawl top lists
-        run: npm run crawl
+        run: npm run crawl:daily
 
       - name: Commit data
         uses: stefanzweifel/git-auto-commit-action@v5

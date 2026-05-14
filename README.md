@@ -42,6 +42,8 @@
 npm run crawl
 ```
 
+定时任务使用 `npm run crawl:daily`。如果当天数据已经存在，它会跳过抓取，避免多个兜底触发点重复覆盖同一天数据。
+
 ## 自动运行
 
-`.github/workflows/daily-crawl.yml` 已配置 GitHub Actions，每天北京时间 09:10 自动抓取并提交数据。
+`.github/workflows/daily-crawl.yml` 已配置 GitHub Actions，每天北京时间 10:07 自动抓取；10:37 和 11:07 作为兜底触发点。如果当天数据已经存在，兜底任务会自动跳过。
