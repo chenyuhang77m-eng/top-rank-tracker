@@ -50,4 +50,4 @@ npm run crawl
 
 ## 自动运行
 
-主链路使用 Codex worktree 自动化每天北京时间 10:45 检查并补抓。`.github/workflows/daily-crawl.yml` 保留为 GitHub Actions 下午备用触发点：北京时间 15:07 和 15:37。如果当天数据已经存在，备用任务会自动跳过。
+主链路使用 Codex worktree 自动化每天北京时间 09:30 检查并补抓。`.github/workflows/daily-crawl.yml` 保留为 GitHub Actions 下午备用触发点：北京时间 15:07 和 15:37。如果当天数据已经存在，备用任务会自动跳过。
