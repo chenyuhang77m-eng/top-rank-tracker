@@ -42,6 +42,18 @@ const userAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
   "(KHTML, like Gecko) Chrome/124.0 Safari/537.36";
 
+const hotSearchExcludedKeywordGroups = [
+  ["外交部", "国防部", "商务部", "白宫", "国会", "国务院", "联合国"],
+  ["中方", "美方", "中美", "对华", "对台", "制裁", "关税", "大使馆", "领事馆"],
+  ["总统", "首相", "总理", "外长", "防长", "议员", "内阁", "大选", "选举"],
+  ["特朗普", "拜登", "普京", "泽连斯基", "马克龙", "石破茂", "尹锡悦"],
+  ["台海", "台湾问题", "台独", "两岸", "南海", "钓鱼岛"],
+  ["军事", "军演", "军舰", "军机", "战机", "导弹", "航母", "核武", "防空", "空袭"],
+  ["俄乌", "乌克兰", "俄罗斯", "以色列", "伊朗", "加沙", "巴以", "哈马斯", "朝鲜"]
+];
+
+const hotSearchExcludedKeywords = hotSearchExcludedKeywordGroups.flat();
+
 function decodeHtml(value = "") {
   return value
     .replace(/&nbsp;/g, " ")
@@ -159,7 +171,16 @@ function parseNewsItems(block) {
     }
   }
 
-  return items.slice(0, 20);
+  return items;
+}
+
+function isExcludedHotSearchItem(item) {
+  const text = `${item.title} ${item.metric}`.toLowerCase();
+  return hotSearchExcludedKeywords.some((keyword) => text.includes(keyword.toLowerCase()));
+}
+
+function selectHotSearchItems(items) {
+  return items.filter((item) => !isExcludedHotSearchItem(item)).slice(0, 20);
 }
 
 function parseShoppingItems(block) {
@@ -186,7 +207,7 @@ function parseShoppingItems(block) {
     return items.slice(0, 20);
   }
 
-  return parseNewsItems(block);
+  return parseNewsItems(block).slice(0, 20);
 }
 
 async function crawlSource(source) {
@@ -199,7 +220,7 @@ async function crawlSource(source) {
     const items =
       source.category === "shopping"
         ? parseShoppingItems(block.html)
-        : parseNewsItems(block.html);
+        : selectHotSearchItems(parseNewsItems(block.html));
 
     return {
       category: source.category,
