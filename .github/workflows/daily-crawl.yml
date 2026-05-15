@@ -2,9 +2,8 @@ name: Daily Tophub Crawl
 
 on:
   schedule:
-    - cron: "7 2 * * *"
-    - cron: "37 2 * * *"
-    - cron: "7 3 * * *"
+    - cron: "7 7 * * *"
+    - cron: "37 7 * * *"
   workflow_dispatch:
 
 permissions:

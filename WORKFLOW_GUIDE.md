@@ -134,9 +134,8 @@ name: Daily Tophub Crawl
 
 on:
   schedule:
-    - cron: "7 2 * * *"
-    - cron: "37 2 * * *"
-    - cron: "7 3 * * *"
+    - cron: "7 7 * * *"
+    - cron: "37 7 * * *"
   workflow_dispatch:
 
 permissions:
@@ -167,11 +166,10 @@ jobs:
 
 GitHub Actions 的 cron 使用 UTC 时间。北京时间是 UTC+8，所以：
 
-- `7 2 * * *` = 北京时间 10:07
-- `37 2 * * *` = 北京时间 10:37
-- `7 3 * * *` = 北京时间 11:07
+- `7 7 * * *` = 北京时间 15:07
+- `37 7 * * *` = 北京时间 15:37
 
-设置多个时间点是为了兜底。GitHub 的定时任务不保证准点触发，整点或高峰期可能延迟甚至漏触发。
+设置多个时间点是为了兜底。GitHub 的定时任务不保证准点触发，整点或高峰期可能延迟甚至漏触发。如果有 Codex worktree 等更稳定的上午任务，可以把 GitHub Actions 放到下午作为备用触发。
 
 `workflow_dispatch` 表示允许手动运行。可以在 GitHub 仓库的 Actions 页面点击 `Run workflow` 手动触发。
 
@@ -258,8 +256,9 @@ https://raw.githubusercontent.com/<用户名>/<仓库名>/main/data/index.json
 
 推荐至少做两层兜底：
 
-1. GitHub Actions 多个时间点触发，例如 10:07、10:37、11:07。
+1. 主链路使用 Codex worktree 或其他云端自动化在上午固定时间检查并补抓。
 2. 脚本使用 `--skip-if-exists`，当天数据存在就跳过，避免重复覆盖。
+3. GitHub Actions 放在下午作为备用触发，例如 15:07、15:37。
 
 如果有额外的云端自动化系统，也可以再加一层检查：
 
