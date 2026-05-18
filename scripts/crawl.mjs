@@ -16,7 +16,7 @@ const sources = [
     category: "hot-search",
     categoryName: "热搜榜",
     url: "https://tophub.today/c/news?q=%E7%83%AD%E6%90%9C",
-    selectedNodeIds: ["1", "2", "140", "38", "69"]
+    selectedNodeIds: ["1", "2", "140", "69", "223"]
   },
   {
     category: "shopping",
@@ -42,6 +42,8 @@ const userAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
   "(KHTML, like Gecko) Chrome/124.0 Safari/537.36";
 
+const TOP_ITEM_LIMIT = 30;
+
 const hotSearchExcludedKeywordGroups = [
   ["外交部", "国防部", "商务部", "白宫", "国会", "国务院", "联合国"],
   ["中方", "美方", "中美", "对华", "对台", "制裁", "关税", "大使馆", "领事馆"],
@@ -53,6 +55,35 @@ const hotSearchExcludedKeywordGroups = [
 ];
 
 const hotSearchExcludedKeywords = hotSearchExcludedKeywordGroups.flat();
+const additionalHotSearchExcludedKeywords = [
+  "时事",
+  "时政",
+  "政治",
+  "政务",
+  "新闻",
+  "新闻联播",
+  "时评",
+  "经济",
+  "财经",
+  "金融",
+  "股市",
+  "股票",
+  "证券",
+  "基金",
+  "债券",
+  "A股",
+  "港股",
+  "美股",
+  "央行",
+  "汇率",
+  "降息",
+  "加息",
+  "GDP",
+  "CPI",
+  "楼市",
+  "房价",
+  "房地产"
+];
 
 function decodeHtml(value = "") {
   return value
@@ -176,11 +207,13 @@ function parseNewsItems(block) {
 
 function isExcludedHotSearchItem(item) {
   const text = `${item.title} ${item.metric}`.toLowerCase();
-  return hotSearchExcludedKeywords.some((keyword) => text.includes(keyword.toLowerCase()));
+  return [...hotSearchExcludedKeywords, ...additionalHotSearchExcludedKeywords].some((keyword) =>
+    text.includes(keyword.toLowerCase())
+  );
 }
 
 function selectHotSearchItems(items) {
-  return items.filter((item) => !isExcludedHotSearchItem(item)).slice(0, 20);
+  return items.filter((item) => !isExcludedHotSearchItem(item)).slice(0, TOP_ITEM_LIMIT);
 }
 
 function parseShoppingItems(block) {
@@ -204,10 +237,10 @@ function parseShoppingItems(block) {
   }
 
   if (items.length > 0) {
-    return items.slice(0, 20);
+    return items.slice(0, TOP_ITEM_LIMIT);
   }
 
-  return parseNewsItems(block).slice(0, 20);
+  return parseNewsItems(block).slice(0, TOP_ITEM_LIMIT);
 }
 
 async function crawlSource(source) {
