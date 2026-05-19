@@ -29,7 +29,7 @@ const categoryRules = {
   FOOD: /食品|零食|饼干|薯片|粽|月饼|奶茶|咖啡|牛奶|酸奶|啤酒|白酒|红酒|饮料|果汁|益生菌|坚果|巧克力|火锅|方便面|速食|生鲜|水果|蔬菜|肉|蛋|海鲜|皮皮虾|榴莲|车厘子|西瓜/,
   BEAU: /面膜|口红|粉底|精华|防晒霜|护肤|美妆|彩妆|香水|美瞳|眼影|腮红|护发|染发|脱毛|妆容|妆造|睫毛|眉笔|遮瑕|气垫|定妆|卸妆|洗面|爽肤水|乳液|身体乳|唇釉|韩束|完美日记|花西子|欧莱雅|兰蔻|雅诗兰黛/,
   CLOT: /T恤|连衣裙|裤|衬衫|外套|风衣|羽绒|羊绒|针织|毛衣|卫衣|背心|短袖|长袖|内衣|内裤|文胸|袜|鞋|靴|帽|围巾|手套|箱包|钱包|双肩包|手提包|眼镜|墨镜|手表|腕表|穿搭|服饰|时装|tutu|冰丝|防晒衣|防晒裤|冲锋衣|polo|短裙|长裙|户外|运动鞋|跑鞋/i,
-  EDU: /学而思|新东方|猿辅导|高途|网易有道|作业帮|学习机|网课|在线教育|教培|培训|考研|考公|京东|阿里巴巴|淘宝|天猫|拼多多|美团|饿了么|大众点评|滴滴|高德|携程|飞猪|闲鱼|转转|本地生活|外卖|二手|回收|旅游|酒店|机票/
+  EDU: /学而思|新东方|猿辅导|高途|网易有道|作业帮|斑马AI|核桃编程|VIPKID|掌门一对一|学习机|网课|在线教育|教培|教辅|课外辅导|辅导班|培训班|培训机构|考研|考公|公务员考试|事业编|教师资格|雅思|托福|GRE|GMAT|MBA培训|公考|考证培训|资格证培训|执业证培训|职业资格|报考条件|早教|学步|益智|绘本|图书音像|学龄前|幼小衔接/
 };
 
 const fallbackPlaybook = {
@@ -184,21 +184,20 @@ function fallbackRowsForCategory(cat, compact) {
   const signals = compact.categorySignals[cat.key] || [];
   const templates = fallbackPlaybook[cat.key] || [];
   const orderedTemplates = [...templates].sort((a, b) => rowScore(b, signals) - rowScore(a, signals));
-  const topSignals = signals.slice(0, 5);
 
-  return orderedTemplates.slice(0, rowsPerCategory).map((row, index) => {
+  return orderedTemplates.slice(0, rowsPerCategory).map((row) => {
+    // 关键修复:只用真正命中本 sub/topics 的信号;命中不到就保持空,**绝不用其他 sub 的 topSignal 漫灌**
     const rowSignals = signals.filter((item) =>
       uniq([row.sub, ...row.topics], 20).some((key) => item.title.includes(key))
     );
-    const picked = rowSignals.length ? rowSignals : topSignals.slice(index, index + 1);
-    const top = picked[0] || topSignals[0];
+    const top = rowSignals[0];
     return {
       sub: row.sub,
       scene: top ? `${row.scene} · 今日信号:${top.title}` : row.scene,
-      topics: uniq([...(picked.map((item) => item.title)), ...row.topics], 6),
+      topics: uniq([...(rowSignals.map((item) => item.title)), ...row.topics], 6),
       strategy: top
-        ? `【重点】围绕「${top.title}」做首屏钩子,用「榜单解读 + 场景清单 + 达人实测」承接兴趣;【投放】优先测试${cat.name}人群;【复用】次日把互动最高的问题复用到直播间标题、搜索词和商品卡卖点。`
-        : `【重点】今日暂无强热点命中,用${row.scene}做常青内容测试;【投放】保持小预算 A/B 素材;【复用】观察评论区需求后再放大。`
+        ? `【重点】围绕「${top.title}」做首屏钩子,场景聚焦「${row.scene}」,用「榜单解读 + 场景清单 + 达人实测」承接兴趣;【投放】优先测试 ${row.sub} 人群;【复用】次日把互动最高的问题复用到直播间标题、搜索词和商品卡卖点。`
+        : `【重点】今日 ${row.sub} 暂无强榜单信号,围绕常青场景「${row.scene}」做小预算 A/B 内容测试;【投放】保持轻量短视频与图文占位,沉淀评论区真实需求;【复用】观察互动后再决定是否放大投放,避免强行关联无关热点。`
     };
   });
 }
@@ -206,16 +205,52 @@ function fallbackRowsForCategory(cat, compact) {
 function normalizeCategory(cat, inputCategory, compact) {
   const fallbackRows = fallbackRowsForCategory(cat, compact);
   const rawRows = Array.isArray(inputCategory?.rows) ? inputCategory.rows : [];
+  const signals = compact.categorySignals[cat.key] || [];
+
+  // 关键修复:LLM 给出的每个 row,topics 必须严格属于该 sub 自身
+  // 用 row.sub + row.topics 作为 keys,**只**保留真正命中 keys 的信号作为 row 的 topSignal
   const cleaned = rawRows
     .filter((row) => row?.sub && row?.scene && row?.strategy)
-    .map((row) => ({
-      sub: String(row.sub).trim(),
-      scene: String(row.scene).trim(),
-      topics: uniq(Array.isArray(row.topics) ? row.topics : [], 6),
-      strategy: highlightStrategy(row.strategy)
-    }));
+    .map((row) => {
+      const sub = String(row.sub).trim();
+      const scene = String(row.scene).trim();
+      const topics = uniq(Array.isArray(row.topics) ? row.topics : [], 6);
+      // 严格按 sub+topics 过滤本日信号,避免跨 sub 串话
+      const rowKeys = uniq([sub, ...topics], 20);
+      const matched = signals.filter((item) =>
+        rowKeys.some((key) => key && (item.title.includes(key) || (key.length >= 3 && item.title.toLowerCase().includes(key.toLowerCase()))))
+      );
+      const top = matched[0];
+      // 如果 LLM 把不相关的 hot-shop 信号塞进 topics(如 K12 行里出现"美团闪购"),剔除掉
+      const cleanTopics = uniq(
+        topics.filter((t) => {
+          // 保留命中本 sub 的标题或本来就在 fallback 模板里的关键词
+          const isFallback = (fallbackPlaybook[cat.key] || []).some((p) => p.sub === sub && (p.topics || []).includes(t));
+          if (isFallback) return true;
+          // 长标题(>20 字)若不命中本 row 的 sub/fallback topics,基本是误塞,丢弃
+          if (t.length > 20) {
+            return rowKeys.some((key) => key && t.includes(key) && key !== sub);
+          }
+          return true;
+        }),
+        6
+      );
+      // 重写 strategy:如果 LLM 写出的 strategy 提到了不属于本 sub 的标题,改写为只基于 matched
+      let strategy = highlightStrategy(row.strategy);
+      const llmMentionedIrrelevant = signals.some((s) => {
+        if (!s.title || s.title.length < 4) return false;
+        if (matched.some((m) => m.title === s.title)) return false;
+        return strategy.includes(s.title);
+      });
+      if (llmMentionedIrrelevant) {
+        strategy = top
+          ? `【重点】围绕「${top.title}」做首屏钩子,场景聚焦「${scene}」,用「榜单解读 + 场景清单 + 达人实测」承接兴趣;【投放】优先测试 ${sub} 人群;【复用】次日把互动最高的问题复用到直播间标题、搜索词和商品卡卖点。`
+          : `【重点】今日 ${sub} 暂无强榜单信号,围绕常青场景「${scene}」做小预算 A/B 内容测试;【投放】保持轻量短视频与图文占位,沉淀评论区真实需求;【复用】观察互动后再决定是否放大投放,避免强行关联无关热点。`;
+      }
+      const cleanedScene = top ? scene.split(" · 今日信号:")[0] + ` · 今日信号:${top.title}` : scene.split(" · 今日信号:")[0];
+      return { sub, scene: cleanedScene, topics: cleanTopics, strategy };
+    });
 
-  const signals = compact.categorySignals[cat.key] || [];
   const hasScoredRows = cleaned.some((row) => rowScore(row, signals) > 0);
   const sorted = hasScoredRows
     ? [...cleaned].sort((a, b) => rowScore(b, signals) - rowScore(a, signals))
@@ -332,7 +367,11 @@ function buildSystemPrompt() {
     "每个 category 对象包含 lead、bullets、rows。",
     "每个 category 的 bullets 最多 4 条,rows 必须刚好 5 条,优先选择当日榜单信号最强的二级类目;没有相关信号时,从 fallbackSubcategories 中生成 5 条保底。",
     "每个 row 包含 sub、scene、topics、strategy。",
-    "strategy 用 1 到 2 句写清内容形式、投放阵地、创意角度和次日复用动作,并用【重点】、【投放】、【复用】标出最重要的信息。"
+    "strategy 用 1 到 2 句写清内容形式、投放阵地、创意角度和次日复用动作,并用【重点】、【投放】、【复用】标出最重要的信息。",
+    "**关键约束**:每一条 row 的 topics、scene、strategy 必须严格属于该 row 的 sub 子类目本身。",
+    "举例:平台教育(EDU)下,K12 学科辅导 sub 行不允许出现美团/饿了么/携程/闲鱼/京东日用品等无关品牌或 SKU;考研考公 sub 行不允许出现餐饮团购、旅游酒店;旅行出行 sub 行不允许出现学习机或 K12 课程。",
+    "如果当日某个 sub 没有任何强相关榜单信号,strategy 必须明确写「今日 [sub] 暂无强榜单信号,建议保持轻量内容占位与小预算 A/B 测试」之类的常青策略,严禁把其它 sub 的热点信号塞进 strategy 或 topics。",
+    "topics 字段:每条 row 的 topics 必须只包含与该 sub 自身真正相关的关键词或上榜标题;不允许把整条无关的电商 SKU 标题(尤其是超过 20 字的长商品标题)塞进不相关 sub 的 topics。"
   ].join("\n");
 }
 
