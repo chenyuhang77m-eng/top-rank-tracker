@@ -314,9 +314,9 @@ function buildSystemPrompt() {
     "JSON 顶层结构必须包含 summary 和 categories。",
     "categories 必须包含 C3、HOME、APPL、BABY、FOOD、BEAU、CLOT、EDU 八个键。",
     "每个 category 对象包含 lead、bullets、rows。",
-    "rows 不设上限:凡是当日榜单信号涉及到的二级类目都应优先输出;只有该大类没有任何相关热点/热销信号时,才从 fallbackSubcategories 中生成至少 4 条保底。",
+    "每个 category 的 bullets 最多 4 条,rows 必须刚好 4 条,优先选择当日榜单信号最强的二级类目;没有相关信号时,从 fallbackSubcategories 中生成 4 条保底。",
     "每个 row 包含 sub、scene、topics、strategy。",
-    "strategy 要具体到内容形式、投放阵地、创意角度和次日复用动作。"
+    "strategy 用 1 到 2 句写清内容形式、投放阵地、创意角度和次日复用动作。"
   ].join("\n");
 }
 
