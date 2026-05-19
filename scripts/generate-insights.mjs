@@ -32,6 +32,17 @@ const categoryRules = {
   EDU: /学而思|新东方|猿辅导|高途|网易有道|作业帮|斑马AI|核桃编程|VIPKID|掌门一对一|学习机|网课|在线教育|教培|教辅|课外辅导|辅导班|培训班|培训机构|考研|考公|公务员考试|事业编|教师资格|雅思|托福|GRE|GMAT|MBA培训|公考|考证培训|资格证培训|执业证培训|职业资格|报考条件|早教|学步|益智|绘本|图书音像|学龄前|幼小衔接|京东|阿里巴巴|淘宝|天猫|拼多多|美团|饿了么|大众点评|滴滴|高德|携程|飞猪|同程|马蜂窝|闲鱼|转转|爱回收|多抓鱼|本地生活|外卖|二手|回收|旅游|酒店|机票|景区|跟团游|自由行|抖音电商|抖音小店|快手电商|快手小店|小红书电商/
 };
 
+const categoryOverrides = [
+  {
+    key: "FOOD",
+    re: /椰子水|电解质|驼奶|羊奶|牛奶|酸奶|奶粉|乳制品|钙片|奶片|益生菌|维生素|蛋白粉|乳清|饮料|果汁|苹果汁|矿泉水|纯净水|苏打水|茶饮|咖啡|零食|食品|坚果|饼干|糖果|方便面|拌面|蔬菜|水果|榴莲|西瓜/i
+  },
+  {
+    key: "CLOT",
+    re: /聚拢|内衣|文胸|胸罩|bra|bralette|家居服|睡衣|内裤|袜|丝袜|打底裤|防晒衣|T恤|连衣裙|半身裙|裙|裤|鞋|拖鞋|凉拖|帽子|箱包|背包|穿搭|服饰|服装|女装|男装/i
+  }
+];
+
 const fallbackPlaybook = {
   C3: [
     { sub: "AI手机", scene: "AI 大模型换机潮", topics: ["AI手机", "iPhone", "华为", "小米", "DeepSeek"] },
@@ -103,6 +114,8 @@ function parseMetric(metric = "") {
 }
 
 function categoryOf(title = "") {
+  const forced = categoryOverrides.find((rule) => rule.re.test(title));
+  if (forced) return forced.key;
   return categories.find((cat) => categoryRules[cat.key].test(title))?.key || null;
 }
 
