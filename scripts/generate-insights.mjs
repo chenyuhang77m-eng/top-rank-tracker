@@ -195,7 +195,16 @@ function cleanTopicIdea(text = "") {
 
 function topicIdeasForRow(row, hotTerms) {
   const cleanedHotTerms = uniq(hotTerms.map(cleanTopicIdea).filter(Boolean), 5);
-  if (cleanedHotTerms.length) return cleanedHotTerms;
+  if (cleanedHotTerms.length) {
+    const primary = cleanedHotTerms[0];
+    return uniq([
+      primary,
+      `${row.sub}\u70ed\u70b9\u501f\u52bf`,
+      `${row.scene}\u6e05\u5355`,
+      `${row.sub}\u9009\u8d2d\u907f\u5751`,
+      `${row.sub}\u573a\u666f\u5b9e\u6d4b`
+    ].map(cleanTopicIdea).filter(Boolean), 5);
+  }
   return uniq((row.topics || []).map(cleanTopicIdea).filter(Boolean), 5);
 }
 
@@ -221,6 +230,7 @@ function fallbackRowsForCategory(cat, compact) {
     return {
       sub: row.sub,
       scene: pickedHotSignals[0] ? `${row.scene} | \u4eca\u65e5\u70ed\u70b9:${pickedHotSignals[0].title}` : row.scene,
+      scenes: pickedHotSignals[0] ? [row.scene] : [row.scene],
       hotTerms,
       topicIdeas,
       topics: topicIdeas,
@@ -251,9 +261,9 @@ function normalizeCategory(cat, inputCategory, compact) {
       const rowKeys = uniq([sub, ...hotTerms, ...topicIdeas], 20);
       const matchedHot = hotSignals.filter((item) => rowKeys.some((key) => key && item.title.includes(key)));
       const safeHotTerms = hotTerms.length ? hotTerms : uniq(matchedHot.map((item) => item.title), 5);
-      const fallbackTopicIdeas = safeHotTerms.length
-        ? uniq(safeHotTerms.map(cleanTopicIdea).filter(Boolean), 5)
-        : uniq(topicIdeas.filter(Boolean), 5);
+      const fallbackTopicIdeas = topicIdeas.length
+        ? uniq(topicIdeas.filter(Boolean), 5)
+        : topicIdeasForRow({ sub, scene, topics: [] }, safeHotTerms);
       const safeTopicIdeas = fallbackTopicIdeas.length ? fallbackTopicIdeas : safeHotTerms;
       let strategy = highlightStrategy(row.strategy);
       const irrelevantHot = hotSignals.some((item) => {
@@ -271,7 +281,13 @@ function normalizeCategory(cat, inputCategory, compact) {
           ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
           : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4fdd\u6301\u5c0f\u9884\u7b97 A/B \u7d20\u6750;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u3002`;
       }
-      return { sub, scene, hotTerms: safeHotTerms, topicIdeas: safeTopicIdeas, topics: safeTopicIdeas, strategy };
+      const scenes = uniq(
+        Array.isArray(row.scenes) && row.scenes.length
+          ? row.scenes.map((item) => String(item || "").trim())
+          : [scene],
+        5
+      ).filter(Boolean);
+      return { sub, scene, scenes, hotTerms: safeHotTerms, topicIdeas: safeTopicIdeas, topics: safeTopicIdeas, strategy };
     });
 
   const hasScoredRows = cleaned.some((row) => rowScore(row, hotSignals) > 0);
@@ -320,10 +336,11 @@ function rowSchema() {
   return {
     type: "object",
     additionalProperties: false,
-    required: ["sub", "scene", "hotTerms", "topicIdeas", "topics", "strategy"],
+    required: ["sub", "scene", "scenes", "hotTerms", "topicIdeas", "topics", "strategy"],
     properties: {
       sub: { type: "string" },
       scene: { type: "string" },
+      scenes: { type: "array", minItems: 1, maxItems: 5, items: { type: "string" } },
       hotTerms: { type: "array", maxItems: 5, items: { type: "string" } },
       topicIdeas: { type: "array", maxItems: 5, items: { type: "string" } },
       topics: { type: "array", maxItems: 5, items: { type: "string" } },
@@ -387,9 +404,11 @@ function buildSystemPrompt() {
     "Only use real ranking data from the input JSON. Do not invent hotspots, brands, products, or platforms.",
     "Workflow: first inspect categorySignals.hot for each category and decide which subcategories deserve display today; then use categorySignals.shop only as product/conversion support. Never treat a long shopping SKU title as a hotspot.",
     "Each category must output exactly 5 rows. Prefer subcategories hit by real hot-search signals; use fallbackSubcategories only when hotspot coverage is not enough.",
-    "For each row: sub is the secondary category; scene is the marketing scenario derived from hotspot insight.",
+    "For each row: sub is the secondary category; scene is one concise marketing scenario generated from the hotspot insight and the subcategory. It must never be empty.",
+    "scenes must contain 1-5 concise Chinese marketing scenario phrases generated by you for this subcategory, such as 换机降价促销, 亲子出行安全, 夏季清洁囤货, 熬夜修护测评. Do not copy generic fallback labels only.",
     "hotTerms must contain 3-5 short terms or short phrases from real hot-search data. Do not put full product titles in hotTerms.",
-    "topicIdeas must contain 3-5 natural hotspot-topic phrases created from hotTerms, such as challenges, lists, guides, tests, scene experiments, emotion hooks, or comparison themes.",
+    "topicIdeas must contain 3-5 innovative Chinese marketing topic phrases that this subcategory can use for content or ads. They should combine the hotspot, subcategory, audience pain point, and product angle. Examples: 手机降价避坑清单, AI影像记忆挑战, 洗衣液囤货实验, 亲子防晒通勤测评.",
+    "topicIdeas must not simply repeat category words like iPhone, 洗衣液, 纸巾 unless they are part of a meaningful marketing topic phrase.",
     "Do not output mechanical suffixes like 内容钩子, 场景种草, 话题钩子, or 营销钩子. A good topicIdeas item should look like a real topic tag, not an instruction label.",
     "topics must equal topicIdeas for frontend compatibility.",
     "strategy must analyze category, hotspots, products, and topicIdeas. Include content format, placement channel, creative angle, and next-day reuse actions. Use Chinese markers \u3010\u91cd\u70b9\u3011, \u3010\u6295\u653e\u3011, and \u3010\u590d\u7528\u3011.",
