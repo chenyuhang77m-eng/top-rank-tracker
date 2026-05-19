@@ -140,23 +140,27 @@ function compactLatest(latest) {
 
   compact.categorySignals = Object.fromEntries(
     categories.map((cat) => {
-      const items = [];
+      const hot = [];
+      const shop = [];
       for (const list of latest.lists) {
         for (const item of list.items) {
           if (categoryOf(item.title) === cat.key) {
-            items.push({
+            const signal = {
               sourceName: list.sourceName,
               listType: list.category,
               title: item.title,
               metric: item.metric,
               rank: item.rank,
               metricValue: parseMetric(item.metric)
-            });
+            };
+            if (list.category === "hot-search") hot.push(signal);
+            else if (list.category === "shopping") shop.push(signal);
           }
         }
       }
-      items.sort((a, b) => b.metricValue - a.metricValue);
-      return [cat.key, items];
+      hot.sort((a, b) => b.metricValue - a.metricValue);
+      shop.sort((a, b) => b.metricValue - a.metricValue);
+      return [cat.key, { hot, shop, all: [...hot, ...shop].sort((a, b) => b.metricValue - a.metricValue) }];
     })
   );
   compact.fallbackSubcategories = fallbackPlaybook;
@@ -165,8 +169,9 @@ function compactLatest(latest) {
 }
 
 function rowScore(row, signals) {
-  const keys = uniq([row.sub, ...(row.topics || [])], 20);
-  return signals.reduce((score, item) => {
+  const list = Array.isArray(signals) ? signals : signals?.all || [];
+  const keys = uniq([row.sub, ...(row.hotTerms || []), ...(row.topicIdeas || []), ...(row.topics || [])], 20);
+  return list.reduce((score, item) => {
     const title = item.title || "";
     const matched = keys.some((key) => title.includes(key) || key.includes(title));
     return score + (matched ? Math.log10((item.metricValue || 1) + 10) : 0);
@@ -181,23 +186,35 @@ function highlightStrategy(text = "") {
 }
 
 function fallbackRowsForCategory(cat, compact) {
-  const signals = compact.categorySignals[cat.key] || [];
+  const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [], all: [] };
+  const hotSignals = signalSet.hot || [];
+  const shopSignals = signalSet.shop || [];
   const templates = fallbackPlaybook[cat.key] || [];
-  const orderedTemplates = [...templates].sort((a, b) => rowScore(b, signals) - rowScore(a, signals));
+  const orderedTemplates = [...templates].sort((a, b) => rowScore(b, hotSignals) - rowScore(a, hotSignals));
 
   return orderedTemplates.slice(0, rowsPerCategory).map((row) => {
-    // 关键修复:只用真正命中本 sub/topics 的信号;命中不到就保持空,**绝不用其他 sub 的 topSignal 漫灌**
-    const rowSignals = signals.filter((item) =>
-      uniq([row.sub, ...row.topics], 20).some((key) => item.title.includes(key))
-    );
+    const rowKeys = uniq([row.sub, ...row.topics], 20);
+    const rowSignals = hotSignals.filter((item) => rowKeys.some((key) => item.title.includes(key)));
     const top = rowSignals[0];
+    const hotTerms = uniq(rowSignals.map((item) => item.title), 5);
+    const topicIdeas = uniq([
+      ...hotTerms.map((term) => `${term}\u573a\u666f\u79cd\u8349`),
+      ...row.topics.map((term) => `${term}\u5185\u5bb9\u94a9\u5b50`)
+    ], 5);
+    const rowShop = shopSignals.find((item) => rowKeys.some((key) => item.title.includes(key)));
+    const productText = rowShop
+      ? `\u70ed\u9500\u5546\u54c1\u53ef\u7528\u300c${rowShop.title}\u300d\u627f\u63a5\u8f6c\u5316`
+      : '\u7535\u5546\u4fa7\u6682\u65e0\u5f3a\u5173\u8054 SKU,\u5148\u7528\u4e92\u52a8\u6700\u9ad8\u7684\u70ed\u70b9\u8bcd\u9a8c\u8bc1\u9700\u6c42';
+
     return {
       sub: row.sub,
-      scene: top ? `${row.scene} · 今日信号:${top.title}` : row.scene,
-      topics: uniq([...(rowSignals.map((item) => item.title)), ...row.topics], 6),
+      scene: top ? `${row.scene} | \u4eca\u65e5\u70ed\u70b9:${top.title}` : row.scene,
+      hotTerms,
+      topicIdeas,
+      topics: topicIdeas,
       strategy: top
-        ? `【重点】围绕「${top.title}」做首屏钩子,场景聚焦「${row.scene}」,用「榜单解读 + 场景清单 + 达人实测」承接兴趣;【投放】优先测试 ${row.sub} 人群;【复用】次日把互动最高的问题复用到直播间标题、搜索词和商品卡卖点。`
-        : `【重点】今日 ${row.sub} 暂无强榜单信号,围绕常青场景「${row.scene}」做小预算 A/B 内容测试;【投放】保持轻量短视频与图文占位,沉淀评论区真实需求;【复用】观察互动后再决定是否放大投放,避免强行关联无关热点。`
+        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${row.sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
+        : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${row.sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${row.scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4fdd\u6301\u5c0f\u9884\u7b97 A/B \u7d20\u6750;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u3002`
     };
   });
 }
@@ -205,55 +222,48 @@ function fallbackRowsForCategory(cat, compact) {
 function normalizeCategory(cat, inputCategory, compact) {
   const fallbackRows = fallbackRowsForCategory(cat, compact);
   const rawRows = Array.isArray(inputCategory?.rows) ? inputCategory.rows : [];
-  const signals = compact.categorySignals[cat.key] || [];
+  const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [], all: [] };
+  const hotSignals = signalSet.hot || [];
+  const allSignals = signalSet.all || [];
+  const shopSignals = signalSet.shop || [];
 
-  // 关键修复:LLM 给出的每个 row,topics 必须严格属于该 sub 自身
-  // 用 row.sub + row.topics 作为 keys,**只**保留真正命中 keys 的信号作为 row 的 topSignal
   const cleaned = rawRows
     .filter((row) => row?.sub && row?.scene && row?.strategy)
     .map((row) => {
       const sub = String(row.sub).trim();
       const scene = String(row.scene).trim();
-      const topics = uniq(Array.isArray(row.topics) ? row.topics : [], 6);
-      // 严格按 sub+topics 过滤本日信号,避免跨 sub 串话
-      const rowKeys = uniq([sub, ...topics], 20);
-      const matched = signals.filter((item) =>
-        rowKeys.some((key) => key && (item.title.includes(key) || (key.length >= 3 && item.title.toLowerCase().includes(key.toLowerCase()))))
-      );
-      const top = matched[0];
-      // 如果 LLM 把不相关的 hot-shop 信号塞进 topics(如 K12 行里出现"美团闪购"),剔除掉
-      const cleanTopics = uniq(
-        topics.filter((t) => {
-          // 保留命中本 sub 的标题或本来就在 fallback 模板里的关键词
-          const isFallback = (fallbackPlaybook[cat.key] || []).some((p) => p.sub === sub && (p.topics || []).includes(t));
-          if (isFallback) return true;
-          // 长标题(>20 字)若不命中本 row 的 sub/fallback topics,基本是误塞,丢弃
-          if (t.length > 20) {
-            return rowKeys.some((key) => key && t.includes(key) && key !== sub);
-          }
-          return true;
-        }),
-        6
-      );
-      // 重写 strategy:如果 LLM 写出的 strategy 提到了不属于本 sub 的标题,改写为只基于 matched
+      const hotTerms = uniq(Array.isArray(row.hotTerms) ? row.hotTerms : [], 5).filter((term) => term.length <= 40);
+      const topicIdeas = uniq(Array.isArray(row.topicIdeas) ? row.topicIdeas : Array.isArray(row.topics) ? row.topics : [], 5);
+      const rowKeys = uniq([sub, ...hotTerms, ...topicIdeas], 20);
+      const matchedHot = hotSignals.filter((item) => rowKeys.some((key) => key && item.title.includes(key)));
+      const safeHotTerms = hotTerms.length ? hotTerms : uniq(matchedHot.map((item) => item.title), 5);
+      const fallbackTopicIdeas = uniq([
+        ...safeHotTerms.map((term) => `${term}\u573a\u666f\u79cd\u8349`),
+        ...topicIdeas
+      ], 5);
+      const safeTopicIdeas = fallbackTopicIdeas.length ? fallbackTopicIdeas : safeHotTerms;
       let strategy = highlightStrategy(row.strategy);
-      const llmMentionedIrrelevant = signals.some((s) => {
-        if (!s.title || s.title.length < 4) return false;
-        if (matched.some((m) => m.title === s.title)) return false;
-        return strategy.includes(s.title);
+      const irrelevantHot = hotSignals.some((item) => {
+        if (!item.title || item.title.length < 4) return false;
+        if (matchedHot.some((hit) => hit.title === item.title)) return false;
+        return strategy.includes(item.title);
       });
-      if (llmMentionedIrrelevant) {
+      if (irrelevantHot) {
+        const top = matchedHot[0];
+        const rowShop = shopSignals.find((item) => rowKeys.some((key) => key && item.title.includes(key)));
+        const productText = rowShop
+          ? `\u70ed\u9500\u5546\u54c1\u53ef\u7528\u300c${rowShop.title}\u300d\u627f\u63a5\u8f6c\u5316`
+          : '\u7535\u5546\u4fa7\u6682\u65e0\u5f3a\u5173\u8054 SKU,\u5148\u7528\u4e92\u52a8\u6700\u9ad8\u7684\u70ed\u70b9\u8bcd\u9a8c\u8bc1\u9700\u6c42';
         strategy = top
-          ? `【重点】围绕「${top.title}」做首屏钩子,场景聚焦「${scene}」,用「榜单解读 + 场景清单 + 达人实测」承接兴趣;【投放】优先测试 ${sub} 人群;【复用】次日把互动最高的问题复用到直播间标题、搜索词和商品卡卖点。`
-          : `【重点】今日 ${sub} 暂无强榜单信号,围绕常青场景「${scene}」做小预算 A/B 内容测试;【投放】保持轻量短视频与图文占位,沉淀评论区真实需求;【复用】观察互动后再决定是否放大投放,避免强行关联无关热点。`;
+          ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
+          : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4fdd\u6301\u5c0f\u9884\u7b97 A/B \u7d20\u6750;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u3002`;
       }
-      const cleanedScene = top ? scene.split(" · 今日信号:")[0] + ` · 今日信号:${top.title}` : scene.split(" · 今日信号:")[0];
-      return { sub, scene: cleanedScene, topics: cleanTopics, strategy };
+      return { sub, scene, hotTerms: safeHotTerms, topicIdeas: safeTopicIdeas, topics: safeTopicIdeas, strategy };
     });
 
-  const hasScoredRows = cleaned.some((row) => rowScore(row, signals) > 0);
+  const hasScoredRows = cleaned.some((row) => rowScore(row, hotSignals) > 0);
   const sorted = hasScoredRows
-    ? [...cleaned].sort((a, b) => rowScore(b, signals) - rowScore(a, signals))
+    ? [...cleaned].sort((a, b) => rowScore(b, hotSignals) - rowScore(a, hotSignals))
     : cleaned;
 
   const rows = [];
@@ -264,17 +274,17 @@ function normalizeCategory(cat, inputCategory, compact) {
     if (rows.length >= rowsPerCategory) break;
   }
 
-  const top = signals[0];
+  const top = hotSignals[0] || allSignals[0];
   return {
     lead:
       inputCategory?.lead ||
       (top
-        ? `今日${cat.name}命中 ${signals.length} 条榜单信号,优先围绕「${top.title}」展开营销策略。`
-        : `今日${cat.name}暂无强榜单信号,展示 ${rowsPerCategory} 个常青兜底类目。`),
+        ? `\u4eca\u65e5${cat.name}\u547d\u4e2d ${hotSignals.length} \u6761\u70ed\u70b9\u4fe1\u53f7\u4e0e ${(signalSet.shop || []).length} \u6761\u5546\u54c1\u4fe1\u53f7,\u4f18\u5148\u56f4\u7ed5\u300c${top.title}\u300d\u5c55\u5f00\u8425\u9500\u7b56\u7565\u3002`
+        : `\u4eca\u65e5${cat.name}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u5c55\u793a ${rowsPerCategory} \u4e2a\u5e38\u9752\u515c\u5e95\u7c7b\u76ee\u3002`),
     bullets:
       Array.isArray(inputCategory?.bullets) && inputCategory.bullets.length
         ? inputCategory.bullets.slice(0, 4)
-        : signals.slice(0, 4).map((item) => `${item.sourceName}:${item.title}`),
+        : hotSignals.slice(0, 4).map((item) => `${item.sourceName}:${item.title}`),
     rows: rows.length ? rows : fallbackRows.slice(0, rowsPerCategory)
   };
 }
@@ -297,11 +307,13 @@ function rowSchema() {
   return {
     type: "object",
     additionalProperties: false,
-    required: ["sub", "scene", "topics", "strategy"],
+    required: ["sub", "scene", "hotTerms", "topicIdeas", "topics", "strategy"],
     properties: {
       sub: { type: "string" },
       scene: { type: "string" },
-      topics: { type: "array", maxItems: 6, items: { type: "string" } },
+      hotTerms: { type: "array", maxItems: 5, items: { type: "string" } },
+      topicIdeas: { type: "array", maxItems: 5, items: { type: "string" } },
+      topics: { type: "array", maxItems: 5, items: { type: "string" } },
       strategy: { type: "string" }
     }
   };
@@ -358,20 +370,20 @@ function extractJsonText(text = "") {
 
 function buildSystemPrompt() {
   return [
-    "你是中文消费品趋势与营销策略分析师。",
-    "只基于输入 JSON 中的真实榜单数据写洞察,不要编造未出现的热点、品牌或平台。",
-    "输出必须是一个合法 JSON 对象,不要输出 Markdown,不要输出解释文字。",
-    "JSON 顶层结构必须包含 summary 和 categories。",
-    "summary.rows 必须是空数组。",
-    "categories 必须包含 C3、HOME、APPL、BABY、FOOD、BEAU、CLOT、EDU 八个键。",
-    "每个 category 对象包含 lead、bullets、rows。",
-    "每个 category 的 bullets 最多 4 条,rows 必须刚好 5 条,优先选择当日榜单信号最强的二级类目;没有相关信号时,从 fallbackSubcategories 中生成 5 条保底。",
-    "每个 row 包含 sub、scene、topics、strategy。",
-    "strategy 用 1 到 2 句写清内容形式、投放阵地、创意角度和次日复用动作,并用【重点】、【投放】、【复用】标出最重要的信息。",
-    "**关键约束**:每一条 row 的 topics、scene、strategy 必须严格属于该 row 的 sub 子类目本身。",
-    "举例:平台教育(EDU)下,K12 学科辅导 sub 行不允许出现美团/饿了么/携程/闲鱼/京东日用品等无关品牌或 SKU;考研考公 sub 行不允许出现餐饮团购、旅游酒店;旅行出行 sub 行不允许出现学习机或 K12 课程。",
-    "如果当日某个 sub 没有任何强相关榜单信号,strategy 必须明确写「今日 [sub] 暂无强榜单信号,建议保持轻量内容占位与小预算 A/B 测试」之类的常青策略,严禁把其它 sub 的热点信号塞进 strategy 或 topics。",
-    "topics 字段:每条 row 的 topics 必须只包含与该 sub 自身真正相关的关键词或上榜标题;不允许把整条无关的电商 SKU 标题(尤其是超过 20 字的长商品标题)塞进不相关 sub 的 topics。"
+    "You are a Chinese consumer trend and marketing strategy analyst. Write all user-facing content in Simplified Chinese.",
+    "Only use real ranking data from the input JSON. Do not invent hotspots, brands, products, or platforms.",
+    "Workflow: first inspect categorySignals.hot for each category and decide which subcategories deserve display today; then use categorySignals.shop only as product/conversion support. Never treat a long shopping SKU title as a hotspot.",
+    "Each category must output exactly 5 rows. Prefer subcategories hit by real hot-search signals; use fallbackSubcategories only when hotspot coverage is not enough.",
+    "For each row: sub is the secondary category; scene is the marketing scenario derived from hotspot insight.",
+    "hotTerms must contain 3-5 short terms or short phrases from real hot-search data. Do not put full product titles in hotTerms.",
+    "topicIdeas must contain 3-5 content-rich marketing topic ideas created from hotTerms, such as challenges, lists, guides, tests, scene experiments, emotion hooks, or comparison themes.",
+    "topics must equal topicIdeas for frontend compatibility.",
+    "strategy must analyze category, hotspots, products, and topicIdeas. Include content format, placement channel, creative angle, and next-day reuse actions. Use Chinese markers \u3010\u91cd\u70b9\u3011, \u3010\u6295\u653e\u3011, and \u3010\u590d\u7528\u3011.",
+    "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
+    "Return a valid JSON object only. No Markdown. No commentary.",
+    "Top-level JSON must include summary and categories. summary.rows must be an empty array.",
+    "categories must include C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, EDU.",
+    "Each category object includes lead, bullets, rows. bullets has at most 4 items; rows has exactly 5 items."
   ].join("\n");
 }
 
@@ -479,14 +491,16 @@ async function callLLM(latest) {
 function fallbackInsights(latest, reason) {
   const compact = compactLatest(latest);
   const makeCategory = (cat) => {
-    const signals = compact.categorySignals[cat.key] || [];
-    const top = signals[0];
+    const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [], all: [] };
+    const hotSignals = signalSet.hot || [];
+    const shopSignals = signalSet.shop || [];
+    const top = hotSignals[0] || signalSet.all?.[0];
     const lead = top
-      ? `今日${cat.name}命中 ${signals.length} 条榜单信号,最高热度来自「${top.title}」。`
-      : `今日${cat.name}没有明显榜单信号,建议保持轻量观察。`;
+      ? `\u4eca\u65e5${cat.name}\u547d\u4e2d ${hotSignals.length} \u6761\u70ed\u70b9\u4fe1\u53f7\u4e0e ${shopSignals.length} \u6761\u5546\u54c1\u4fe1\u53f7,\u6700\u9ad8\u70ed\u70b9\u6765\u81ea\u300c${top.title}\u300d\u3002`
+      : `\u4eca\u65e5${cat.name}\u6ca1\u6709\u660e\u663e\u70ed\u70b9\u4fe1\u53f7,\u5efa\u8bae\u4fdd\u6301\u8f7b\u91cf\u89c2\u5bdf\u3002`;
     return {
       lead,
-      bullets: signals.slice(0, 3).map((item) => `${item.sourceName}:${item.title}`),
+      bullets: hotSignals.slice(0, 3).map((item) => `${item.sourceName}:${item.title}`),
       rows: fallbackRowsForCategory(cat, compact)
     };
   };
@@ -497,14 +511,16 @@ function fallbackInsights(latest, reason) {
     fallbackReason: reason,
     content: {
       summary: {
-        lead: `LLM 洞察生成未启用或失败,当前使用规则兜底。原因:${reason}`,
-        bullets: ["配置 VOLCENGINE_API_KEY 和 VOLCENGINE_MODEL 后会自动生成模型洞察"],
+        lead: `LLM \u6d1e\u5bdf\u751f\u6210\u672a\u542f\u7528\u6216\u5931\u8d25,\u5f53\u524d\u4f7f\u7528\u89c4\u5219\u515c\u5e95\u3002\u539f\u56e0:${reason}`,
+        bullets: ["\u914d\u7f6e VOLCENGINE_API_KEY \u548c VOLCENGINE_MODEL \u540e\u4f1a\u81ea\u52a8\u751f\u6210\u6a21\u578b\u6d1e\u5bdf"],
         rows: []
       },
       categories: Object.fromEntries(categories.map((cat) => [cat.key, makeCategory(cat)]))
     }
   };
 }
+
+
 
 async function main() {
   const latestPath = path.join(dataDir, "latest.json");
