@@ -295,61 +295,108 @@ function extractOutputText(response) {
   return chunks.join("");
 }
 
-async function callOpenAI(latest) {
-  const apiKey = process.env.OPENAI_API_KEY;
+function extractJsonText(text = "") {
+  const trimmed = text.trim();
+  const fenced = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  if (fenced) return fenced[1].trim();
+  const first = trimmed.indexOf("{");
+  const last = trimmed.lastIndexOf("}");
+  if (first >= 0 && last > first) return trimmed.slice(first, last + 1);
+  return trimmed;
+}
+
+function buildSystemPrompt() {
+  return [
+    "你是中文消费品趋势与营销策略分析师。",
+    "只基于输入 JSON 中的真实榜单数据写洞察,不要编造未出现的热点、品牌或平台。",
+    "输出必须是一个合法 JSON 对象,不要输出 Markdown,不要输出解释文字。",
+    "JSON 顶层结构必须包含 summary 和 categories。",
+    "categories 必须包含 C3、HOME、APPL、BABY、FOOD、BEAU、CLOT、EDU 八个键。",
+    "每个 category 对象包含 lead、bullets、rows。",
+    "rows 不设上限:凡是当日榜单信号涉及到的二级类目都应优先输出;只有该大类没有任何相关热点/热销信号时,才从 fallbackSubcategories 中生成至少 4 条保底。",
+    "每个 row 包含 sub、scene、topics、strategy。",
+    "strategy 要具体到内容形式、投放阵地、创意角度和次日复用动作。"
+  ].join("\n");
+}
+
+function getLlmConfig() {
+  const apiKey =
+    process.env.VOLCENGINE_API_KEY ||
+    process.env.ARK_API_KEY ||
+    process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error("OPENAI_API_KEY is not set");
+    throw new Error("VOLCENGINE_API_KEY is not set");
   }
 
-  const baseUrl = (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "");
-  const model = process.env.OPENAI_MODEL || "gpt-5-mini";
-  const input = compactLatest(latest);
+  const baseUrl = (
+    process.env.VOLCENGINE_BASE_URL ||
+    process.env.OPENAI_BASE_URL ||
+    "https://ark.cn-beijing.volces.com/api/v3"
+  ).replace(/\/$/, "");
+  const model = process.env.VOLCENGINE_MODEL || process.env.ARK_MODEL || process.env.OPENAI_MODEL;
+  if (!model || model === "gpt-5-mini") {
+    throw new Error("VOLCENGINE_MODEL is not set. Use your Volcano Ark model or endpoint ID.");
+  }
 
-  const res = await fetch(`${baseUrl}/responses`, {
+  return { apiKey, baseUrl, model };
+}
+
+async function postChatCompletion({ apiKey, baseUrl, model, input, useResponseFormat }) {
+  const body = {
+    model,
+    messages: [
+      {
+        role: "system",
+        content: buildSystemPrompt()
+      },
+      {
+        role: "user",
+        content: JSON.stringify(input)
+      }
+    ],
+    temperature: 0.4
+  };
+
+  if (useResponseFormat) {
+    body.response_format = { type: "json_object" };
+  }
+
+  return fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      model,
-      input: [
-        {
-          role: "system",
-          content:
-            "你是中文消费品趋势与营销策略分析师。只基于输入 JSON 中的真实榜单数据写洞察,不要编造未出现的热点、品牌或平台。输出必须是中文 JSON。每个 categories.<key>.rows 不设上限:凡是当日榜单信号涉及到的二级类目都应优先输出;只有该大类没有任何相关热点/热销信号时,才从 fallbackSubcategories 中生成至少 4 条保底。策略要具体到内容形式、投放阵地、创意角度和次日复用动作。"
-        },
-        {
-          role: "user",
-          content: JSON.stringify(input)
-        }
-      ],
-      text: {
-        format: {
-          type: "json_schema",
-          name: "daily_marketing_insights",
-          strict: true,
-          schema: responseSchema
-        }
-      }
-    })
+    body: JSON.stringify(body)
   });
+}
 
-  const bodyText = await res.text();
+async function callLLM(latest) {
+  const { apiKey, baseUrl, model } = getLlmConfig();
+  const input = compactLatest(latest);
+
+  let res = await postChatCompletion({ apiKey, baseUrl, model, input, useResponseFormat: true });
+  let bodyText = await res.text();
+
+  if (!res.ok && res.status === 400 && /response_format|json_object/i.test(bodyText)) {
+    res = await postChatCompletion({ apiKey, baseUrl, model, input, useResponseFormat: false });
+    bodyText = await res.text();
+  }
+
   if (!res.ok) {
-    throw new Error(`OpenAI API ${res.status}: ${bodyText}`);
+    throw new Error(`LLM API ${res.status}: ${bodyText}`);
   }
 
   const response = JSON.parse(bodyText);
-  const outputText = extractOutputText(response);
+  const outputText = response.choices?.[0]?.message?.content || extractOutputText(response);
   if (!outputText) {
-    throw new Error("OpenAI API returned no output text");
+    throw new Error("LLM API returned no output text");
   }
 
   return {
     model,
     generatedAt: new Date().toISOString(),
-    content: normalizeInsights(JSON.parse(outputText), latest)
+    content: normalizeInsights(JSON.parse(extractJsonText(outputText)), latest)
   };
 }
 
@@ -375,7 +422,7 @@ function fallbackInsights(latest, reason) {
     content: {
       summary: {
         lead: `LLM 洞察生成未启用或失败,当前使用规则兜底。原因:${reason}`,
-        bullets: ["配置 OPENAI_API_KEY 后会自动生成模型洞察"],
+        bullets: ["配置 VOLCENGINE_API_KEY 和 VOLCENGINE_MODEL 后会自动生成模型洞察"],
         rows: []
       },
       categories: Object.fromEntries(categories.map((cat) => [cat.key, makeCategory(cat)]))
@@ -394,7 +441,7 @@ async function main() {
 
   let payload;
   try {
-    payload = await callOpenAI(latest);
+    payload = await callLLM(latest);
   } catch (error) {
     if (process.env.REQUIRE_LLM === "1") throw error;
     console.warn(`Falling back without LLM: ${error.message}`);

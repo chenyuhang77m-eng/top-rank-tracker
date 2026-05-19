@@ -24,8 +24,9 @@ jobs:
       - name: Crawl top lists and generate insights
         run: npm run daily
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5-mini' }}
+          VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY }}
+          VOLCENGINE_BASE_URL: ${{ vars.VOLCENGINE_BASE_URL || 'https://ark.cn-beijing.volces.com/api/v3' }}
+          VOLCENGINE_MODEL: ${{ vars.VOLCENGINE_MODEL }}
           REQUIRE_LLM: "1"
 
       - name: Commit data
