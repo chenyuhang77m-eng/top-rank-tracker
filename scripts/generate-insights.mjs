@@ -193,19 +193,34 @@ function cleanTopicIdea(text = "") {
     .trim();
 }
 
+function normalizeKey(text = "") {
+  return String(text || "").toLowerCase().replace(/\s+/g, "");
+}
+
 function topicIdeasForRow(row, hotTerms) {
   const cleanedHotTerms = uniq(hotTerms.map(cleanTopicIdea).filter(Boolean), 5);
+  const hotKeys = new Set(cleanedHotTerms.map(normalizeKey));
   if (cleanedHotTerms.length) {
-    const primary = cleanedHotTerms[0];
     return uniq([
-      primary,
       `${row.sub}\u70ed\u70b9\u501f\u52bf`,
       `${row.scene}\u6e05\u5355`,
       `${row.sub}\u9009\u8d2d\u907f\u5751`,
-      `${row.sub}\u573a\u666f\u5b9e\u6d4b`
-    ].map(cleanTopicIdea).filter(Boolean), 5);
+      `${row.sub}\u573a\u666f\u5b9e\u6d4b`,
+      `${row.sub}\u4eba\u7fa4\u75db\u70b9\u6d4b\u8bd5`
+    ].map(cleanTopicIdea).filter((item) => item && !hotKeys.has(normalizeKey(item))), 5);
   }
   return uniq((row.topics || []).map(cleanTopicIdea).filter(Boolean), 5);
+}
+
+function scenesForRow(row, hotTerms) {
+  const base = [
+    row.scene,
+    `${row.sub}\u70ed\u70b9\u501f\u52bf`,
+    `${row.sub}\u4eba\u7fa4\u8f6c\u5316`,
+    `${row.sub}\u4ea7\u54c1\u79cd\u8349`
+  ];
+  if (hotTerms[0]) base.splice(1, 0, `${hotTerms[0]}\u627f\u63a5`);
+  return uniq(base.map(cleanTopicIdea).filter(Boolean), 4);
 }
 
 function fallbackRowsForCategory(cat, compact) {
@@ -230,13 +245,13 @@ function fallbackRowsForCategory(cat, compact) {
     return {
       sub: row.sub,
       scene: pickedHotSignals[0] ? `${row.scene} | \u4eca\u65e5\u70ed\u70b9:${pickedHotSignals[0].title}` : row.scene,
-      scenes: pickedHotSignals[0] ? [row.scene] : [row.scene],
+      scenes: scenesForRow(row, hotTerms),
       hotTerms,
       topicIdeas,
       topics: topicIdeas,
       strategy: pickedHotSignals[0]
-        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${pickedHotSignals[0].title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${row.sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
-        : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${row.sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${row.scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4fdd\u6301\u5c0f\u9884\u7b97 A/B \u7d20\u6750;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u3002`
+        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${pickedHotSignals[0].title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4ec5\u9650\u5b57\u8282\u751f\u6001,\u7528\u5de8\u91cf\u5f15\u64ce\u5efa\u7acb\u4eba\u7fa4\u5305,\u5de8\u91cf\u661f\u56fe\u5339\u914d\u8fbe\u4eba\u77ed\u89c6\u9891/\u76f4\u64ad,\u5b57\u8282\u54c1\u724c\u5e7f\u544a\u505a\u5f00\u5c4f\u6216\u4fe1\u606f\u6d41\u653e\u5927,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u6296\u97f3\u641c\u7d22\u8bcd\u3001\u6296\u97f3\u7535\u5546\u5546\u54c1\u5361\u548c\u7ea2\u679c\u77ed\u5267\u7d20\u6750\u811a\u672c\u3002`
+        : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${row.sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${row.scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4ec5\u9650\u5b57\u8282\u751f\u6001,\u7528\u5de8\u91cf\u5f15\u64ce\u5c0f\u9884\u7b97 A/B \u6d4b\u8bd5,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u9a8c\u8bc1\u7d20\u6750,\u6296\u97f3\u4f01\u4e1a\u53f7\u627f\u63a5\u79cd\u8349;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u5230\u5b57\u8282\u54c1\u724c\u5e7f\u544a\u548c\u7ea2\u679c\u5185\u5bb9\u690d\u5165\u3002`
     };
   });
 }
@@ -261,8 +276,9 @@ function normalizeCategory(cat, inputCategory, compact) {
       const rowKeys = uniq([sub, ...hotTerms, ...topicIdeas], 20);
       const matchedHot = hotSignals.filter((item) => rowKeys.some((key) => key && item.title.includes(key)));
       const safeHotTerms = hotTerms.length ? hotTerms : uniq(matchedHot.map((item) => item.title), 5);
+      const hotKeys = new Set(safeHotTerms.map(normalizeKey));
       const fallbackTopicIdeas = topicIdeas.length
-        ? uniq(topicIdeas.filter(Boolean), 5)
+        ? uniq(topicIdeas.filter((item) => !hotKeys.has(normalizeKey(item))), 5)
         : topicIdeasForRow({ sub, scene, topics: [] }, safeHotTerms);
       const safeTopicIdeas = fallbackTopicIdeas.length ? fallbackTopicIdeas : safeHotTerms;
       let strategy = highlightStrategy(row.strategy);
@@ -279,14 +295,15 @@ function normalizeCategory(cat, inputCategory, compact) {
           : '\u7535\u5546\u4fa7\u6682\u65e0\u5f3a\u5173\u8054 SKU,\u5148\u7528\u4e92\u52a8\u6700\u9ad8\u7684\u70ed\u70b9\u8bcd\u9a8c\u8bc1\u9700\u6c42';
         strategy = top
           ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
-          : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4fdd\u6301\u5c0f\u9884\u7b97 A/B \u7d20\u6750;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u3002`;
+          : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4ec5\u9650\u5b57\u8282\u751f\u6001,\u7528\u5de8\u91cf\u5f15\u64ce\u5c0f\u9884\u7b97 A/B \u6d4b\u8bd5,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u9a8c\u8bc1\u7d20\u6750,\u6296\u97f3\u4f01\u4e1a\u53f7\u627f\u63a5\u79cd\u8349;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u5230\u5b57\u8282\u54c1\u724c\u5e7f\u544a\u548c\u7ea2\u679c\u5185\u5bb9\u690d\u5165\u3002`;
       }
-      const scenes = uniq(
+      const rawScenes = uniq(
         Array.isArray(row.scenes) && row.scenes.length
           ? row.scenes.map((item) => String(item || "").trim())
           : [scene],
         5
       ).filter(Boolean);
+      const scenes = rawScenes.length >= 2 ? rawScenes.slice(0, 4) : scenesForRow({ sub, scene, topics: [] }, safeHotTerms);
       return { sub, scene, scenes, hotTerms: safeHotTerms, topicIdeas: safeTopicIdeas, topics: safeTopicIdeas, strategy };
     });
 
@@ -340,7 +357,7 @@ function rowSchema() {
     properties: {
       sub: { type: "string" },
       scene: { type: "string" },
-      scenes: { type: "array", minItems: 1, maxItems: 5, items: { type: "string" } },
+      scenes: { type: "array", minItems: 2, maxItems: 4, items: { type: "string" } },
       hotTerms: { type: "array", maxItems: 5, items: { type: "string" } },
       topicIdeas: { type: "array", maxItems: 5, items: { type: "string" } },
       topics: { type: "array", maxItems: 5, items: { type: "string" } },
@@ -405,13 +422,15 @@ function buildSystemPrompt() {
     "Workflow: first inspect categorySignals.hot for each category and decide which subcategories deserve display today; then use categorySignals.shop only as product/conversion support. Never treat a long shopping SKU title as a hotspot.",
     "Each category must output exactly 5 rows. Prefer subcategories hit by real hot-search signals; use fallbackSubcategories only when hotspot coverage is not enough.",
     "For each row: sub is the secondary category; scene is one concise marketing scenario generated from the hotspot insight and the subcategory. It must never be empty.",
-    "scenes must contain 1-5 concise Chinese marketing scenario phrases generated by you for this subcategory, such as 换机降价促销, 亲子出行安全, 夏季清洁囤货, 熬夜修护测评. Do not copy generic fallback labels only.",
+    "scenes must contain 2-4 concise Chinese marketing scenario phrases generated by you for this subcategory, such as 换机降价促销, 亲子出行安全, 夏季清洁囤货, 熬夜修护测评. Do not copy generic fallback labels only.",
     "hotTerms must contain 3-5 short terms or short phrases from real hot-search data. Do not put full product titles in hotTerms.",
     "topicIdeas must contain 3-5 innovative Chinese marketing topic phrases that this subcategory can use for content or ads. They should combine the hotspot, subcategory, audience pain point, and product angle. Examples: 手机降价避坑清单, AI影像记忆挑战, 洗衣液囤货实验, 亲子防晒通勤测评.",
     "topicIdeas must not simply repeat category words like iPhone, 洗衣液, 纸巾 unless they are part of a meaningful marketing topic phrase.",
+    "topicIdeas must not duplicate hotTerms. If hotTerms has 手机集体大降价, topicIdeas should be like 换机党价格避坑 or 线下新机还值不值, not 手机集体大降价 again.",
     "Do not output mechanical suffixes like 内容钩子, 场景种草, 话题钩子, or 营销钩子. A good topicIdeas item should look like a real topic tag, not an instruction label.",
     "topics must equal topicIdeas for frontend compatibility.",
     "strategy must analyze category, hotspots, products, and topicIdeas. Include content format, placement channel, creative angle, and next-day reuse actions. Use Chinese markers \u3010\u91cd\u70b9\u3011, \u3010\u6295\u653e\u3011, and \u3010\u590d\u7528\u3011.",
+    "strategy placement must be limited to ByteDance ecosystem only: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
     "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
     "Return a valid JSON object only. No Markdown. No commentary.",
     "Top-level JSON must include summary and categories. summary.rows must be an empty array.",
