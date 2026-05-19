@@ -266,21 +266,21 @@ function rowSchema() {
     properties: {
       sub: { type: "string" },
       scene: { type: "string" },
-      topics: { type: "array", items: { type: "string" } },
+      topics: { type: "array", maxItems: 6, items: { type: "string" } },
       strategy: { type: "string" }
     }
   };
 }
 
-function categorySchema() {
+function categorySchema(rowCount = rowsPerCategory) {
   return {
     type: "object",
     additionalProperties: false,
     required: ["lead", "bullets", "rows"],
     properties: {
       lead: { type: "string" },
-      bullets: { type: "array", items: { type: "string" } },
-      rows: { type: "array", items: rowSchema() }
+      bullets: { type: "array", maxItems: 4, items: { type: "string" } },
+      rows: { type: "array", minItems: rowCount, maxItems: rowCount, items: rowSchema() }
     }
   };
 }
@@ -290,7 +290,7 @@ const responseSchema = {
   additionalProperties: false,
   required: ["summary", "categories"],
   properties: {
-    summary: categorySchema(),
+    summary: categorySchema(0),
     categories: {
       type: "object",
       additionalProperties: false,
@@ -327,6 +327,7 @@ function buildSystemPrompt() {
     "只基于输入 JSON 中的真实榜单数据写洞察,不要编造未出现的热点、品牌或平台。",
     "输出必须是一个合法 JSON 对象,不要输出 Markdown,不要输出解释文字。",
     "JSON 顶层结构必须包含 summary 和 categories。",
+    "summary.rows 必须是空数组。",
     "categories 必须包含 C3、HOME、APPL、BABY、FOOD、BEAU、CLOT、EDU 八个键。",
     "每个 category 对象包含 lead、bullets、rows。",
     "每个 category 的 bullets 最多 4 条,rows 必须刚好 5 条,优先选择当日榜单信号最强的二级类目;没有相关信号时,从 fallbackSubcategories 中生成 5 条保底。",
@@ -357,7 +358,7 @@ function getLlmConfig() {
   return { apiKey, baseUrl, model };
 }
 
-async function postChatCompletion({ apiKey, baseUrl, model, input, useResponseFormat }) {
+async function postChatCompletion({ apiKey, baseUrl, model, input, responseFormat }) {
   const body = {
     model,
     messages: [
@@ -373,7 +374,16 @@ async function postChatCompletion({ apiKey, baseUrl, model, input, useResponseFo
     temperature: 0.4
   };
 
-  if (useResponseFormat) {
+  if (responseFormat === "json_schema") {
+    body.response_format = {
+      type: "json_schema",
+      json_schema: {
+        name: "rank_insights",
+        strict: true,
+        schema: responseSchema
+      }
+    };
+  } else if (responseFormat === "json_object") {
     body.response_format = { type: "json_object" };
   }
 
@@ -392,11 +402,16 @@ async function callLLM(latest) {
   const { apiKey, baseUrl, model } = getLlmConfig();
   const input = compactLatest(latest);
 
-  let res = await postChatCompletion({ apiKey, baseUrl, model, input, useResponseFormat: true });
+  let res = await postChatCompletion({ apiKey, baseUrl, model, input, responseFormat: "json_schema" });
   let bodyText = await res.text();
 
+  if (!res.ok && res.status === 400 && /response_format|json_schema/i.test(bodyText)) {
+    res = await postChatCompletion({ apiKey, baseUrl, model, input, responseFormat: "json_object" });
+    bodyText = await res.text();
+  }
+
   if (!res.ok && res.status === 400 && /response_format|json_object/i.test(bodyText)) {
-    res = await postChatCompletion({ apiKey, baseUrl, model, input, useResponseFormat: false });
+    res = await postChatCompletion({ apiKey, baseUrl, model, input });
     bodyText = await res.text();
   }
 
@@ -410,11 +425,16 @@ async function callLLM(latest) {
     throw new Error("LLM API returned no output text");
   }
 
-  return {
-    model,
-    generatedAt: new Date().toISOString(),
-    content: normalizeInsights(JSON.parse(extractJsonText(outputText)), latest)
-  };
+  try {
+    return {
+      model,
+      generatedAt: new Date().toISOString(),
+      content: normalizeInsights(JSON.parse(extractJsonText(outputText)), latest)
+    };
+  } catch (error) {
+    console.warn(`Falling back after invalid LLM JSON: ${error.message}`);
+    return fallbackInsights(latest, `LLM returned invalid JSON: ${error.message}`);
+  }
 }
 
 function fallbackInsights(latest, reason) {
