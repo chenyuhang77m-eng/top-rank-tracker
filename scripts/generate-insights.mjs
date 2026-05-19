@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const dataDir = path.join(rootDir, "data");
 const insightDir = path.join(dataDir, "insights");
+const llmTimeoutMs = Number(process.env.LLM_TIMEOUT_MS || 120_000);
 
 const categories = [
   { key: "C3", name: "3C数码" },
@@ -367,6 +368,7 @@ async function postChatCompletion({ apiKey, baseUrl, model, input, useResponseFo
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json"
     },
+    signal: AbortSignal.timeout(llmTimeoutMs),
     body: JSON.stringify(body)
   });
 }
