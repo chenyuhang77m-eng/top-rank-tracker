@@ -21,11 +21,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Crawl top lists
-        run: npm run crawl:daily
+      - name: Crawl top lists and generate insights
+        run: npm run daily
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5-mini' }}
+          REQUIRE_LLM: "1"
 
       - name: Commit data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update daily rank data"
-          file_pattern: data/*.json
+          file_pattern: data/*.json data/insights/*.json
