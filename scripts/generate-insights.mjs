@@ -8,6 +8,7 @@ const rootDir = path.resolve(__dirname, "..");
 const dataDir = path.join(rootDir, "data");
 const insightDir = path.join(dataDir, "insights");
 const llmTimeoutMs = Number(process.env.LLM_TIMEOUT_MS || 300_000);
+const rowsPerCategory = 5;
 
 const categories = [
   { key: "C3", name: "3C数码" },
@@ -36,49 +37,57 @@ const fallbackPlaybook = {
     { sub: "AI手机", scene: "AI 大模型换机潮", topics: ["AI手机", "iPhone", "华为", "小米", "DeepSeek"] },
     { sub: "笔电游戏本", scene: "AI PC 与效率升级", topics: ["MacBook", "游戏本", "RTX", "AI PC"] },
     { sub: "影像设备", scene: "出游记录与内容创作", topics: ["大疆", "相机", "Vlog", "影像"] },
-    { sub: "穿戴 / 耳机", scene: "通勤、运动与 AI 助理", topics: ["耳机", "Apple Watch", "AI眼镜", "降噪"] }
+    { sub: "穿戴 / 耳机", scene: "通勤、运动与 AI 助理", topics: ["耳机", "Apple Watch", "AI眼镜", "降噪"] },
+    { sub: "智能家居设备", scene: "家庭自动化与安全看护", topics: ["智能音箱", "摄像头", "门锁", "路由器"] }
   ],
   HOME: [
     { sub: "卧室寝具", scene: "换季与助眠经济", topics: ["床垫", "枕头", "助眠", "家纺"] },
     { sub: "整装/装修", scene: "婚装、换房与局改", topics: ["装修", "全屋定制", "厨房", "新中式"] },
     { sub: "卫浴升级", scene: "卫生间局改与适老化", topics: ["智能马桶", "花洒", "卫浴", "九牧"] },
-    { sub: "软装收纳", scene: "小户型治愈感升级", topics: ["收纳", "软装", "奶油风", "出租屋"] }
+    { sub: "软装收纳", scene: "小户型治愈感升级", topics: ["收纳", "软装", "奶油风", "出租屋"] },
+    { sub: "家清个护", scene: "家庭囤货与清洁效率", topics: ["纸巾", "洗衣液", "湿巾", "清洁"] }
   ],
   APPL: [
     { sub: "空冰洗大件", scene: "以旧换新与国补红利", topics: ["空调", "冰箱", "洗衣机", "美的", "海尔"] },
     { sub: "清洁家电", scene: "懒人解放与养宠家庭", topics: ["扫地机器人", "洗地机", "吸尘器", "追觅"] },
     { sub: "厨房小家电", scene: "快手早餐与健康轻食", topics: ["空气炸锅", "破壁机", "养生壶", "电饭煲"] },
-    { sub: "电视影音", scene: "客厅观影与赛事直播", topics: ["电视", "投影仪", "MiniLED", "音响"] }
+    { sub: "电视影音", scene: "客厅观影与赛事直播", topics: ["电视", "投影仪", "MiniLED", "音响"] },
+    { sub: "季节环境电器", scene: "降温除湿与空气管理", topics: ["风扇", "除湿机", "净化器", "加湿器"] }
   ],
   BABY: [
     { sub: "婴幼儿奶粉", scene: "科学喂养与配方信任", topics: ["奶粉", "HMO", "A2", "益生菌"] },
     { sub: "纸尿裤湿巾", scene: "夏季透气与红屁屁防护", topics: ["纸尿裤", "拉拉裤", "湿巾", "透气"] },
     { sub: "童装童鞋", scene: "亲子穿搭与换季上新", topics: ["童装", "童鞋", "亲子", "儿童节"] },
-    { sub: "早教学习", scene: "幼小衔接与暑期续报", topics: ["学习机", "点读笔", "绘本", "早教"] }
+    { sub: "早教学习", scene: "幼小衔接与暑期续报", topics: ["学习机", "点读笔", "绘本", "早教"] },
+    { sub: "儿童出行用品", scene: "亲子外出与安全看护", topics: ["安全座椅", "推车", "餐椅", "背带"] }
   ],
   FOOD: [
     { sub: "乳制品", scene: "高端化、健身与儿童成长", topics: ["牛奶", "酸奶", "乳制品", "低脂"] },
     { sub: "饮料茶饮", scene: "夏季解暑与 0 糖风潮", topics: ["奶茶", "咖啡", "饮料", "0糖"] },
     { sub: "零食坚果", scene: "追剧、办公室与囤货", topics: ["零食", "坚果", "薯片", "饼干"] },
-    { sub: "生鲜水果", scene: "时令尝鲜与健康饮食", topics: ["水果", "榴莲", "西瓜", "车厘子"] }
+    { sub: "生鲜水果", scene: "时令尝鲜与健康饮食", topics: ["水果", "榴莲", "西瓜", "车厘子"] },
+    { sub: "速食预制菜", scene: "工作日晚餐与懒人厨房", topics: ["方便面", "速食", "预制菜", "火锅"] }
   ],
   BEAU: [
     { sub: "抗老精华", scene: "熬夜抗老与成分党", topics: ["精华", "抗老", "视黄醇", "烟酰胺"] },
     { sub: "敏感肌修护", scene: "换季泛红与屏障修护", topics: ["敏感肌", "修护", "薇诺娜", "理肤泉"] },
     { sub: "底妆遮瑕", scene: "通勤定妆与婚礼妆", topics: ["粉底", "气垫", "遮瑕", "定妆"] },
-    { sub: "防晒美白", scene: "户外旅行与通勤防晒", topics: ["防晒", "美白", "UPF", "海岛"] }
+    { sub: "防晒美白", scene: "户外旅行与通勤防晒", topics: ["防晒", "美白", "UPF", "海岛"] },
+    { sub: "彩妆香氛", scene: "妆容焕新与礼赠场景", topics: ["口红", "眼影", "香水", "美瞳"] }
   ],
   CLOT: [
     { sub: "夏季防晒衣", scene: "通勤防晒与户外徒步", topics: ["防晒衣", "冰丝", "UPF", "户外"] },
     { sub: "内衣家居服", scene: "无尺码与软支撑", topics: ["内衣", "家居服", "ubras", "蕉内"] },
     { sub: "运动鞋", scene: "跑团与城市马拉松", topics: ["跑鞋", "运动鞋", "安踏", "李宁"] },
-    { sub: "国潮中式", scene: "新中式与国风穿搭", topics: ["汉服", "马面裙", "新中式", "国风"] }
+    { sub: "国潮中式", scene: "新中式与国风穿搭", topics: ["汉服", "马面裙", "新中式", "国风"] },
+    { sub: "箱包配饰", scene: "通勤收纳与穿搭点睛", topics: ["箱包", "帽子", "眼镜", "手表"] }
   ],
   EDU: [
     { sub: "K12 学科辅导", scene: "暑期续报与提分焦虑", topics: ["学而思", "猿辅导", "作业帮", "学习机"] },
     { sub: "考研考公", scene: "上岸叙事与倒计时冲刺", topics: ["考研", "考公", "新东方", "网课"] },
     { sub: "本地餐饮", scene: "探店打卡与团购转化", topics: ["美团", "大众点评", "团购", "外卖"] },
-    { sub: "旅行出行", scene: "假期长线游与本地周边游", topics: ["携程", "飞猪", "酒店", "机票"] }
+    { sub: "旅行出行", scene: "假期长线游与本地周边游", topics: ["携程", "飞猪", "酒店", "机票"] },
+    { sub: "二手回收", scene: "闲置流转与低预算换新", topics: ["闲鱼", "转转", "回收", "二手"] }
   ]
 };
 
@@ -164,13 +173,20 @@ function rowScore(row, signals) {
   }, 0);
 }
 
+function highlightStrategy(text = "") {
+  const trimmed = String(text || "").trim();
+  if (!trimmed) return "";
+  if (/【重点】|【投放】|【复用】/.test(trimmed)) return trimmed;
+  return `【重点】${trimmed}`;
+}
+
 function fallbackRowsForCategory(cat, compact) {
   const signals = compact.categorySignals[cat.key] || [];
   const templates = fallbackPlaybook[cat.key] || [];
   const orderedTemplates = [...templates].sort((a, b) => rowScore(b, signals) - rowScore(a, signals));
   const topSignals = signals.slice(0, 5);
 
-  return orderedTemplates.slice(0, 4).map((row, index) => {
+  return orderedTemplates.slice(0, rowsPerCategory).map((row, index) => {
     const rowSignals = signals.filter((item) =>
       uniq([row.sub, ...row.topics], 20).some((key) => item.title.includes(key))
     );
@@ -181,8 +197,8 @@ function fallbackRowsForCategory(cat, compact) {
       scene: top ? `${row.scene} · 今日信号:${top.title}` : row.scene,
       topics: uniq([...(picked.map((item) => item.title)), ...row.topics], 6),
       strategy: top
-        ? `围绕「${top.title}」做首屏钩子,用「榜单解读 + 场景清单 + 达人实测」承接兴趣;投放时优先测试${cat.name}人群,次日把互动最高的问题复用到直播间标题、搜索词和商品卡卖点。`
-        : `今日暂无强热点命中,用${row.scene}做常青内容测试;保持小预算 A/B 素材,观察评论区需求后再放大。`
+        ? `【重点】围绕「${top.title}」做首屏钩子,用「榜单解读 + 场景清单 + 达人实测」承接兴趣;【投放】优先测试${cat.name}人群;【复用】次日把互动最高的问题复用到直播间标题、搜索词和商品卡卖点。`
+        : `【重点】今日暂无强热点命中,用${row.scene}做常青内容测试;【投放】保持小预算 A/B 素材;【复用】观察评论区需求后再放大。`
     };
   });
 }
@@ -196,7 +212,7 @@ function normalizeCategory(cat, inputCategory, compact) {
       sub: String(row.sub).trim(),
       scene: String(row.scene).trim(),
       topics: uniq(Array.isArray(row.topics) ? row.topics : [], 6),
-      strategy: String(row.strategy).trim()
+      strategy: highlightStrategy(row.strategy)
     }));
 
   const signals = compact.categorySignals[cat.key] || [];
@@ -206,12 +222,11 @@ function normalizeCategory(cat, inputCategory, compact) {
     : cleaned;
 
   const rows = [];
-  const needsFallback = signals.length === 0 || sorted.length === 0;
-  const rowPool = needsFallback ? [...sorted, ...fallbackRows] : sorted;
+  const rowPool = [...sorted, ...fallbackRows];
   for (const row of rowPool) {
     if (rows.some((existing) => existing.sub === row.sub)) continue;
     rows.push(row);
-    if (needsFallback && rows.length >= 4) break;
+    if (rows.length >= rowsPerCategory) break;
   }
 
   const top = signals[0];
@@ -220,12 +235,12 @@ function normalizeCategory(cat, inputCategory, compact) {
       inputCategory?.lead ||
       (top
         ? `今日${cat.name}命中 ${signals.length} 条榜单信号,优先围绕「${top.title}」展开营销策略。`
-        : `今日${cat.name}暂无强榜单信号,展示 4 个常青兜底类目。`),
+        : `今日${cat.name}暂无强榜单信号,展示 ${rowsPerCategory} 个常青兜底类目。`),
     bullets:
       Array.isArray(inputCategory?.bullets) && inputCategory.bullets.length
         ? inputCategory.bullets.slice(0, 4)
         : signals.slice(0, 4).map((item) => `${item.sourceName}:${item.title}`),
-    rows: rows.length ? rows : fallbackRows.slice(0, 4)
+    rows: rows.length ? rows : fallbackRows.slice(0, rowsPerCategory)
   };
 }
 
@@ -314,9 +329,9 @@ function buildSystemPrompt() {
     "JSON 顶层结构必须包含 summary 和 categories。",
     "categories 必须包含 C3、HOME、APPL、BABY、FOOD、BEAU、CLOT、EDU 八个键。",
     "每个 category 对象包含 lead、bullets、rows。",
-    "每个 category 的 bullets 最多 4 条,rows 必须刚好 4 条,优先选择当日榜单信号最强的二级类目;没有相关信号时,从 fallbackSubcategories 中生成 4 条保底。",
+    "每个 category 的 bullets 最多 4 条,rows 必须刚好 5 条,优先选择当日榜单信号最强的二级类目;没有相关信号时,从 fallbackSubcategories 中生成 5 条保底。",
     "每个 row 包含 sub、scene、topics、strategy。",
-    "strategy 用 1 到 2 句写清内容形式、投放阵地、创意角度和次日复用动作。"
+    "strategy 用 1 到 2 句写清内容形式、投放阵地、创意角度和次日复用动作,并用【重点】、【投放】、【复用】标出最重要的信息。"
   ].join("\n");
 }
 
