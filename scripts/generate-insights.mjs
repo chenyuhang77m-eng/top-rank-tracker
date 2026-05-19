@@ -337,7 +337,18 @@ function normalizeCategory(cat, inputCategory, compact) {
 
 function normalizeInsights(content, latest) {
   const compact = compactLatest(latest);
+  const normalizeBrief = (brief, fallbackLead) => ({
+    lead: brief?.lead || fallbackLead,
+    bullets: Array.isArray(brief?.bullets) ? brief.bullets.slice(0, 4) : []
+  });
   return {
+    briefs: {
+      hot: normalizeBrief(content?.briefs?.hot, "今日热搜 Brief 已按最新榜单生成。"),
+      shop: normalizeBrief(content?.briefs?.shop, "今日热销 Brief 已按最新榜单生成。"),
+      trend: normalizeBrief(content?.briefs?.trend, "今日趋势 Brief 已按最新榜单生成。"),
+      cloud: normalizeBrief(content?.briefs?.cloud, "今日词云 Brief 已按最新榜单生成。"),
+      marketing: normalizeBrief(content?.briefs?.marketing, "今日营销 Brief 已按最新榜单生成。")
+    },
     summary: {
       lead: content?.summary?.lead || "今日营销策略已按最新榜单生成。",
       bullets: Array.isArray(content?.summary?.bullets) ? content.summary.bullets.slice(0, 4) : [],
@@ -346,6 +357,18 @@ function normalizeInsights(content, latest) {
     categories: Object.fromEntries(
       categories.map((cat) => [cat.key, normalizeCategory(cat, content?.categories?.[cat.key], compact)])
     )
+  };
+}
+
+function briefSchema() {
+  return {
+    type: "object",
+    additionalProperties: false,
+    required: ["lead", "bullets"],
+    properties: {
+      lead: { type: "string" },
+      bullets: { type: "array", minItems: 2, maxItems: 4, items: { type: "string" } }
+    }
   };
 }
 
@@ -382,8 +405,20 @@ function categorySchema(rowCount = rowsPerCategory) {
 const responseSchema = {
   type: "object",
   additionalProperties: false,
-  required: ["summary", "categories"],
+  required: ["briefs", "summary", "categories"],
   properties: {
+    briefs: {
+      type: "object",
+      additionalProperties: false,
+      required: ["hot", "shop", "trend", "cloud", "marketing"],
+      properties: {
+        hot: briefSchema(),
+        shop: briefSchema(),
+        trend: briefSchema(),
+        cloud: briefSchema(),
+        marketing: briefSchema()
+      }
+    },
     summary: categorySchema(0),
     categories: {
       type: "object",
@@ -433,7 +468,10 @@ function buildSystemPrompt() {
     "strategy placement must be limited to ByteDance ecosystem only: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
     "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
     "Return a valid JSON object only. No Markdown. No commentary.",
-    "Top-level JSON must include summary and categories. summary.rows must be an empty array.",
+    "Top-level JSON must include briefs, summary, and categories. summary.rows must be an empty array.",
+    "briefs must include five module briefs: hot, shop, trend, cloud, marketing. Each brief has lead and 2-4 bullets.",
+    "briefs.hot explains today's hot-search attention structure. briefs.shop explains ecommerce/hot-selling product signals. briefs.trend explains cross-platform resonance and multi-day movement. briefs.cloud explains topic-vs-product word cloud interpretation. briefs.marketing summarizes the playbook opportunity.",
+    "All module briefs must be written by you from the input data, in concise Chinese editorial style, and must not be generic placeholders.",
     "categories must include C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, EDU.",
     "Each category object includes lead, bullets, rows. bullets has at most 4 items; rows has exactly 5 items."
   ].join("\n");
@@ -605,6 +643,31 @@ async function callLLM(latest) {
   }
 }
 
+function topModuleItems(compact, kind) {
+  const items = [];
+  for (const cat of categories) {
+    const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [] };
+    const source = kind === "shop" ? signalSet.shop || [] : signalSet.hot || [];
+    for (const item of source) items.push({ ...item, catName: cat.name });
+  }
+  return items.sort((a, b) => b.metricValue - a.metricValue);
+}
+
+function topModuleLead(compact, kind) {
+  const items = topModuleItems(compact, kind);
+  const top = items[0];
+  if (!top) return kind === "shop" ? "今日电商侧暂无明显热销商品信号。" : "今日热搜侧暂无明显热点信号。";
+  return kind === "shop"
+    ? `今日电商热销侧识别到 ${items.length} 条消费品信号,代表商品来自「${top.title}」。`
+    : `今日热搜侧识别到 ${items.length} 条消费品相关热点,最高热度来自「${top.title}」。`;
+}
+
+function topModuleBullets(compact, kind) {
+  return topModuleItems(compact, kind)
+    .slice(0, 4)
+    .map((item) => `${item.catName}:${item.sourceName}:${item.title}`);
+}
+
 function fallbackInsights(latest, reason) {
   const compact = compactLatest(latest);
   const makeCategory = (cat) => {
@@ -627,6 +690,28 @@ function fallbackInsights(latest, reason) {
     generatedAt: new Date().toISOString(),
     fallbackReason: reason,
     content: {
+      briefs: {
+        hot: {
+          lead: topModuleLead(compact, "hot"),
+          bullets: topModuleBullets(compact, "hot")
+        },
+        shop: {
+          lead: topModuleLead(compact, "shop"),
+          bullets: topModuleBullets(compact, "shop")
+        },
+        trend: {
+          lead: "LLM 趋势 Brief 暂不可用,当前使用跨平台共振与历史榜单规则兜底。",
+          bullets: ["观察跨平台共振词", "对比热搜与电商 SKU 密度", "结合新晋与退榜商品识别货架变化"]
+        },
+        cloud: {
+          lead: "LLM 词云 Brief 暂不可用,当前使用话题词与商品词规则兜底。",
+          bullets: ["话题词反映舆论注意力", "商品词反映可转化卖点", "两侧重合处优先做内容承接"]
+        },
+        marketing: {
+          lead: "LLM 营销 Brief 暂不可用,当前使用规则兜底生成字节生态 playbook。",
+          bullets: ["投放限定字节生态", "每个二级品类保留 2-4 个营销场景", "话题词与热点词去重"]
+        }
+      },
       summary: {
         lead: `LLM \u6d1e\u5bdf\u751f\u6210\u672a\u542f\u7528\u6216\u5931\u8d25,\u5f53\u524d\u4f7f\u7528\u89c4\u5219\u515c\u5e95\u3002\u539f\u56e0:${reason}`,
         bullets: ["\u914d\u7f6e VOLCENGINE_API_KEY \u548c VOLCENGINE_MODEL \u540e\u4f1a\u81ea\u52a8\u751f\u6210\u6a21\u578b\u6d1e\u5bdf"],
