@@ -3,11 +3,11 @@
   "capturedAt": "2026-05-19T09:44:42+08:00",
   "sourceData": "data/latest.json",
   "model": "fallback",
-  "generatedAt": "2026-05-19T03:09:15.445Z",
-  "fallbackReason": "LLM returned invalid JSON: Expected ',' or ']' after array element in JSON at position 11324",
+  "generatedAt": "2026-05-19T05:08:08.200Z",
+  "fallbackReason": "LLM returned invalid JSON: Expected ',' or '}' after property value in JSON at position 11711",
   "content": {
     "summary": {
-      "lead": "LLM 洞察生成未启用或失败,当前使用规则兜底。原因:LLM returned invalid JSON: Expected ',' or ']' after array element in JSON at position 11324",
+      "lead": "LLM 洞察生成未启用或失败,当前使用规则兜底。原因:LLM returned invalid JSON: Expected ',' or '}' after property value in JSON at position 11711",
       "bullets": [
         "配置 VOLCENGINE_API_KEY 和 VOLCENGINE_MODEL 后会自动生成模型洞察"
       ],
