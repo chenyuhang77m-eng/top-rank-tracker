@@ -436,7 +436,7 @@ async function postChatCompletion({ apiKey, baseUrl, model, input, responseForma
         content: JSON.stringify(input)
       }
     ],
-    temperature: 0.4
+    temperature: 0.2
   };
 
   if (responseFormat === "json_schema") {
@@ -451,6 +451,43 @@ async function postChatCompletion({ apiKey, baseUrl, model, input, responseForma
   } else if (responseFormat === "json_object") {
     body.response_format = { type: "json_object" };
   }
+
+  return fetch(`${baseUrl}/chat/completions`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    signal: AbortSignal.timeout(llmTimeoutMs),
+    body: JSON.stringify(body)
+  });
+}
+
+async function postJsonRepair({ apiKey, baseUrl, model, invalidText, errorMessage }) {
+  const body = {
+    model,
+    messages: [
+      {
+        role: "system",
+        content: [
+          "You repair malformed JSON.",
+          "Return one valid JSON object only. No Markdown. No commentary.",
+          "Preserve the same fields and Chinese content where possible.",
+          "If arrays are malformed, fix commas or brackets. Do not add new analysis."
+        ].join("\n")
+      },
+      {
+        role: "user",
+        content: JSON.stringify({
+          parseError: errorMessage,
+          requiredTopLevelKeys: ["summary", "categories"],
+          invalidJsonText: invalidText
+        })
+      }
+    ],
+    temperature: 0,
+    response_format: { type: "json_object" }
+  };
 
   return fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
@@ -490,15 +527,43 @@ async function callLLM(latest) {
     throw new Error("LLM API returned no output text");
   }
 
+  const jsonText = extractJsonText(outputText);
   try {
     return {
       model,
       generatedAt: new Date().toISOString(),
-      content: normalizeInsights(JSON.parse(extractJsonText(outputText)), latest)
+      content: normalizeInsights(JSON.parse(jsonText), latest)
     };
   } catch (error) {
-    console.warn(`Falling back after invalid LLM JSON: ${error.message}`);
-    return fallbackInsights(latest, `LLM returned invalid JSON: ${error.message}`);
+    console.warn(`Retrying after invalid LLM JSON: ${error.message}`);
+
+    try {
+      const repairRes = await postJsonRepair({
+        apiKey,
+        baseUrl,
+        model,
+        invalidText: jsonText,
+        errorMessage: error.message
+      });
+      const repairBody = await repairRes.text();
+      if (!repairRes.ok) {
+        throw new Error(`JSON repair API ${repairRes.status}: ${repairBody}`);
+      }
+      const repairResponse = JSON.parse(repairBody);
+      const repairedText = repairResponse.choices?.[0]?.message?.content || extractOutputText(repairResponse);
+      if (!repairedText) throw new Error("JSON repair returned no output text");
+      return {
+        model,
+        generatedAt: new Date().toISOString(),
+        content: normalizeInsights(JSON.parse(extractJsonText(repairedText)), latest)
+      };
+    } catch (repairError) {
+      console.warn(`Falling back after invalid LLM JSON repair: ${repairError.message}`);
+      if (process.env.REQUIRE_LLM === "1") {
+        throw new Error(`LLM returned invalid JSON: ${error.message}; repair failed: ${repairError.message}`);
+      }
+      return fallbackInsights(latest, `LLM returned invalid JSON: ${error.message}; repair failed: ${repairError.message}`);
+    }
   }
 }
 
