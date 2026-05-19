@@ -185,6 +185,20 @@ function highlightStrategy(text = "") {
   return `【重点】${trimmed}`;
 }
 
+function cleanTopicIdea(text = "") {
+  return String(text || "")
+    .trim()
+    .replace(/(\u5185\u5bb9\u94a9\u5b50|\u573a\u666f\u79cd\u8349|\u8bdd\u9898\u94a9\u5b50|\u8425\u9500\u94a9\u5b50)+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function topicIdeasForRow(row, hotTerms) {
+  const cleanedHotTerms = uniq(hotTerms.map(cleanTopicIdea).filter(Boolean), 5);
+  if (cleanedHotTerms.length) return cleanedHotTerms;
+  return uniq((row.topics || []).map(cleanTopicIdea).filter(Boolean), 5);
+}
+
 function fallbackRowsForCategory(cat, compact) {
   const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [], all: [] };
   const hotSignals = signalSet.hot || [];
@@ -192,15 +206,13 @@ function fallbackRowsForCategory(cat, compact) {
   const templates = fallbackPlaybook[cat.key] || [];
   const orderedTemplates = [...templates].sort((a, b) => rowScore(b, hotSignals) - rowScore(a, hotSignals));
 
-  return orderedTemplates.slice(0, rowsPerCategory).map((row) => {
+  return orderedTemplates.slice(0, rowsPerCategory).map((row, index) => {
     const rowKeys = uniq([row.sub, ...row.topics], 20);
     const rowSignals = hotSignals.filter((item) => rowKeys.some((key) => item.title.includes(key)));
     const top = rowSignals[0];
-    const hotTerms = uniq(rowSignals.map((item) => item.title), 5);
-    const topicIdeas = uniq([
-      ...hotTerms.map((term) => `${term}\u573a\u666f\u79cd\u8349`),
-      ...row.topics.map((term) => `${term}\u5185\u5bb9\u94a9\u5b50`)
-    ], 5);
+    const pickedHotSignals = rowSignals.length ? rowSignals : hotSignals.slice(index, index + 1);
+    const hotTerms = uniq(pickedHotSignals.map((item) => item.title), 5);
+    const topicIdeas = topicIdeasForRow(row, hotTerms);
     const rowShop = shopSignals.find((item) => rowKeys.some((key) => item.title.includes(key)));
     const productText = rowShop
       ? `\u70ed\u9500\u5546\u54c1\u53ef\u7528\u300c${rowShop.title}\u300d\u627f\u63a5\u8f6c\u5316`
@@ -208,12 +220,12 @@ function fallbackRowsForCategory(cat, compact) {
 
     return {
       sub: row.sub,
-      scene: top ? `${row.scene} | \u4eca\u65e5\u70ed\u70b9:${top.title}` : row.scene,
+      scene: pickedHotSignals[0] ? `${row.scene} | \u4eca\u65e5\u70ed\u70b9:${pickedHotSignals[0].title}` : row.scene,
       hotTerms,
       topicIdeas,
       topics: topicIdeas,
-      strategy: top
-        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${row.sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
+      strategy: pickedHotSignals[0]
+        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${pickedHotSignals[0].title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${row.sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
         : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${row.sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${row.scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4fdd\u6301\u5c0f\u9884\u7b97 A/B \u7d20\u6750;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u3002`
     };
   });
@@ -233,14 +245,15 @@ function normalizeCategory(cat, inputCategory, compact) {
       const sub = String(row.sub).trim();
       const scene = String(row.scene).trim();
       const hotTerms = uniq(Array.isArray(row.hotTerms) ? row.hotTerms : [], 5).filter((term) => term.length <= 40);
-      const topicIdeas = uniq(Array.isArray(row.topicIdeas) ? row.topicIdeas : Array.isArray(row.topics) ? row.topics : [], 5);
+      const topicIdeas = uniq(Array.isArray(row.topicIdeas) ? row.topicIdeas : Array.isArray(row.topics) ? row.topics : [], 5)
+        .map(cleanTopicIdea)
+        .filter(Boolean);
       const rowKeys = uniq([sub, ...hotTerms, ...topicIdeas], 20);
       const matchedHot = hotSignals.filter((item) => rowKeys.some((key) => key && item.title.includes(key)));
       const safeHotTerms = hotTerms.length ? hotTerms : uniq(matchedHot.map((item) => item.title), 5);
-      const fallbackTopicIdeas = uniq([
-        ...safeHotTerms.map((term) => `${term}\u573a\u666f\u79cd\u8349`),
-        ...topicIdeas
-      ], 5);
+      const fallbackTopicIdeas = safeHotTerms.length
+        ? uniq(safeHotTerms.map(cleanTopicIdea).filter(Boolean), 5)
+        : uniq(topicIdeas.filter(Boolean), 5);
       const safeTopicIdeas = fallbackTopicIdeas.length ? fallbackTopicIdeas : safeHotTerms;
       let strategy = highlightStrategy(row.strategy);
       const irrelevantHot = hotSignals.some((item) => {
@@ -376,7 +389,8 @@ function buildSystemPrompt() {
     "Each category must output exactly 5 rows. Prefer subcategories hit by real hot-search signals; use fallbackSubcategories only when hotspot coverage is not enough.",
     "For each row: sub is the secondary category; scene is the marketing scenario derived from hotspot insight.",
     "hotTerms must contain 3-5 short terms or short phrases from real hot-search data. Do not put full product titles in hotTerms.",
-    "topicIdeas must contain 3-5 content-rich marketing topic ideas created from hotTerms, such as challenges, lists, guides, tests, scene experiments, emotion hooks, or comparison themes.",
+    "topicIdeas must contain 3-5 natural hotspot-topic phrases created from hotTerms, such as challenges, lists, guides, tests, scene experiments, emotion hooks, or comparison themes.",
+    "Do not output mechanical suffixes like 内容钩子, 场景种草, 话题钩子, or 营销钩子. A good topicIdeas item should look like a real topic tag, not an instruction label.",
     "topics must equal topicIdeas for frontend compatibility.",
     "strategy must analyze category, hotspots, products, and topicIdeas. Include content format, placement channel, creative angle, and next-day reuse actions. Use Chinese markers \u3010\u91cd\u70b9\u3011, \u3010\u6295\u653e\u3011, and \u3010\u590d\u7528\u3011.",
     "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
