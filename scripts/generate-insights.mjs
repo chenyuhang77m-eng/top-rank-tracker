@@ -54,7 +54,7 @@ const fallbackPlaybook = {
   HOME: [
     { sub: "卧室寝具", scene: "换季与助眠经济", topics: ["床垫", "枕头", "助眠", "家纺"] },
     { sub: "整装/装修", scene: "婚装、换房与局改", topics: ["装修", "全屋定制", "厨房", "新中式"] },
-    { sub: "卫浴升级", scene: "卫生间局改与适老化", topics: ["智能马桶", "花洒", "卫浴", "九牧"] },
+    { sub: "厨房卫浴", scene: "厨卫局改与清洁升级", topics: ["厨房", "卫浴", "智能马桶", "花洒", "水槽"] },
     { sub: "软装收纳", scene: "小户型治愈感升级", topics: ["收纳", "软装", "奶油风", "出租屋"] },
     { sub: "家清个护", scene: "家庭囤货与清洁效率", topics: ["纸巾", "洗衣液", "湿巾", "清洁"] }
   ],
@@ -194,7 +194,7 @@ function rowScore(row, signals) {
 function highlightStrategy(text = "") {
   const trimmed = String(text || "").trim();
   if (!trimmed) return "";
-  if (/【重点】|【投放】|【复用】/.test(trimmed)) return trimmed;
+  if (/【重点】|【投放】/.test(trimmed)) return trimmed;
   return `【重点】${trimmed}`;
 }
 
@@ -263,8 +263,8 @@ function fallbackRowsForCategory(cat, compact) {
       topicIdeas,
       topics: topicIdeas,
       strategy: pickedHotSignals[0]
-        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${pickedHotSignals[0].title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4ec5\u9650\u5b57\u8282\u751f\u6001,\u7528\u5de8\u91cf\u5f15\u64ce\u5efa\u7acb\u4eba\u7fa4\u5305,\u5de8\u91cf\u661f\u56fe\u5339\u914d\u8fbe\u4eba\u77ed\u89c6\u9891/\u76f4\u64ad,\u5b57\u8282\u54c1\u724c\u5e7f\u544a\u505a\u5f00\u5c4f\u6216\u4fe1\u606f\u6d41\u653e\u5927,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u6296\u97f3\u641c\u7d22\u8bcd\u3001\u6296\u97f3\u7535\u5546\u5546\u54c1\u5361\u548c\u7ea2\u679c\u77ed\u5267\u7d20\u6750\u811a\u672c\u3002`
-        : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${row.sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${row.scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4ec5\u9650\u5b57\u8282\u751f\u6001,\u7528\u5de8\u91cf\u5f15\u64ce\u5c0f\u9884\u7b97 A/B \u6d4b\u8bd5,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u9a8c\u8bc1\u7d20\u6750,\u6296\u97f3\u4f01\u4e1a\u53f7\u627f\u63a5\u79cd\u8349;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u5230\u5b57\u8282\u54c1\u724c\u5e7f\u544a\u548c\u7ea2\u679c\u5185\u5bb9\u690d\u5165\u3002`
+        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${pickedHotSignals[0].title}\u300d\u62c6\u51fa 3 \u6761\u5185\u5bb9\u7ebf:\u5148\u7528\u70ed\u70b9\u89e3\u91ca\u964d\u4f4e\u7406\u89e3\u95e8\u69db,\u518d\u7528\u300c\u4eba\u7fa4\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u505a\u77ed\u89c6\u9891\u811a\u672c,\u6700\u540e\u7528\u6e05\u5355/\u6a2a\u8bc4/\u6539\u9020\u524d\u540e\u5bf9\u6bd4\u628a\u8bdd\u9898\u8f6c\u6210\u53ef\u8d2d\u4e70\u7406\u7531,${productText}\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u9996\u53d1,\u5de8\u91cf\u5f15\u64ce\u5c0f\u989d\u653e\u5927,\u5de8\u91cf\u661f\u56fe\u5339\u914d\u5782\u7c7b\u8fbe\u4eba\u3002`
+        : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${row.sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${row.scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9:\u7528\u573a\u666f\u6e05\u5355\u627f\u63a5\u641c\u7d22\u9700\u6c42,\u7528\u7528\u6237\u75db\u70b9\u5f00\u5934\u63d0\u9ad8\u505c\u7559,\u518d\u7528\u4ea7\u54c1\u7ec6\u8282/\u5b9e\u6d4b\u7247\u6bb5\u5efa\u7acb\u4fe1\u4efb\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u4f01\u4e1a\u53f7\u5148\u53d1,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u6d4b\u7d20\u6750\u3002`
     };
   });
 }
@@ -307,8 +307,8 @@ function normalizeCategory(cat, inputCategory, compact) {
           ? `\u70ed\u9500\u5546\u54c1\u53ef\u7528\u300c${rowShop.title}\u300d\u627f\u63a5\u8f6c\u5316`
           : '\u7535\u5546\u4fa7\u6682\u65e0\u5f3a\u5173\u8054 SKU,\u5148\u7528\u4e92\u52a8\u6700\u9ad8\u7684\u70ed\u70b9\u8bcd\u9a8c\u8bc1\u9700\u6c42';
         strategy = top
-          ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u63d0\u70bc 3-5 \u4e2a\u5185\u5bb9\u5207\u53e3,\u7528\u300c\u70ed\u70b9\u89e3\u91ca + \u54c1\u7c7b\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u627f\u63a5\u5174\u8da3;\u3010\u6295\u653e\u3011\u4f18\u5148\u6d4b\u8bd5${sub}\u4eba\u7fa4,${productText};\u3010\u590d\u7528\u3011\u6b21\u65e5\u628a\u4e92\u52a8\u6700\u9ad8\u7684\u8bdd\u9898\u8bcd\u590d\u7528\u5230\u76f4\u64ad\u95f4\u6807\u9898\u3001\u641c\u7d22\u8bcd\u548c\u5546\u54c1\u5361\u5356\u70b9\u3002`
-          : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9\u6d4b\u8bd5;\u3010\u6295\u653e\u3011\u4ec5\u9650\u5b57\u8282\u751f\u6001,\u7528\u5de8\u91cf\u5f15\u64ce\u5c0f\u9884\u7b97 A/B \u6d4b\u8bd5,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u9a8c\u8bc1\u7d20\u6750,\u6296\u97f3\u4f01\u4e1a\u53f7\u627f\u63a5\u79cd\u8349;\u3010\u590d\u7528\u3011\u89c2\u5bdf\u8bc4\u8bba\u533a\u9700\u6c42\u540e\u518d\u653e\u5927\u5230\u5b57\u8282\u54c1\u724c\u5e7f\u544a\u548c\u7ea2\u679c\u5185\u5bb9\u690d\u5165\u3002`;
+          ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u62c6\u51fa 3 \u6761\u5185\u5bb9\u7ebf:\u5148\u7528\u70ed\u70b9\u89e3\u91ca\u964d\u4f4e\u7406\u89e3\u95e8\u69db,\u518d\u7528\u300c\u4eba\u7fa4\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u505a\u77ed\u89c6\u9891\u811a\u672c,\u6700\u540e\u7528\u6e05\u5355/\u6a2a\u8bc4/\u6539\u9020\u524d\u540e\u5bf9\u6bd4\u628a\u8bdd\u9898\u8f6c\u6210\u53ef\u8d2d\u4e70\u7406\u7531,${productText}\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u9996\u53d1,\u5de8\u91cf\u5f15\u64ce\u5c0f\u989d\u653e\u5927,\u5de8\u91cf\u661f\u56fe\u5339\u914d\u5782\u7c7b\u8fbe\u4eba\u3002`
+          : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9:\u7528\u573a\u666f\u6e05\u5355\u627f\u63a5\u641c\u7d22\u9700\u6c42,\u7528\u7528\u6237\u75db\u70b9\u5f00\u5934\u63d0\u9ad8\u505c\u7559,\u518d\u7528\u4ea7\u54c1\u7ec6\u8282/\u5b9e\u6d4b\u7247\u6bb5\u5efa\u7acb\u4fe1\u4efb\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u4f01\u4e1a\u53f7\u5148\u53d1,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u6d4b\u7d20\u6750\u3002`;
       }
       const rawScenes = uniq(
         Array.isArray(row.scenes) && row.scenes.length
@@ -477,8 +477,9 @@ function buildSystemPrompt() {
     "topicIdeas must not duplicate hotTerms. If hotTerms has 手机集体大降价, topicIdeas should be like 换机党价格避坑 or 线下新机还值不值, not 手机集体大降价 again.",
     "Do not output mechanical suffixes like 内容钩子, 场景种草, 话题钩子, or 营销钩子. A good topicIdeas item should look like a real topic tag, not an instruction label.",
     "topics must equal topicIdeas for frontend compatibility.",
-    "strategy must analyze category, hotspots, products, and topicIdeas. Include content format, placement channel, creative angle, and next-day reuse actions. Use Chinese markers \u3010\u91cd\u70b9\u3011, \u3010\u6295\u653e\u3011, and \u3010\u590d\u7528\u3011.",
-    "strategy placement must be limited to ByteDance ecosystem only: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
+    "strategy must analyze category, hotspots, products, and topicIdeas. It should be content-led: give concrete creative angles, content formats, scripts, scenes, hooks, comparison/list ideas, or creator collaboration ideas. Use Chinese markers \u3010\u91cd\u70b9\u3011 and \u3010\u6295\u653e\u3011 only. Do not include a \u3010\u590d\u7528\u3011 section.",
+    "The \u3010\u91cd\u70b9\u3011 part should be rich and useful, usually 2-4 sentences. The \u3010\u6295\u653e\u3011 part should be short, usually 1 sentence.",
+    "strategy placement must only use ByteDance ecosystem channels: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not literally write \u201c\u4ec5\u9650\u5b57\u8282\u751f\u6001\u201d. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
     "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
     "Return a valid JSON object only. No Markdown. No commentary.",
     "Top-level JSON must include briefs, summary, and categories. summary.rows must be an empty array.",
@@ -721,8 +722,8 @@ function fallbackInsights(latest, reason) {
           bullets: ["话题词反映舆论注意力", "商品词反映可转化卖点", "两侧重合处优先做内容承接"]
         },
         marketing: {
-          lead: "LLM 营销 Brief 暂不可用,当前使用规则兜底生成字节生态 playbook。",
-          bullets: ["投放限定字节生态", "每个二级品类保留 2-4 个营销场景", "话题词与热点词去重"]
+          lead: "LLM 营销 Brief 暂不可用,当前使用规则兜底生成内容型营销 playbook。",
+          bullets: ["策略以内容创意为主", "每个二级品类保留 2-4 个营销场景", "话题词与热点词去重"]
         }
       },
       summary: {
