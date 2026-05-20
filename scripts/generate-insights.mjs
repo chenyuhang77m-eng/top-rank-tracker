@@ -588,7 +588,7 @@ function buildSystemPrompt() {
     "Return a valid JSON object only. No Markdown. No commentary.",
     "Top-level JSON must include briefs, summary, and categories. summary.rows must be an empty array.",
     "briefs must include five module briefs: hot, shop, trend, cloud, marketing. Each brief has lead and 2-4 bullets.",
-    "briefs.hot explains today's hot-search attention structure. briefs.shop explains ecommerce/hot-selling product signals. briefs.trend explains cross-platform resonance and multi-day movement. briefs.cloud explains topic-vs-product word cloud interpretation. briefs.marketing summarizes the playbook opportunity.",
+    "briefs.hot explains today's hot-search attention structure. briefs.shop explains ecommerce/hot-selling product signals in the same editorial style as category leads, for example: 今日家居家装类目电商热销品以清洁纸品、洗护囤货为主，520节点带动礼赠相关品类销量上涨. Do not only list SKU titles.",
     "All module briefs must be written by you from the input data, in concise Chinese editorial style, and must not be generic placeholders.",
     "categories must include C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, EDU.",
     "Each category lead must summarize the category like: 今日数码3C类热点集中在AI技术、游戏娱乐两大方向，可绑定热点做场景化种草. Or: 今日母婴类热点集中在婴童安全防护，家长对产品安全性关注度显著提升.",
@@ -772,12 +772,57 @@ function topModuleItems(compact, kind) {
   return items.sort((a, b) => b.metricValue - a.metricValue);
 }
 
+function shopNodeCue(items) {
+  const text = items.map((item) => item.title).join(" ");
+  if (/520|情人|礼物|送|礼赠|鲜花|情侣|另一半/.test(text)) return "520节点带动礼赠相关品类销量上涨";
+  if (/618|年中|大促|补贴|券|到手价|降价/.test(text)) return "大促补贴带动价格敏感型商品转化升温";
+  if (/儿童节|六一|宝宝|儿童|亲子/.test(text)) return "亲子节点带动儿童与家庭场景商品走强";
+  if (/夏|防晒|清凉|冰|空调|风扇|凉感|解暑/.test(text)) return "夏季场景带动清凉、防晒与解暑相关商品走强";
+  if (/国补|以旧换新|换新/.test(text)) return "以旧换新政策带动大件耐用品需求释放";
+  return "节点消费与日常囤货需求共同带动热销品类放量";
+}
+
+function shopFocusForCategory(catKey, signalSet) {
+  const shopItems = signalSet.shop || [];
+  const rows = fallbackPlaybook[catKey] || [];
+  const scored = rows.map((row) => ({
+    label: row.sub,
+    score: shopItems.reduce((sum, item) => {
+      const keys = [row.sub, ...(row.topics || [])];
+      return sum + (keys.some((key) => item.title.includes(key)) ? Math.log10((item.metricValue || 1) + 10) : 0);
+    }, 0)
+  })).filter((row) => row.score > 0);
+  const labels = scored.sort((a, b) => b.score - a.score).map((row) => row.label);
+  return uniq(labels.length ? labels : rows.slice(0, 3).map((row) => row.sub), 3);
+}
+
+function shopInsightLead(compact, catKey = "ALL") {
+  if (catKey !== "ALL") {
+    const cat = categories.find((item) => item.key === catKey);
+    const signalSet = compact.categorySignals[catKey] || { shop: [] };
+    const focus = shopFocusForCategory(catKey, signalSet).join("、");
+    const cue = shopNodeCue(signalSet.shop || []);
+    return `今日${cat?.name || ""}类目电商热销品以${focus}为主，${cue}。`;
+  }
+  const scoredCats = categories.map((cat) => {
+    const signalSet = compact.categorySignals[cat.key] || { shop: [] };
+    return {
+      cat,
+      count: (signalSet.shop || []).length,
+      focus: shopFocusForCategory(cat.key, signalSet)
+    };
+  }).filter((item) => item.count > 0).sort((a, b) => b.count - a.count);
+  const focus = scoredCats.slice(0, 3).map((item) => item.focus[0] || item.cat.name).filter(Boolean).join("、");
+  const allShopItems = scoredCats.flatMap((item) => compact.categorySignals[item.cat.key]?.shop || []);
+  return `今日全品类电商热销品以${focus || "高频刚需商品"}为主，${shopNodeCue(allShopItems)}。`;
+}
+
 function topModuleLead(compact, kind) {
   const items = topModuleItems(compact, kind);
   const top = items[0];
   if (!top) return kind === "shop" ? "今日电商侧暂无明显热销商品信号。" : "今日热搜侧暂无明显热点信号。";
   return kind === "shop"
-    ? `今日电商热销侧识别到 ${items.length} 条消费品信号,代表商品来自「${top.title}」。`
+    ? shopInsightLead(compact)
     : `今日热搜侧识别到 ${items.length} 条消费品相关热点,最高热度来自「${top.title}」。`;
 }
 
