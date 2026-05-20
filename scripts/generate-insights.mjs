@@ -73,23 +73,23 @@ const fallbackPlaybook = {
     { sub: "儿童出行用品", scene: "亲子外出与安全看护", topics: ["安全座椅", "推车", "餐椅", "背带"] }
   ],
   FOOD: [
+    { sub: "饮料茶饮", scene: "夏季解暑与 0 糖风潮", topics: ["椰子水", "电解质", "0糖", "茶饮", "咖啡"] },
     { sub: "乳制品", scene: "高端化、健身与儿童成长", topics: ["牛奶", "酸奶", "乳制品", "低脂"] },
-    { sub: "饮料茶饮", scene: "夏季解暑与 0 糖风潮", topics: ["奶茶", "咖啡", "饮料", "0糖"] },
     { sub: "零食坚果", scene: "追剧、办公室与囤货", topics: ["零食", "坚果", "薯片", "饼干"] },
     { sub: "生鲜水果", scene: "时令尝鲜与健康饮食", topics: ["水果", "榴莲", "西瓜", "车厘子"] },
-    { sub: "速食预制菜", scene: "工作日晚餐与懒人厨房", topics: ["方便面", "速食", "预制菜", "火锅"] }
+    { sub: "轻食速食", scene: "工作日晚餐与控卡代餐", topics: ["方便面", "速食", "预制菜", "轻食"] }
   ],
   BEAU: [
-    { sub: "抗老精华", scene: "熬夜抗老与成分党", topics: ["精华", "抗老", "视黄醇", "烟酰胺"] },
     { sub: "敏感肌修护", scene: "换季泛红与屏障修护", topics: ["敏感肌", "修护", "薇诺娜", "理肤泉"] },
+    { sub: "抗老精华", scene: "熬夜抗老与成分党", topics: ["精华", "抗老", "视黄醇", "烟酰胺"] },
     { sub: "底妆遮瑕", scene: "通勤定妆与婚礼妆", topics: ["粉底", "气垫", "遮瑕", "定妆"] },
     { sub: "防晒美白", scene: "户外旅行与通勤防晒", topics: ["防晒", "美白", "UPF", "海岛"] },
     { sub: "彩妆香氛", scene: "妆容焕新与礼赠场景", topics: ["口红", "眼影", "香水", "美瞳"] }
   ],
   CLOT: [
+    { sub: "内衣家居服", scene: "舒适支撑与居家外穿", topics: ["内衣", "家居服", "ubras", "蕉内"] },
     { sub: "夏季防晒衣", scene: "通勤防晒与户外徒步", topics: ["防晒衣", "冰丝", "UPF", "户外"] },
-    { sub: "内衣家居服", scene: "无尺码与软支撑", topics: ["内衣", "家居服", "ubras", "蕉内"] },
-    { sub: "运动鞋", scene: "跑团与城市马拉松", topics: ["跑鞋", "运动鞋", "安踏", "李宁"] },
+    { sub: "运动鞋服", scene: "跑团训练与轻运动穿搭", topics: ["跑鞋", "运动鞋", "瑜伽裤", "速干"] },
     { sub: "国潮中式", scene: "新中式与国风穿搭", topics: ["汉服", "马面裙", "新中式", "国风"] },
     { sub: "箱包配饰", scene: "通勤收纳与穿搭点睛", topics: ["箱包", "帽子", "眼镜", "手表"] }
   ],
@@ -213,24 +213,28 @@ function normalizeKey(text = "") {
 function topicIdeasForRow(row, hotTerms) {
   const cleanedHotTerms = uniq(hotTerms.map(cleanTopicIdea).filter(Boolean), 5);
   const hotKeys = new Set(cleanedHotTerms.map(normalizeKey));
+  const seeds = cleanedHotTerms.length ? cleanedHotTerms.slice(0, 2) : (row.topics || []).slice(0, 2);
+  const seedText = seeds.length ? seeds.join(" × ") : row.sub;
+  const ideas = [
+    `${seedText}人群痛点实测`,
+    `${row.sub}选购避坑清单`,
+    `${row.scene}场景改造前后对比`,
+    `${row.sub}真实体验拆解`,
+    `${row.sub}一周体验挑战`,
+    `${seedText}达人共创脚本`
+  ];
   if (cleanedHotTerms.length) {
-    return uniq([
-      `${row.sub}\u70ed\u70b9\u501f\u52bf`,
-      `${row.scene}\u6e05\u5355`,
-      `${row.sub}\u9009\u8d2d\u907f\u5751`,
-      `${row.sub}\u573a\u666f\u5b9e\u6d4b`,
-      `${row.sub}\u4eba\u7fa4\u75db\u70b9\u6d4b\u8bd5`
-    ].map(cleanTopicIdea).filter((item) => item && !hotKeys.has(normalizeKey(item))), 5);
+    return uniq(ideas.map(cleanTopicIdea).filter((item) => item && !hotKeys.has(normalizeKey(item))), 5);
   }
-  return uniq((row.topics || []).map(cleanTopicIdea).filter(Boolean), 5);
+  return uniq(ideas.map(cleanTopicIdea).filter(Boolean), 5);
 }
 
 function scenesForRow(row, hotTerms) {
   const base = [
     row.scene,
-    `${row.sub}\u70ed\u70b9\u501f\u52bf`,
-    `${row.sub}\u4eba\u7fa4\u8f6c\u5316`,
-    `${row.sub}\u4ea7\u54c1\u79cd\u8349`
+    `${row.sub}\u573a\u666f\u6e05\u5355`,
+    `${row.sub}\u4eba\u7fa4\u75db\u70b9`,
+    `${row.sub}\u4ea7\u54c1\u4f53\u9a8c`
   ];
   if (hotTerms[0]) base.splice(1, 0, `${hotTerms[0]}\u627f\u63a5`);
   return uniq(base.map(cleanTopicIdea).filter(Boolean), 4);
@@ -247,7 +251,7 @@ function fallbackRowsForCategory(cat, compact) {
     const rowKeys = uniq([row.sub, ...row.topics], 20);
     const rowSignals = hotSignals.filter((item) => rowKeys.some((key) => item.title.includes(key)));
     const top = rowSignals[0];
-    const pickedHotSignals = rowSignals.length ? rowSignals : hotSignals.slice(index, index + 1);
+    const pickedHotSignals = rowSignals;
     const hotTerms = uniq(pickedHotSignals.map((item) => item.title), 5);
     const topicIdeas = topicIdeasForRow(row, hotTerms);
     const rowShop = shopSignals.find((item) => rowKeys.some((key) => item.title.includes(key)));
@@ -477,6 +481,8 @@ function buildSystemPrompt() {
     "topicIdeas must not duplicate hotTerms. If hotTerms has 手机集体大降价, topicIdeas should be like 换机党价格避坑 or 线下新机还值不值, not 手机集体大降价 again.",
     "Do not output mechanical suffixes like 内容钩子, 场景种草, 话题钩子, or 营销钩子. A good topicIdeas item should look like a real topic tag, not an instruction label.",
     "topics must equal topicIdeas for frontend compatibility.",
+    "For FOOD, BEAU, CLOT, and EDU, use the same playbook logic as APPL, HOME, and BABY: choose real subcategories, write useful scenes, separate hotTerms from creative topicIdeas, and keep each row within its own subcategory.",
+    "EDU includes platform-economy rows such as 本地餐饮, 旅行出行, and 二手回收 when ranking signals support them. Keep these rows if relevant; do not replace them with only school/course categories.",
     "strategy must analyze category, hotspots, products, and topicIdeas. It should be content-led: give concrete creative angles, content formats, scripts, scenes, hooks, comparison/list ideas, or creator collaboration ideas. Use Chinese markers \u3010\u91cd\u70b9\u3011 and \u3010\u6295\u653e\u3011 only. Do not include a \u3010\u590d\u7528\u3011 section.",
     "The \u3010\u91cd\u70b9\u3011 part should be rich and useful, usually 2-4 sentences. The \u3010\u6295\u653e\u3011 part should be short, usually 1 sentence.",
     "strategy placement must only use ByteDance ecosystem channels: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not literally write \u201c\u4ec5\u9650\u5b57\u8282\u751f\u6001\u201d. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
