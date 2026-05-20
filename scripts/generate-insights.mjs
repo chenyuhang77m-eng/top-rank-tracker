@@ -210,19 +210,44 @@ function normalizeKey(text = "") {
   return String(text || "").toLowerCase().replace(/\s+/g, "");
 }
 
+function contentIdeasForRow(row) {
+  const text = `${row.sub} ${row.scene}`;
+  const banks = [
+    [/清洁|扫地|洗地|家清/, ["不同预算清洁家电选购清单", "520送另一半减负家电指南", "养宠家庭地面清洁实测"]],
+    [/空冰洗|空调|冰箱|洗衣机|以旧换新|国补/, ["国补家电焕新预算清单", "老房换新前后电费对比", "三口之家大件家电避坑指南"]],
+    [/厨房小家电|早餐|轻食|晚餐/, ["10分钟早餐小家电清单", "厨房新手不翻车食谱挑战", "打工人低油晚餐设备组合"]],
+    [/厨卫|卫浴|装修|整装|局改/, ["厨卫局改预算分层清单", "卫生间三天改造前后对比", "厨房动线避坑实拍"]],
+    [/寝具|助眠|床垫|枕头/, ["熬夜党助眠寝具清单", "换季床品舒适度实测", "不同预算床垫避坑指南"]],
+    [/饮料|茶饮|咖啡|椰子水|电解质/, ["夏季通勤补水饮料清单", "火锅后解腻饮品盲测", "低糖饮料成分避坑指南"]],
+    [/乳制品|牛奶|酸奶|蛋白/, ["早餐高蛋白乳制品搭配", "健身党低脂酸奶测评", "儿童成长奶源选择清单"]],
+    [/零食|坚果/, ["儿童零食安全成分避坑清单", "办公室抽屉囤货红黑榜", "追剧零食不脏手盲测"]],
+    [/水果|生鲜/, ["应季水果甜度盲测", "家庭囤水果保鲜指南", "办公室分享水果清单"]],
+    [/轻食|速食|预制菜|方便面/, ["10分钟晚餐速食清单", "控卡不挨饿轻食测评", "加班夜宵低负担选择"]],
+    [/敏感|修护|屏障/, ["换季泛红修护日记", "敏感肌成分避坑清单", "医美后修护步骤实测"]],
+    [/抗老|精华|成分/, ["熬夜党抗老精华清单", "早C晚A耐受建立计划", "空瓶成分复盘"]],
+    [/底妆|遮瑕|定妆/, ["10小时通勤持妆挑战", "不同肤质底妆上脸对比", "婚礼妆遮瑕避坑清单"]],
+    [/防晒|美白/, ["海岛通勤双场景防晒清单", "补涂不搓泥实测", "油皮干皮防晒肤感对比"]],
+    [/彩妆|香氛|唇妆/, ["新中式妆容色号清单", "通勤约会两用口红试色", "礼赠香氛预算指南"]],
+    [/内衣|家居服/, ["不同身材内衣试穿实录", "居家外穿家居服搭配", "夏季无痕舒适内衣清单"]],
+    [/防晒衣|户外/, ["通勤户外两穿防晒衣清单", "防晒衣凉感实测", "亲子出行防晒单品搭配"]],
+    [/运动鞋|运动鞋服|跑鞋/, ["5公里跑鞋脚感实测", "通勤运动两穿搭配", "跑团新手装备清单"]],
+    [/国潮|中式|汉服|马面裙/, ["新中式日常通勤穿搭", "普通人国风改造前后", "节日国潮穿搭清单"]],
+    [/箱包|配饰|腕表/, ["通勤一周包表搭配", "职场新人配饰预算清单", "大容量通勤包实测"]],
+    [/K12|学习|早教|辅导/, ["暑期提分计划表", "AI错题本整理演示", "家长少盯作业工具清单"]],
+    [/考研|考公/, ["上岸学长备考复盘", "考前30天冲刺日历", "崩溃期备考陪伴内容"]],
+    [/餐饮|探店|团购/, ["人均50本地团购清单", "工作日午餐不踩雷地图", "周末聚餐预算攻略"]],
+    [/旅行|出行|酒店|机票/, ["3天2晚轻旅行预算拆解", "亲子出行省心路线", "机酒套餐避坑清单"]],
+    [/二手|回收|闲置/, ["旧机估价流程实拍", "以旧换新价格避坑", "闲置回血交易安全清单"]],
+    [/母婴|奶粉|纸尿裤|童|亲子|儿童/, ["婴童安全防护清单", "夏季红屁屁护理实测", "亲子出行安全装备指南"]],
+    [/AI|手机|电脑|数码|穿戴|耳机/, ["AI功能真实场景实测", "换机党预算避坑清单", "通勤效率装备组合"]]
+  ];
+  return banks.find(([re]) => re.test(text))?.[1] || [`${row.sub}选购避坑清单`, `${row.sub}真实体验对比`, `${row.scene}内容选题`];
+}
+
 function topicIdeasForRow(row, hotTerms) {
   const cleanedHotTerms = uniq(hotTerms.map(cleanTopicIdea).filter(Boolean), 5);
   const hotKeys = new Set(cleanedHotTerms.map(normalizeKey));
-  const seeds = cleanedHotTerms.length ? cleanedHotTerms.slice(0, 2) : (row.topics || []).slice(0, 2);
-  const seedText = seeds.length ? seeds.join(" × ") : row.sub;
-  const ideas = [
-    `${seedText}人群痛点实测`,
-    `${row.sub}选购避坑清单`,
-    `${row.scene}场景改造前后对比`,
-    `${row.sub}真实体验拆解`,
-    `${row.sub}一周体验挑战`,
-    `${seedText}达人共创脚本`
-  ];
+  const ideas = contentIdeasForRow(row);
   if (cleanedHotTerms.length) {
     return uniq(ideas.map(cleanTopicIdea).filter((item) => item && !hotKeys.has(normalizeKey(item))), 5);
   }
@@ -240,6 +265,91 @@ function scenesForRow(row, hotTerms) {
   return uniq(base.map(cleanTopicIdea).filter(Boolean), 4);
 }
 
+function benefitForRow(row) {
+  const text = `${row.sub} ${row.scene}`;
+  const rules = [
+    [/清洁|扫地|洗地|家清|纸巾|洗衣|湿巾/, "省时省力、解放双手"],
+    [/空冰洗|空调|冰箱|洗衣机|以旧换新|国补/, "高性价比焕新和省电省心"],
+    [/厨房|小家电|轻食|速食|早餐|晚餐/, "省时间、低门槛和稳定出品"],
+    [/厨卫|卫浴|装修|整装|局改/, "提升居住效率和减少装修踩坑"],
+    [/寝具|助眠|床垫|枕头/, "改善睡眠质量和换季舒适感"],
+    [/饮料|茶饮|咖啡|椰子水|电解质/, "清爽解腻、补水和低负担"],
+    [/乳制品|牛奶|酸奶|蛋白/, "高蛋白、低负担和日常营养补充"],
+    [/零食|坚果/, "好吃不踩雷、囤货方便和场景陪伴"],
+    [/水果|生鲜/, "新鲜应季、口感可视化和健康分享"],
+    [/敏感|修护|屏障/, "温和修护和降低换季不适"],
+    [/抗老|精华|成分/, "成分可信、长期改善和抗老效率"],
+    [/底妆|遮瑕|定妆/, "持妆稳定和真实肤质适配"],
+    [/防晒|美白/, "通勤防护、户外安心和肤感舒适"],
+    [/彩妆|香氛|唇妆/, "妆容氛围和礼赠表达"],
+    [/内衣|家居服/, "舒适支撑和居家外穿自由"],
+    [/防晒衣|户外/, "防晒防闷和通勤户外两穿"],
+    [/运动鞋|运动鞋服|跑鞋/, "支撑舒适和轻运动效率"],
+    [/国潮|中式|汉服|马面裙/, "日常化穿搭和文化氛围感"],
+    [/箱包|配饰|腕表/, "通勤收纳、造型完成度和礼赠体面"],
+    [/K12|学习|早教|辅导/, "提效减负和学习进步可视化"],
+    [/考研|考公/, "备考陪伴、方法拆解和上岸信心"],
+    [/餐饮|探店|团购/, "省钱好吃和本地生活决策效率"],
+    [/旅行|出行|酒店|机票/, "省心规划和预算可控"],
+    [/二手|回收|闲置/, "估价透明、低成本换新和降低交易顾虑"],
+    [/母婴|奶粉|纸尿裤|童|亲子|儿童/, "安全安心和育儿减负"],
+    [/AI|手机|电脑|数码|穿戴|耳机/, "效率提升、体验升级和决策避坑"]
+  ];
+  return rules.find(([re]) => re.test(text))?.[1] || "解决用户痛点和提升购买决策效率";
+}
+
+function strategyForRow(row, hotTitle, rowShop, topicIdeas) {
+  const benefit = benefitForRow(row);
+  const sceneText = hotTitle
+    ? `结合「${hotTitle}」的讨论热度和「${row.scene}」场景`
+    : `结合「${row.scene}」的日常场景`;
+  const ideas = uniq(contentIdeasForRow(row), 3).join("、") || uniq(topicIdeas, 3).join("、") || `${row.sub}选购清单、真实体验对比`;
+  const productText = rowShop ? `，用热销 SKU 做案例露出和卖点验证` : "";
+  return `【重点】主打${benefit}的卖点，${sceneText}，输出「${ideas}」等内容创意；内容重点突出场景痛点、预算分层和真实体验，让${row.sub}的选择理由更具体${productText}。【投放】抖音首发，巨量引擎小额放大，巨量星图匹配垂类达人。`;
+}
+
+function categoryFocusLabels(catKey, rows, hotSignals) {
+  const text = `${rows.map((row) => `${row.sub} ${row.scene} ${(row.hotTerms || []).join(" ")}`).join(" ")} ${hotSignals.map((item) => item.title).join(" ")}`;
+  const banks = {
+    C3: [[/AI|DeepSeek|大模型|算力|芯片/i, "AI技术"], [/游戏|王者|电竞|RTX/i, "游戏娱乐"], [/手机|iPhone|华为|小米/i, "换机决策"], [/影像|相机|大疆|Vlog/i, "影像创作"]],
+    HOME: [[/装修|整装|局改|厨卫|卫浴/i, "局部改造"], [/收纳|软装|家居/i, "居家效率"], [/清洁|纸巾|洗衣/i, "家庭清洁"], [/助眠|床垫|寝具/i, "换季舒适"]],
+    APPL: [[/清洁|扫地|洗地/i, "懒人清洁"], [/空调|冰箱|洗衣|国补|以旧换新/i, "家电焕新"], [/厨房|早餐|轻食/i, "厨房效率"], [/电视|影音|投影/i, "客厅娱乐"]],
+    BABY: [[/安全|座椅|推车|儿童|宝宝|婴/i, "婴童安全防护"], [/纸尿裤|湿巾/i, "夏季护理"], [/奶粉|喂养/i, "科学喂养"], [/早教|学习/i, "成长学习"]],
+    FOOD: [[/零食|肉干|坚果|蚂蚁/i, "零食安全与囤货"], [/饮料|茶饮|咖啡|椰子水|电解质/i, "饮品解暑与低负担"], [/乳制品|牛奶|酸奶|蛋白/i, "营养补充"], [/水果|生鲜|榴莲/i, "时令尝鲜"]],
+    BEAU: [[/敏感|修护|屏障/i, "敏感肌修护"], [/抗老|精华|成分|视黄醇/i, "成分功效"], [/底妆|遮瑕|定妆/i, "持妆表现"], [/防晒|美白/i, "户外防护"]],
+    CLOT: [[/穿搭|cleanfit|裙|国风|中式/i, "穿搭风格"], [/内衣|家居服/i, "舒适支撑"], [/防晒衣|户外/i, "防晒功能"], [/运动|跑鞋|瑜伽/i, "轻运动场景"]],
+    EDU: [[/京东|美团|大众点评|团购|本地/i, "平台补贴与本地生活"], [/旅行|景区|酒店|机票|携程|飞猪/i, "旅行出行决策"], [/二手|回收|闲鱼|转转/i, "低成本换新"], [/学习|考研|考公|K12/i, "学习提效"]]
+  };
+  const labels = (banks[catKey] || [])
+    .filter(([re]) => re.test(text))
+    .map(([, label]) => label);
+  return uniq(labels, 3);
+}
+
+function categoryConcern(catKey) {
+  return {
+    C3: "技术体验、娱乐效率与换机价值",
+    HOME: "居住效率、空间改造与生活舒适度",
+    APPL: "省时省力、焕新补贴与真实使用效果",
+    BABY: "产品安全性、护理便利与成长陪伴",
+    FOOD: "食品安全、低负担饮食和场景化囤货",
+    BEAU: "成分功效、肤质适配和真实使用反馈",
+    CLOT: "穿搭场景、舒适功能和风格表达",
+    EDU: "平台服务效率、价格权益和决策风险"
+  }[catKey] || "消费决策效率";
+}
+
+function categoryLead(cat, signalSet, rows) {
+  const hotSignals = signalSet.hot || [];
+  const labels = categoryFocusLabels(cat.key, rows, hotSignals);
+  const focus = labels.length ? labels.join("、") : rows.slice(0, 3).map((row) => row.sub).join("、");
+  const concern = categoryConcern(cat.key);
+  if (hotSignals.length) {
+    return `今日${cat.name}类热点集中在${focus}，用户对${concern}关注度提升，可绑定热点做场景化内容种草。`;
+  }
+  return `今日${cat.name}类暂无强热搜信号，内容可聚焦${focus}等常青场景，用具体卖点和选购清单承接搜索需求。`;
+}
+
 function fallbackRowsForCategory(cat, compact) {
   const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [], all: [] };
   const hotSignals = signalSet.hot || [];
@@ -255,9 +365,6 @@ function fallbackRowsForCategory(cat, compact) {
     const hotTerms = uniq(pickedHotSignals.map((item) => item.title), 5);
     const topicIdeas = topicIdeasForRow(row, hotTerms);
     const rowShop = shopSignals.find((item) => rowKeys.some((key) => item.title.includes(key)));
-    const productText = rowShop
-      ? `\u70ed\u9500\u5546\u54c1\u53ef\u7528\u300c${rowShop.title}\u300d\u627f\u63a5\u8f6c\u5316`
-      : '\u7535\u5546\u4fa7\u6682\u65e0\u5f3a\u5173\u8054 SKU,\u5148\u7528\u4e92\u52a8\u6700\u9ad8\u7684\u70ed\u70b9\u8bcd\u9a8c\u8bc1\u9700\u6c42';
 
     return {
       sub: row.sub,
@@ -266,9 +373,7 @@ function fallbackRowsForCategory(cat, compact) {
       hotTerms,
       topicIdeas,
       topics: topicIdeas,
-      strategy: pickedHotSignals[0]
-        ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${pickedHotSignals[0].title}\u300d\u62c6\u51fa 3 \u6761\u5185\u5bb9\u7ebf:\u5148\u7528\u70ed\u70b9\u89e3\u91ca\u964d\u4f4e\u7406\u89e3\u95e8\u69db,\u518d\u7528\u300c\u4eba\u7fa4\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u505a\u77ed\u89c6\u9891\u811a\u672c,\u6700\u540e\u7528\u6e05\u5355/\u6a2a\u8bc4/\u6539\u9020\u524d\u540e\u5bf9\u6bd4\u628a\u8bdd\u9898\u8f6c\u6210\u53ef\u8d2d\u4e70\u7406\u7531,${productText}\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u9996\u53d1,\u5de8\u91cf\u5f15\u64ce\u5c0f\u989d\u653e\u5927,\u5de8\u91cf\u661f\u56fe\u5339\u914d\u5782\u7c7b\u8fbe\u4eba\u3002`
-        : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${row.sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${row.scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9:\u7528\u573a\u666f\u6e05\u5355\u627f\u63a5\u641c\u7d22\u9700\u6c42,\u7528\u7528\u6237\u75db\u70b9\u5f00\u5934\u63d0\u9ad8\u505c\u7559,\u518d\u7528\u4ea7\u54c1\u7ec6\u8282/\u5b9e\u6d4b\u7247\u6bb5\u5efa\u7acb\u4fe1\u4efb\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u4f01\u4e1a\u53f7\u5148\u53d1,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u6d4b\u7d20\u6750\u3002`
+      strategy: strategyForRow(row, pickedHotSignals[0]?.title, rowShop, topicIdeas)
     };
   });
 }
@@ -307,12 +412,7 @@ function normalizeCategory(cat, inputCategory, compact) {
       if (irrelevantHot) {
         const top = matchedHot[0];
         const rowShop = shopSignals.find((item) => rowKeys.some((key) => key && item.title.includes(key)));
-        const productText = rowShop
-          ? `\u70ed\u9500\u5546\u54c1\u53ef\u7528\u300c${rowShop.title}\u300d\u627f\u63a5\u8f6c\u5316`
-          : '\u7535\u5546\u4fa7\u6682\u65e0\u5f3a\u5173\u8054 SKU,\u5148\u7528\u4e92\u52a8\u6700\u9ad8\u7684\u70ed\u70b9\u8bcd\u9a8c\u8bc1\u9700\u6c42';
-        strategy = top
-          ? `\u3010\u91cd\u70b9\u3011\u56f4\u7ed5\u300c${top.title}\u300d\u62c6\u51fa 3 \u6761\u5185\u5bb9\u7ebf:\u5148\u7528\u70ed\u70b9\u89e3\u91ca\u964d\u4f4e\u7406\u89e3\u95e8\u69db,\u518d\u7528\u300c\u4eba\u7fa4\u75db\u70b9 + \u4ea7\u54c1\u573a\u666f\u300d\u505a\u77ed\u89c6\u9891\u811a\u672c,\u6700\u540e\u7528\u6e05\u5355/\u6a2a\u8bc4/\u6539\u9020\u524d\u540e\u5bf9\u6bd4\u628a\u8bdd\u9898\u8f6c\u6210\u53ef\u8d2d\u4e70\u7406\u7531,${productText}\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u9996\u53d1,\u5de8\u91cf\u5f15\u64ce\u5c0f\u989d\u653e\u5927,\u5de8\u91cf\u661f\u56fe\u5339\u914d\u5782\u7c7b\u8fbe\u4eba\u3002`
-          : `\u3010\u91cd\u70b9\u3011\u4eca\u65e5${sub}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u56f4\u7ed5\u300c${scene}\u300d\u505a\u5e38\u9752\u5185\u5bb9:\u7528\u573a\u666f\u6e05\u5355\u627f\u63a5\u641c\u7d22\u9700\u6c42,\u7528\u7528\u6237\u75db\u70b9\u5f00\u5934\u63d0\u9ad8\u505c\u7559,\u518d\u7528\u4ea7\u54c1\u7ec6\u8282/\u5b9e\u6d4b\u7247\u6bb5\u5efa\u7acb\u4fe1\u4efb\u3002\u3010\u6295\u653e\u3011\u6296\u97f3\u4f01\u4e1a\u53f7\u5148\u53d1,\u5de8\u91cf\u661f\u56fe\u5c0f\u578b\u8fbe\u4eba\u6d4b\u7d20\u6750\u3002`;
+        strategy = strategyForRow({ sub, scene, topics: safeTopicIdeas }, top?.title, rowShop, safeTopicIdeas);
       }
       const rawScenes = uniq(
         Array.isArray(row.scenes) && row.scenes.length
@@ -337,13 +437,10 @@ function normalizeCategory(cat, inputCategory, compact) {
     if (rows.length >= rowsPerCategory) break;
   }
 
-  const top = hotSignals[0] || allSignals[0];
   return {
     lead:
       inputCategory?.lead ||
-      (top
-        ? `\u4eca\u65e5${cat.name}\u547d\u4e2d ${hotSignals.length} \u6761\u70ed\u70b9\u4fe1\u53f7\u4e0e ${(signalSet.shop || []).length} \u6761\u5546\u54c1\u4fe1\u53f7,\u4f18\u5148\u56f4\u7ed5\u300c${top.title}\u300d\u5c55\u5f00\u8425\u9500\u7b56\u7565\u3002`
-        : `\u4eca\u65e5${cat.name}\u6682\u65e0\u5f3a\u70ed\u70b9\u4fe1\u53f7,\u5c55\u793a ${rowsPerCategory} \u4e2a\u5e38\u9752\u515c\u5e95\u7c7b\u76ee\u3002`),
+      categoryLead(cat, signalSet, rows),
     bullets:
       Array.isArray(inputCategory?.bullets) && inputCategory.bullets.length
         ? inputCategory.bullets.slice(0, 4)
@@ -476,15 +573,16 @@ function buildSystemPrompt() {
     "For each row: sub is the secondary category; scene is one concise marketing scenario generated from the hotspot insight and the subcategory. It must never be empty.",
     "scenes must contain 2-4 concise Chinese marketing scenario phrases generated by you for this subcategory, such as 换机降价促销, 亲子出行安全, 夏季清洁囤货, 熬夜修护测评. Do not copy generic fallback labels only.",
     "hotTerms must contain 3-5 short terms or short phrases from real hot-search data. Do not put full product titles in hotTerms.",
-    "topicIdeas must contain 3-5 innovative Chinese marketing topic phrases that this subcategory can use for content or ads. They should combine the hotspot, subcategory, audience pain point, and product angle. Examples: 手机降价避坑清单, AI影像记忆挑战, 洗衣液囤货实验, 亲子防晒通勤测评.",
+    "topicIdeas must contain 3-5 concrete Chinese content ideas that this subcategory can use directly. They should look like publishable topics, not abstract templates. Examples: 不同预算清洁家电选购清单, 520送另一半减负家电指南, 儿童零食安全成分避坑清单, 换季泛红修护日记, 人均50本地团购清单.",
     "topicIdeas must not simply repeat category words like iPhone, 洗衣液, 纸巾 unless they are part of a meaningful marketing topic phrase.",
     "topicIdeas must not duplicate hotTerms. If hotTerms has 手机集体大降价, topicIdeas should be like 换机党价格避坑 or 线下新机还值不值, not 手机集体大降价 again.",
-    "Do not output mechanical suffixes like 内容钩子, 场景种草, 话题钩子, or 营销钩子. A good topicIdeas item should look like a real topic tag, not an instruction label.",
+    "Do not output mechanical suffixes or templates like 内容钩子, 场景种草, 话题钩子, 营销钩子, 人群痛点实测, 场景改造前后对比, 真实体验拆解, or 一周体验挑战.",
     "topics must equal topicIdeas for frontend compatibility.",
     "For FOOD, BEAU, CLOT, and EDU, use the same playbook logic as APPL, HOME, and BABY: choose real subcategories, write useful scenes, separate hotTerms from creative topicIdeas, and keep each row within its own subcategory.",
     "EDU includes platform-economy rows such as 本地餐饮, 旅行出行, and 二手回收 when ranking signals support them. Keep these rows if relevant; do not replace them with only school/course categories.",
-    "strategy must analyze category, hotspots, products, and topicIdeas. It should be content-led: give concrete creative angles, content formats, scripts, scenes, hooks, comparison/list ideas, or creator collaboration ideas. Use Chinese markers \u3010\u91cd\u70b9\u3011 and \u3010\u6295\u653e\u3011 only. Do not include a \u3010\u590d\u7528\u3011 section.",
-    "The \u3010\u91cd\u70b9\u3011 part should be rich and useful, usually 2-4 sentences. The \u3010\u6295\u653e\u3011 part should be short, usually 1 sentence.",
+    "strategy must analyze category, hotspots, products, and topicIdeas. It should directly give creative content advice in this style: 主打懒人解放双手的卖点，结合520送另一半减负的情感场景，输出不同预算的清洁家电选购清单。",
+    "The \u3010\u91cd\u70b9\u3011 part must include: main selling point, linked scenario/topic, and concrete content ideas. Do not write meta instructions such as 围绕热点拆出3条内容线, 先用热点解释降低理解门槛, 用人群痛点+产品场景做脚本, or 做常青内容.",
+    "Use Chinese markers \u3010\u91cd\u70b9\u3011 and \u3010\u6295\u653e\u3011 only. Do not include a \u3010\u590d\u7528\u3011 section. The \u3010\u6295\u653e\u3011 part should be short, usually 1 sentence.",
     "strategy placement must only use ByteDance ecosystem channels: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not literally write \u201c\u4ec5\u9650\u5b57\u8282\u751f\u6001\u201d. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
     "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
     "Return a valid JSON object only. No Markdown. No commentary.",
@@ -493,6 +591,7 @@ function buildSystemPrompt() {
     "briefs.hot explains today's hot-search attention structure. briefs.shop explains ecommerce/hot-selling product signals. briefs.trend explains cross-platform resonance and multi-day movement. briefs.cloud explains topic-vs-product word cloud interpretation. briefs.marketing summarizes the playbook opportunity.",
     "All module briefs must be written by you from the input data, in concise Chinese editorial style, and must not be generic placeholders.",
     "categories must include C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, EDU.",
+    "Each category lead must summarize the category like: 今日数码3C类热点集中在AI技术、游戏娱乐两大方向，可绑定热点做场景化种草. Or: 今日母婴类热点集中在婴童安全防护，家长对产品安全性关注度显著提升.",
     "Each category object includes lead, bullets, rows. bullets has at most 4 items; rows has exactly 5 items."
   ].join("\n");
 }
@@ -693,15 +792,12 @@ function fallbackInsights(latest, reason) {
   const makeCategory = (cat) => {
     const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [], all: [] };
     const hotSignals = signalSet.hot || [];
-    const shopSignals = signalSet.shop || [];
-    const top = hotSignals[0] || signalSet.all?.[0];
-    const lead = top
-      ? `\u4eca\u65e5${cat.name}\u547d\u4e2d ${hotSignals.length} \u6761\u70ed\u70b9\u4fe1\u53f7\u4e0e ${shopSignals.length} \u6761\u5546\u54c1\u4fe1\u53f7,\u6700\u9ad8\u70ed\u70b9\u6765\u81ea\u300c${top.title}\u300d\u3002`
-      : `\u4eca\u65e5${cat.name}\u6ca1\u6709\u660e\u663e\u70ed\u70b9\u4fe1\u53f7,\u5efa\u8bae\u4fdd\u6301\u8f7b\u91cf\u89c2\u5bdf\u3002`;
+    const rows = fallbackRowsForCategory(cat, compact);
+    const lead = categoryLead(cat, signalSet, rows);
     return {
       lead,
       bullets: hotSignals.slice(0, 3).map((item) => `${item.sourceName}:${item.title}`),
-      rows: fallbackRowsForCategory(cat, compact)
+      rows
     };
   };
 
