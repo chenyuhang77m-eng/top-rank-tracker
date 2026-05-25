@@ -1,10 +1,10 @@
-# Top Rank Tracker
+# ◆ Top Rank Tracker
 
 每日自动抓取 TopHub 热搜榜与热销榜数据，记录重点榜单 Top 30，并生成可供 AI、程序或数据分析工具读取的历史 JSON 数据。
 
 完整搭建教程见：[GitHub Actions 每日榜单抓取工作流搭建指南](WORKFLOW_GUIDE.md)
 
-## 当前状态
+## ▌ 当前状态
 
 - 最新数据日期：以 `data/latest.json` 为准
 - 当前已归档日期索引：`data/index.json`
@@ -13,9 +13,9 @@
 - 热销榜不做内容过滤，按来源榜单顺序抓取 Top 30
 - 目前还会生成每日 AI 洞察，保存到 `data/insights/`
 
-## 抓取范围
+## ▌ 抓取范围
 
-### 热搜榜
+### ◇ 热搜榜
 
 默认抓取以下 5 个榜单，每个榜单保留 30 条：
 
@@ -31,7 +31,7 @@
 - 如果原榜前 30 中有内容被过滤，会继续向后顺延补齐
 - 数据保留来源榜单的原始排名，不重新编号，方便追溯
 
-### 热销榜
+### ◇ 热销榜
 
 默认抓取以下 5 个榜单，每个榜单保留 30 条：
 
@@ -47,7 +47,7 @@
 - 其余榜单优先选择覆盖面广、更新稳定、公开页面可直接拿到 Top 30 的榜单
 - 当当 / 畅销图书榜在 TopHub 公开页面展示条数不足，因此默认不选
 
-## 数据文件
+## ▌ 数据文件
 
 每日运行后会生成或更新：
 
@@ -74,7 +74,7 @@
 - `metric`：热度、销量或作者等补充信息
 - `url`：原始链接
 
-## 给 AI 读取的链接
+## ▌ 给 AI 读取的链接
 
 全量历史数据：
 
@@ -107,7 +107,7 @@ https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/Y
 https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/insights/YYYY-MM-DD.json
 ```
 
-## 本地运行
+## ▌ 本地运行
 
 强制抓取当天数据：
 
@@ -137,7 +137,7 @@ npm run daily
 
 `daily` 会先执行 `crawl:daily`，再执行 `insights`。
 
-## 自动运行
+## ▌ 自动运行
 
 主链路使用 Codex worktree 自动化，每天北京时间 09:25 检查并补抓。
 
@@ -166,7 +166,7 @@ AI 洞察依赖火山方舟 / Ark 兼容接口，需要在 GitHub Secrets 或 Va
 - `VOLCENGINE_BASE_URL` 或 `ARK_BASE_URL`
 - `VOLCENGINE_MODEL` 或 `ARK_MODEL`
 
-## 重要说明
+## ▌ 重要说明
 
 - GitHub Actions 的 `schedule` 事件不保证准点触发，可能延迟。
 - `raw.githubusercontent.com` 可能有短缓存，刚推送后如果看到旧数据，可以稍等几分钟再刷新。
