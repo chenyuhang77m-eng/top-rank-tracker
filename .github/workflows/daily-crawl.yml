@@ -24,9 +24,9 @@ jobs:
       - name: Crawl top lists and generate insights
         run: npm run daily
         env:
-          VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY || secrets.ARK_API_KEY || secrets.OPENAI_API_KEY }}
-          VOLCENGINE_BASE_URL: ${{ secrets.VOLCENGINE_BASE_URL || vars.VOLCENGINE_BASE_URL || secrets.ARK_BASE_URL || vars.ARK_BASE_URL || secrets.OPENAI_BASE_URL || vars.OPENAI_BASE_URL || 'https://ark.cn-beijing.volces.com/api/v3' }}
-          VOLCENGINE_MODEL: ${{ secrets.VOLCENGINE_MODEL || vars.VOLCENGINE_MODEL || secrets.ARK_MODEL || vars.ARK_MODEL || secrets.OPENAI_MODEL || vars.OPENAI_MODEL }}
+          VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY || secrets.ARK_API_KEY }}
+          VOLCENGINE_BASE_URL: ${{ secrets.VOLCENGINE_BASE_URL || vars.VOLCENGINE_BASE_URL || secrets.ARK_BASE_URL || vars.ARK_BASE_URL || 'https://ark.cn-beijing.volces.com/api/v3' }}
+          VOLCENGINE_MODEL: ${{ secrets.VOLCENGINE_MODEL || vars.VOLCENGINE_MODEL || secrets.ARK_MODEL || vars.ARK_MODEL }}
           REQUIRE_LLM: "1"
 
       - name: Commit data
