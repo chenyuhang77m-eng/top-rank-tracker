@@ -2,6 +2,8 @@ import fs from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import https from "node:https";
+import http from "node:http";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -648,6 +650,51 @@ function getLlmConfig() {
   return { apiKey, baseUrl, model };
 }
 
+// node:https POST that avoids undici 5-min headersTimeout. Returns fetch-shaped { ok, status, text() }.
+function httpsPostJson(url, { headers = {}, body, timeoutMs = llmTimeoutMs } = {}) {
+  return new Promise((resolve, reject) => {
+    let u;
+    try { u = new URL(url); } catch (e) { return reject(e); }
+    const client = u.protocol === "http:" ? http : https;
+    const payload = typeof body === "string" ? body : JSON.stringify(body);
+    const opts = {
+      method: "POST",
+      hostname: u.hostname,
+      port: u.port || (u.protocol === "http:" ? 80 : 443),
+      path: `${u.pathname}${u.search}`,
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Length": Buffer.byteLength(payload),
+        Connection: "close",
+        ...headers
+      }
+    };
+    const req = client.request(opts, (res) => {
+      const chunks = [];
+      res.on("data", (c) => chunks.push(c));
+      res.on("end", () => {
+        const text = Buffer.concat(chunks).toString("utf8");
+        const status = res.statusCode || 0;
+        resolve({
+          ok: status >= 200 && status < 300,
+          status,
+          text: async () => text
+        });
+      });
+      res.on("error", reject);
+    });
+    // Apply a single overall timeout to the whole request (covers connect + first-byte + body).
+    // Node default has no headersTimeout cap on raw http/https module, so this fully replaces
+    // undici's hard-coded 5-min headersTimeout that was killing ARK long first-token waits.
+    req.setTimeout(timeoutMs, () => {
+      req.destroy(new Error(`https request timed out after ${timeoutMs}ms`));
+    });
+    req.on("error", reject);
+    req.write(payload);
+    req.end();
+  });
+}
+
 async function postChatCompletion({ apiKey, baseUrl, model, input, responseFormat }) {
   const body = {
     model,
@@ -677,14 +724,10 @@ async function postChatCompletion({ apiKey, baseUrl, model, input, responseForma
     body.response_format = { type: "json_object" };
   }
 
-  return fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
-    },
-    signal: AbortSignal.timeout(llmTimeoutMs),
-    body: JSON.stringify(body)
+  return httpsPostJson(`${baseUrl}/chat/completions`, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body,
+    timeoutMs: llmTimeoutMs
   });
 }
 
@@ -714,14 +757,10 @@ async function postJsonRepair({ apiKey, baseUrl, model, invalidText, errorMessag
     response_format: { type: "json_object" }
   };
 
-  return fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
-    },
-    signal: AbortSignal.timeout(llmTimeoutMs),
-    body: JSON.stringify(body)
+  return httpsPostJson(`${baseUrl}/chat/completions`, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body,
+    timeoutMs: llmTimeoutMs
   });
 }
 
