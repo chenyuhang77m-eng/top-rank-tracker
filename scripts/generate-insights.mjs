@@ -7,8 +7,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const dataDir = path.join(rootDir, "data");
 const insightDir = path.join(dataDir, "insights");
-const llmTimeoutMs = Number(process.env.LLM_TIMEOUT_MS || 300_000);
+const llmTimeoutMs = Number(process.env.LLM_TIMEOUT_MS || 900_000);
 const rowsPerCategory = 5;
+const listItemsPerSource = Number(process.env.LLM_LIST_ITEMS_PER_SOURCE || 8);
+const categoryHotLimit = Number(process.env.LLM_CATEGORY_HOT_LIMIT || 8);
+const categoryShopLimit = Number(process.env.LLM_CATEGORY_SHOP_LIMIT || 8);
 
 function loadLocalEnv() {
   const envFiles = [
@@ -161,7 +164,7 @@ function compactLatest(latest) {
       category: list.category,
       sourceName: list.sourceName,
       listName: list.listName,
-      items: list.items.slice(0, 15).map((item) => ({
+      items: list.items.slice(0, listItemsPerSource).map((item) => ({
         rank: item.rank,
         title: item.title,
         metric: item.metric,
@@ -193,7 +196,9 @@ function compactLatest(latest) {
       }
       hot.sort((a, b) => b.metricValue - a.metricValue);
       shop.sort((a, b) => b.metricValue - a.metricValue);
-      return [cat.key, { hot, shop, all: [...hot, ...shop].sort((a, b) => b.metricValue - a.metricValue) }];
+      const trimmedHot = hot.slice(0, categoryHotLimit);
+      const trimmedShop = shop.slice(0, categoryShopLimit);
+      return [cat.key, { hot: trimmedHot, shop: trimmedShop, all: [...trimmedHot, ...trimmedShop].sort((a, b) => b.metricValue - a.metricValue) }];
     })
   );
   compact.fallbackSubcategories = fallbackPlaybook;
@@ -724,10 +729,15 @@ async function callLLM(latest) {
   const { apiKey, baseUrl, model } = getLlmConfig();
   const input = compactLatest(latest);
 
-  let res = await postChatCompletion({ apiKey, baseUrl, model, input, responseFormat: "json_schema" });
+  let res = await postChatCompletion({ apiKey, baseUrl, model, input, responseFormat: process.env.LLM_RESPONSE_FORMAT || "json_object" });
   let bodyText = await res.text();
 
-  if (!res.ok && res.status === 400 && /response_format|json_schema/i.test(bodyText)) {
+  if (process.env.LLM_RESPONSE_FORMAT !== "json_schema" && !res.ok && res.status === 400 && /json_object/i.test(bodyText)) {
+    res = await postChatCompletion({ apiKey, baseUrl, model, input });
+    bodyText = await res.text();
+  }
+
+  if (process.env.LLM_RESPONSE_FORMAT === "json_schema" && !res.ok && res.status === 400 && /response_format|json_schema/i.test(bodyText)) {
     res = await postChatCompletion({ apiKey, baseUrl, model, input, responseFormat: "json_object" });
     bodyText = await res.text();
   }

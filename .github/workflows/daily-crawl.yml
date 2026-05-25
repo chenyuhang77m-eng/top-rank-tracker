@@ -11,6 +11,7 @@ permissions:
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -27,6 +28,10 @@ jobs:
           VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY || secrets.ARK_API_KEY }}
           VOLCENGINE_BASE_URL: ${{ secrets.VOLCENGINE_BASE_URL || vars.VOLCENGINE_BASE_URL || secrets.ARK_BASE_URL || vars.ARK_BASE_URL || 'https://ark.cn-beijing.volces.com/api/v3' }}
           VOLCENGINE_MODEL: ${{ secrets.VOLCENGINE_MODEL || vars.VOLCENGINE_MODEL || secrets.ARK_MODEL || vars.ARK_MODEL }}
+          LLM_TIMEOUT_MS: "900000"
+          LLM_LIST_ITEMS_PER_SOURCE: "8"
+          LLM_CATEGORY_HOT_LIMIT: "8"
+          LLM_CATEGORY_SHOP_LIMIT: "8"
           REQUIRE_LLM: "1"
 
       - name: Commit data
