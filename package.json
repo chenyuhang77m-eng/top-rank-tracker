@@ -6,8 +6,9 @@
   "scripts": {
     "crawl": "node scripts/crawl.mjs",
     "crawl:daily": "node scripts/crawl.mjs --skip-if-exists",
+    "crawl:force": "node scripts/crawl.mjs",
     "insights": "node scripts/generate-insights.mjs",
-    "daily": "npm run crawl:daily && npm run insights"
+    "daily": "npm run crawl:force && npm run insights"
   },
   "engines": {
     "node": ">=20"
