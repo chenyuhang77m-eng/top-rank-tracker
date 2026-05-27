@@ -1,1330 +1,1039 @@
 {
   "date": "2026-05-27",
-  "capturedAt": "2026-05-27T14:51:46+08:00",
+  "capturedAt": "2026-05-27T15:15:31+08:00",
   "sourceData": "data/latest.json",
-  "model": "fallback",
-  "generatedAt": "2026-05-27T07:11:50.001Z",
-  "wordCloudSource": "fallback",
-  "fallbackReason": "VOLCENGINE_API_KEY/ARK_API_KEY or VOLCENGINE_MODEL/ARK_MODEL is not set.",
+  "model": "ep-20260519102839-pwzss",
+  "generatedAt": "2026-05-27T07:24:22.882Z",
+  "wordCloudSource": "llm",
   "wordClouds": {
     "topic": [
       {
-        "word": "木疆",
+        "word": "雷霆胜马刺",
         "weight": 100,
         "type": "topic"
       },
       {
-        "word": "回应",
+        "word": "人形机器人",
+        "weight": 98,
+        "type": "topic"
+      },
+      {
+        "word": "木疆无人机",
         "weight": 97,
         "type": "topic"
       },
       {
-        "word": "空调",
+        "word": "榴莲忘返",
+        "weight": 96,
+        "type": "topic"
+      },
+      {
+        "word": "猎德龙舟队",
+        "weight": 95,
+        "type": "topic"
+      },
+      {
+        "word": "王者狙击赛",
         "weight": 94,
         "type": "topic"
       },
       {
-        "word": "耀眼",
+        "word": "丰收风婚礼布置",
+        "weight": 93,
+        "type": "topic"
+      },
+      {
+        "word": "夏日出片穿搭",
+        "weight": 92,
+        "type": "topic"
+      },
+      {
+        "word": "锅包肉",
         "weight": 91,
         "type": "topic"
       },
       {
-        "word": "定档",
+        "word": "小米回购计划",
+        "weight": 90,
+        "type": "topic"
+      },
+      {
+        "word": "涉灾谣言鉴别",
+        "weight": 89,
+        "type": "topic"
+      },
+      {
+        "word": "耀眼定档",
         "weight": 88,
         "type": "topic"
       },
       {
-        "word": "中国",
+        "word": "十二生肖聊天记录挑战",
+        "weight": 87,
+        "type": "topic"
+      },
+      {
+        "word": "火遮眼内地定档",
+        "weight": 86,
+        "type": "topic"
+      },
+      {
+        "word": "林思琪捐款",
         "weight": 85,
         "type": "topic"
       },
       {
-        "word": "谣言",
+        "word": "空调省电技巧",
+        "weight": 84,
+        "type": "topic"
+      },
+      {
+        "word": "女教师打伞造谣事件",
+        "weight": 83,
+        "type": "topic"
+      },
+      {
+        "word": "林志玲辞职",
         "weight": 82,
         "type": "topic"
       },
       {
-        "word": "男子",
+        "word": "外卖订书钉",
+        "weight": 81,
+        "type": "topic"
+      },
+      {
+        "word": "VOGUE活动艺人",
+        "weight": 80,
+        "type": "topic"
+      },
+      {
+        "word": "丁程鑫喊张凌赫姐夫",
         "weight": 79,
         "type": "topic"
       },
       {
-        "word": "市值",
+        "word": "蔚来ES9上市",
+        "weight": 78,
+        "type": "topic"
+      },
+      {
+        "word": "雷霆马刺裁判误判",
+        "weight": 77,
+        "type": "topic"
+      },
+      {
+        "word": "AI高考解题禁用",
         "weight": 76,
         "type": "topic"
       },
       {
-        "word": "万亿",
+        "word": "拍照无色差技巧",
+        "weight": 75,
+        "type": "topic"
+      },
+      {
+        "word": "王鹤棣炸串店",
+        "weight": 74,
+        "type": "topic"
+      },
+      {
+        "word": "Jennie新歌争议",
         "weight": 73,
         "type": "topic"
       },
       {
-        "word": "不是",
+        "word": "沈月桃花坞",
+        "weight": 72,
+        "type": "topic"
+      },
+      {
+        "word": "广东生育冠军",
+        "weight": 71,
+        "type": "topic"
+      },
+      {
+        "word": "问界M9发布",
         "weight": 70,
         "type": "topic"
       },
       {
-        "word": "药店",
+        "word": "536分捡漏北大",
+        "weight": 69,
+        "type": "topic"
+      },
+      {
+        "word": "211米羊肉串",
+        "weight": 68,
+        "type": "topic"
+      },
+      {
+        "word": "稻城亚丁收费争议",
         "weight": 67,
         "type": "topic"
       },
       {
-        "word": "法拉利",
+        "word": "法拉利首款电车",
+        "weight": 66,
+        "type": "topic"
+      },
+      {
+        "word": "长鑫科技上市",
+        "weight": 65,
+        "type": "topic"
+      },
+      {
+        "word": "分时电价取消",
         "weight": 64,
         "type": "topic"
       },
       {
-        "word": "法拉",
+        "word": "长沙落雷",
+        "weight": 63,
+        "type": "topic"
+      },
+      {
+        "word": "药店被查",
+        "weight": 62,
+        "type": "topic"
+      },
+      {
+        "word": "五个女博士过敏投诉",
         "weight": 61,
         "type": "topic"
       },
       {
-        "word": "拉利",
+        "word": "海底捞关闭宠物友好店",
+        "weight": 60,
+        "type": "topic"
+      },
+      {
+        "word": "印度高温",
+        "weight": 59,
+        "type": "topic"
+      },
+      {
+        "word": "杭州高湿度",
         "weight": 58,
         "type": "topic"
       },
       {
-        "word": "雷霆",
-        "weight": 55,
+        "word": "抹茶出口暴涨",
+        "weight": 57,
         "type": "topic"
       },
       {
-        "word": "马刺",
-        "weight": 52,
-        "type": "topic"
-      },
-      {
-        "word": "雷霆战胜",
-        "weight": 49,
-        "type": "topic"
-      },
-      {
-        "word": "霆战胜马",
-        "weight": 46,
-        "type": "topic"
-      },
-      {
-        "word": "战胜马刺",
-        "weight": 43,
-        "type": "topic"
-      },
-      {
-        "word": "胜马刺总",
-        "weight": 40,
-        "type": "topic"
-      },
-      {
-        "word": "马刺总比",
-        "weight": 37,
-        "type": "topic"
-      },
-      {
-        "word": "刺总比分",
-        "weight": 34,
-        "type": "topic"
-      },
-      {
-        "word": "雷霆战",
-        "weight": 31,
-        "type": "topic"
-      },
-      {
-        "word": "霆战胜",
-        "weight": 28,
-        "type": "topic"
-      },
-      {
-        "word": "战胜马",
-        "weight": 25,
-        "type": "topic"
-      },
-      {
-        "word": "胜马刺",
-        "weight": 22,
-        "type": "topic"
-      },
-      {
-        "word": "马刺总",
-        "weight": 19,
-        "type": "topic"
-      },
-      {
-        "word": "刺总比",
-        "weight": 16,
-        "type": "topic"
-      },
-      {
-        "word": "总比分",
-        "weight": 13,
-        "type": "topic"
-      },
-      {
-        "word": "霆战",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "战胜",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "胜马",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "刺总",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "总比",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "比分",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "领先",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "林志玲辞",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "志玲辞去",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "林志玲",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "志玲辞",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "玲辞去",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "林志",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "志玲",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "玲辞",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "辞去",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "职务",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "国台办",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "国台",
-        "weight": 10,
-        "type": "topic"
-      },
-      {
-        "word": "台办",
-        "weight": 10,
+        "word": "大模型涨价",
+        "weight": 56,
         "type": "topic"
       }
     ],
     "product": [
       {
-        "word": "阅读",
+        "word": "纯牛奶",
         "weight": 100,
         "type": "product"
       },
       {
-        "word": "到手价",
+        "word": "防晒衣",
+        "weight": 99,
+        "type": "product"
+      },
+      {
+        "word": "高钙低脂牛奶",
+        "weight": 98,
+        "type": "product"
+      },
+      {
+        "word": "薄荷阔腿裤",
         "weight": 97,
         "type": "product"
       },
       {
-        "word": "手价",
+        "word": "早餐面包",
+        "weight": 96,
+        "type": "product"
+      },
+      {
+        "word": "洞洞鞋",
+        "weight": 95,
+        "type": "product"
+      },
+      {
+        "word": "艾绒去湿贴",
         "weight": 94,
         "type": "product"
       },
       {
-        "word": "年级",
+        "word": "带胸垫T恤",
+        "weight": 93,
+        "type": "product"
+      },
+      {
+        "word": "薯片",
+        "weight": 92,
+        "type": "product"
+      },
+      {
+        "word": "夏凉被",
         "weight": 91,
         "type": "product"
       },
       {
-        "word": "儿童",
+        "word": "亲子速干套装",
+        "weight": 90,
+        "type": "product"
+      },
+      {
+        "word": "有机银耳",
+        "weight": 89,
+        "type": "product"
+      },
+      {
+        "word": "毛戈平气垫",
         "weight": 88,
         "type": "product"
       },
       {
-        "word": "小学",
+        "word": "奥数启蒙练习册",
+        "weight": 87,
+        "type": "product"
+      },
+      {
+        "word": "酸奶",
+        "weight": 86,
+        "type": "product"
+      },
+      {
+        "word": "鱼子酱发膜",
         "weight": 85,
         "type": "product"
       },
       {
-        "word": "英语",
+        "word": "龙须面",
+        "weight": 84,
+        "type": "product"
+      },
+      {
+        "word": "桃酥饼干",
+        "weight": 83,
+        "type": "product"
+      },
+      {
+        "word": "悬挂式抽纸",
         "weight": 82,
         "type": "product"
       },
       {
-        "word": "幼儿",
+        "word": "减负护脊书包",
+        "weight": 81,
+        "type": "product"
+      },
+      {
+        "word": "童袜",
+        "weight": 80,
+        "type": "product"
+      },
+      {
+        "word": "洗地机",
         "weight": 79,
         "type": "product"
       },
       {
-        "word": "数学",
+        "word": "印花短袖",
+        "weight": 78,
+        "type": "product"
+      },
+      {
+        "word": "果干蜜饯",
+        "weight": 77,
+        "type": "product"
+      },
+      {
+        "word": "凉拖鞋",
         "weight": 76,
         "type": "product"
       },
       {
-        "word": "纯牛奶",
-        "weight": 73,
-        "type": "product"
-      },
-      {
-        "word": "纯牛",
-        "weight": 70,
-        "type": "product"
-      },
-      {
-        "word": "牛奶",
-        "weight": 67,
-        "type": "product"
-      },
-      {
-        "word": "启蒙",
-        "weight": 64,
-        "type": "product"
-      },
-      {
-        "word": "推荐",
-        "weight": 61,
-        "type": "product"
-      },
-      {
-        "word": "读书",
-        "weight": 58,
-        "type": "product"
-      },
-      {
-        "word": "黄子弘凡",
-        "weight": 55,
-        "type": "product"
-      },
-      {
-        "word": "子弘凡推",
-        "weight": 52,
-        "type": "product"
-      },
-      {
-        "word": "弘凡推荐",
-        "weight": 49,
-        "type": "product"
-      },
-      {
-        "word": "黄子弘",
-        "weight": 46,
-        "type": "product"
-      },
-      {
-        "word": "子弘凡",
-        "weight": 43,
-        "type": "product"
-      },
-      {
-        "word": "弘凡推",
-        "weight": 40,
-        "type": "product"
-      },
-      {
-        "word": "凡推荐",
-        "weight": 37,
-        "type": "product"
-      },
-      {
-        "word": "黄子",
-        "weight": 34,
-        "type": "product"
-      },
-      {
-        "word": "子弘",
-        "weight": 31,
-        "type": "product"
-      },
-      {
-        "word": "弘凡",
-        "weight": 28,
-        "type": "product"
-      },
-      {
-        "word": "凡推",
-        "weight": 25,
-        "type": "product"
-      },
-      {
-        "word": "理肤泉舒",
-        "weight": 22,
-        "type": "product"
-      },
-      {
-        "word": "肤泉舒缓",
-        "weight": 19,
-        "type": "product"
-      },
-      {
-        "word": "泉舒缓喷",
-        "weight": 16,
+        "word": "护发精油",
+        "weight": 75,
         "type": "product"
       },
       {
         "word": "舒缓喷雾",
-        "weight": 13,
+        "weight": 74,
         "type": "product"
       },
       {
-        "word": "理肤泉",
-        "weight": 10,
+        "word": "洗衣液",
+        "weight": 73,
         "type": "product"
       },
       {
-        "word": "肤泉舒",
-        "weight": 10,
+        "word": "香氛身体乳",
+        "weight": 72,
         "type": "product"
       },
       {
-        "word": "泉舒缓",
-        "weight": 10,
+        "word": "T恤合集",
+        "weight": 71,
         "type": "product"
       },
       {
-        "word": "舒缓喷",
-        "weight": 10,
+        "word": "唇釉",
+        "weight": 70,
         "type": "product"
       },
       {
-        "word": "缓喷雾",
-        "weight": 10,
+        "word": "辣条",
+        "weight": 69,
         "type": "product"
       },
       {
-        "word": "理肤",
-        "weight": 10,
+        "word": "驼奶钙片",
+        "weight": 68,
         "type": "product"
       },
       {
-        "word": "肤泉",
-        "weight": 10,
+        "word": "叶黄素眼贴",
+        "weight": 67,
         "type": "product"
       },
       {
-        "word": "泉舒",
-        "weight": 10,
+        "word": "儿童汗巾",
+        "weight": 66,
         "type": "product"
       },
       {
-        "word": "舒缓",
-        "weight": 10,
+        "word": "手剥笋",
+        "weight": 65,
         "type": "product"
       },
       {
-        "word": "缓喷",
-        "weight": 10,
+        "word": "决明子",
+        "weight": 64,
         "type": "product"
       },
       {
-        "word": "喷雾",
-        "weight": 10,
+        "word": "乳胶漆",
+        "weight": 63,
         "type": "product"
       },
       {
-        "word": "学生",
-        "weight": 10,
+        "word": "新生儿益生菌",
+        "weight": 62,
         "type": "product"
       },
       {
-        "word": "号粒",
-        "weight": 10,
+        "word": "沙发盖布",
+        "weight": 61,
         "type": "product"
       },
       {
-        "word": "年级下",
-        "weight": 10,
+        "word": "桌面小风扇",
+        "weight": 60,
         "type": "product"
       },
       {
-        "word": "级下",
-        "weight": 10,
+        "word": "新疆和田枣",
+        "weight": 59,
         "type": "product"
       },
       {
-        "word": "管理",
-        "weight": 10,
+        "word": "千层蛋糕",
+        "weight": 58,
         "type": "product"
       },
       {
-        "word": "勇气",
-        "weight": 10,
+        "word": "香辣鸭腿",
+        "weight": 57,
         "type": "product"
       },
       {
-        "word": "杂志铺",
-        "weight": 10,
+        "word": "枣仁派",
+        "weight": 56,
         "type": "product"
       },
       {
-        "word": "杂志",
-        "weight": 10,
+        "word": "分级读物",
+        "weight": 55,
         "type": "product"
       },
       {
-        "word": "志铺",
-        "weight": 10,
+        "word": "中考抢分卷",
+        "weight": 54,
         "type": "product"
       }
     ],
     "category": {
       "C3": [
         {
-          "word": "小米宣布",
-          "weight": 100,
+          "word": "人形机器人",
+          "weight": 95,
           "type": "category"
         },
         {
-          "word": "米宣布亿",
-          "weight": 97,
+          "word": "木疆无人机",
+          "weight": 93,
           "type": "category"
         },
         {
-          "word": "宣布亿港",
-          "weight": 94,
+          "word": "AI解题工具",
+          "weight": 90,
           "type": "category"
         },
         {
-          "word": "布亿港元",
-          "weight": 91,
-          "type": "category"
-        },
-        {
-          "word": "亿港元回",
+          "word": "大模型服务",
           "weight": 88,
           "type": "category"
         },
         {
-          "word": "港元回购",
+          "word": "桌面小风扇",
           "weight": 85,
           "type": "category"
         },
         {
-          "word": "小米宣",
-          "weight": 82,
+          "word": "小米",
+          "weight": 83,
           "type": "category"
         },
         {
-          "word": "米宣布",
-          "weight": 79,
+          "word": "蔚来ES9",
+          "weight": 80,
           "type": "category"
         },
         {
-          "word": "宣布亿",
-          "weight": 76,
+          "word": "问界M9",
+          "weight": 78,
           "type": "category"
         },
         {
-          "word": "布亿港",
-          "weight": 73,
+          "word": "长鑫科技",
+          "weight": 75,
           "type": "category"
         },
         {
-          "word": "亿港元",
+          "word": "车载充气泵",
+          "weight": 72,
+          "type": "category"
+        },
+        {
+          "word": "洗地机",
           "weight": 70,
           "type": "category"
         },
         {
-          "word": "港元回",
-          "weight": 67,
-          "type": "category"
-        },
-        {
-          "word": "元回购",
-          "weight": 64,
-          "type": "category"
-        },
-        {
-          "word": "小米",
-          "weight": 61,
-          "type": "category"
-        },
-        {
-          "word": "米宣",
-          "weight": 58,
-          "type": "category"
-        },
-        {
-          "word": "宣布",
-          "weight": 55,
-          "type": "category"
-        },
-        {
-          "word": "布亿",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "亿港",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "港元",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "元回",
-          "weight": 43,
+          "word": "智能硬件",
+          "weight": 68,
           "type": "category"
         }
       ],
       "HOME": [
         {
-          "word": "到手价",
-          "weight": 100,
+          "word": "夏凉被",
+          "weight": 95,
           "type": "category"
         },
         {
-          "word": "手价",
-          "weight": 97,
+          "word": "悬挂式抽纸",
+          "weight": 92,
           "type": "category"
         },
         {
-          "word": "地板",
-          "weight": 94,
+          "word": "洗衣液",
+          "weight": 90,
           "type": "category"
         },
         {
-          "word": "通用",
-          "weight": 91,
-          "type": "category"
-        },
-        {
-          "word": "香氛",
+          "word": "沙发盖布",
           "weight": 88,
           "type": "category"
         },
         {
-          "word": "洗衣",
+          "word": "乳胶漆",
           "weight": 85,
           "type": "category"
         },
         {
-          "word": "沙发",
+          "word": "衣物去油剂",
           "weight": 82,
           "type": "category"
         },
         {
-          "word": "神器",
-          "weight": 79,
+          "word": "地板精油",
+          "weight": 80,
           "type": "category"
         },
         {
-          "word": "油渍",
-          "weight": 76,
+          "word": "漱口水",
+          "weight": 78,
           "type": "category"
         },
         {
-          "word": "克星",
-          "weight": 73,
+          "word": "露营月亮椅",
+          "weight": 75,
           "type": "category"
         },
         {
-          "word": "清洁",
+          "word": "不锈钢汤勺",
+          "weight": 72,
+          "type": "category"
+        },
+        {
+          "word": "内衣裤洗衣液",
           "weight": 70,
           "type": "category"
         },
         {
-          "word": "木地板",
-          "weight": 67,
+          "word": "调料组合",
+          "weight": 68,
           "type": "category"
         },
         {
-          "word": "木地",
-          "weight": 64,
-          "type": "category"
-        },
-        {
-          "word": "地板油",
-          "weight": 61,
-          "type": "category"
-        },
-        {
-          "word": "护理",
-          "weight": 58,
-          "type": "category"
-        },
-        {
-          "word": "板油",
-          "weight": 55,
-          "type": "category"
-        },
-        {
-          "word": "留香",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "男女通用",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "男女通",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "女通用",
-          "weight": 43,
+          "word": "挂抽纸",
+          "weight": 65,
           "type": "category"
         }
       ],
       "APPL": [
         {
           "word": "空调",
-          "weight": 100,
+          "weight": 98,
           "type": "category"
         },
         {
-          "word": "度最省电",
-          "weight": 97,
+          "word": "夏凉被",
+          "weight": 95,
           "type": "category"
         },
         {
-          "word": "度最省",
-          "weight": 94,
+          "word": "洗地机",
+          "weight": 92,
           "type": "category"
         },
         {
-          "word": "最省电",
-          "weight": 91,
+          "word": "桌面小风扇",
+          "weight": 90,
           "type": "category"
         },
         {
-          "word": "不是",
+          "word": "车载充气泵",
           "weight": 88,
           "type": "category"
         },
         {
-          "word": "度最",
+          "word": "吹风机",
           "weight": 85,
           "type": "category"
         },
         {
-          "word": "最省",
+          "word": "空气净化器",
           "weight": 82,
           "type": "category"
         },
         {
-          "word": "省电",
-          "weight": 79,
+          "word": "加湿器",
+          "weight": 80,
           "type": "category"
         },
         {
-          "word": "空调并不",
-          "weight": 76,
+          "word": "扫地机器人",
+          "weight": 78,
           "type": "category"
         },
         {
-          "word": "调并不是",
-          "weight": 73,
+          "word": "冷风机",
+          "weight": 75,
           "type": "category"
         },
         {
-          "word": "并不是开",
+          "word": "净水器",
+          "weight": 72,
+          "type": "category"
+        },
+        {
+          "word": "电热水器",
           "weight": 70,
-          "type": "category"
-        },
-        {
-          "word": "不是开度",
-          "weight": 67,
-          "type": "category"
-        },
-        {
-          "word": "是开度最",
-          "weight": 64,
-          "type": "category"
-        },
-        {
-          "word": "开度最省",
-          "weight": 61,
-          "type": "category"
-        },
-        {
-          "word": "空调并",
-          "weight": 58,
-          "type": "category"
-        },
-        {
-          "word": "调并不",
-          "weight": 55,
-          "type": "category"
-        },
-        {
-          "word": "并不是",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "不是开",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "是开度",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "开度最",
-          "weight": 43,
           "type": "category"
         }
       ],
       "BABY": [
         {
-          "word": "号粒",
-          "weight": 100,
+          "word": "三元奶粉",
+          "weight": 95,
           "type": "category"
         },
         {
-          "word": "汗巾",
-          "weight": 97,
+          "word": "儿童汗巾",
+          "weight": 92,
           "type": "category"
         },
         {
-          "word": "儿童",
-          "weight": 94,
+          "word": "新生儿益生菌",
+          "weight": 90,
           "type": "category"
         },
         {
-          "word": "碳性",
-          "weight": 91,
-          "type": "category"
-        },
-        {
-          "word": "性号粒",
+          "word": "儿童矫正鞋",
           "weight": 88,
           "type": "category"
         },
         {
-          "word": "性号",
+          "word": "一体裤",
           "weight": 85,
           "type": "category"
         },
         {
-          "word": "安踏儿童",
+          "word": "童袜",
           "weight": 82,
           "type": "category"
         },
         {
-          "word": "踏儿童踩",
-          "weight": 79,
+          "word": "儿童护脊书包",
+          "weight": 80,
           "type": "category"
         },
         {
-          "word": "儿童踩水",
-          "weight": 76,
+          "word": "幼儿启蒙绘本",
+          "weight": 78,
           "type": "category"
         },
         {
-          "word": "童踩水王",
-          "weight": 73,
+          "word": "婴儿辅食",
+          "weight": 75,
           "type": "category"
         },
         {
-          "word": "踩水王溯",
+          "word": "隔尿垫",
+          "weight": 72,
+          "type": "category"
+        },
+        {
+          "word": "婴儿湿巾",
           "weight": 70,
           "type": "category"
         },
         {
-          "word": "水王溯溪",
-          "weight": 67,
-          "type": "category"
-        },
-        {
-          "word": "王溯溪凉",
-          "weight": 64,
-          "type": "category"
-        },
-        {
-          "word": "溯溪凉鞋",
-          "weight": 61,
-          "type": "category"
-        },
-        {
-          "word": "溪凉鞋沙",
-          "weight": 58,
-          "type": "category"
-        },
-        {
-          "word": "安踏儿",
-          "weight": 55,
-          "type": "category"
-        },
-        {
-          "word": "踏儿童",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "儿童踩",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "童踩水",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "踩水王",
-          "weight": 43,
+          "word": "宝宝防晒",
+          "weight": 68,
           "type": "category"
         }
       ],
       "FOOD": [
         {
-          "word": "中学烤米",
+          "word": "纯牛奶",
           "weight": 100,
           "type": "category"
         },
         {
-          "word": "学烤米羊",
-          "weight": 97,
+          "word": "高钙低脂牛奶",
+          "weight": 98,
           "type": "category"
         },
         {
-          "word": "烤米羊肉",
-          "weight": 94,
-          "type": "category"
-        },
-        {
-          "word": "米羊肉串",
-          "weight": 91,
-          "type": "category"
-        },
-        {
-          "word": "中学烤",
-          "weight": 88,
-          "type": "category"
-        },
-        {
-          "word": "学烤米",
-          "weight": 85,
-          "type": "category"
-        },
-        {
-          "word": "烤米羊",
-          "weight": 82,
-          "type": "category"
-        },
-        {
-          "word": "米羊肉",
-          "weight": 79,
+          "word": "锅包肉",
+          "weight": 95,
           "type": "category"
         },
         {
           "word": "羊肉串",
-          "weight": 76,
+          "weight": 93,
           "type": "category"
         },
         {
-          "word": "中学",
+          "word": "榴莲",
+          "weight": 92,
+          "type": "category"
+        },
+        {
+          "word": "面包",
+          "weight": 90,
+          "type": "category"
+        },
+        {
+          "word": "薯片",
+          "weight": 88,
+          "type": "category"
+        },
+        {
+          "word": "酸奶",
+          "weight": 85,
+          "type": "category"
+        },
+        {
+          "word": "龙须面",
+          "weight": 83,
+          "type": "category"
+        },
+        {
+          "word": "桃酥",
+          "weight": 80,
+          "type": "category"
+        },
+        {
+          "word": "辣条",
+          "weight": 78,
+          "type": "category"
+        },
+        {
+          "word": "鹌鹑蛋",
+          "weight": 75,
+          "type": "category"
+        },
+        {
+          "word": "驼奶钙片",
           "weight": 73,
           "type": "category"
         },
         {
-          "word": "学烤",
+          "word": "手剥笋",
           "weight": 70,
           "type": "category"
         },
         {
-          "word": "烤米",
-          "weight": 67,
+          "word": "焦糖饼干",
+          "weight": 68,
           "type": "category"
         },
         {
-          "word": "米羊",
-          "weight": 64,
+          "word": "新疆和田枣",
+          "weight": 65,
           "type": "category"
         },
         {
-          "word": "羊肉",
-          "weight": 61,
+          "word": "千层蛋糕",
+          "weight": 63,
           "type": "category"
         },
         {
-          "word": "肉串",
-          "weight": 58,
-          "type": "category"
-        },
-        {
-          "word": "羊肉串为",
-          "weight": 55,
-          "type": "category"
-        },
-        {
-          "word": "肉串为学",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "肉串为",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "串为学",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "串为",
-          "weight": 43,
+          "word": "香辣鸭腿",
+          "weight": 60,
           "type": "category"
         }
       ],
       "BEAU": [
         {
-          "word": "预售毛戈",
-          "weight": 100,
+          "word": "毛戈平气垫",
+          "weight": 95,
           "type": "category"
         },
         {
-          "word": "售毛戈平",
-          "weight": 97,
+          "word": "鱼子酱发膜",
+          "weight": 93,
           "type": "category"
         },
         {
-          "word": "毛戈平黑",
-          "weight": 94,
+          "word": "护发精油",
+          "weight": 90,
           "type": "category"
         },
         {
-          "word": "戈平黑白",
-          "weight": 91,
-          "type": "category"
-        },
-        {
-          "word": "平黑白羽",
+          "word": "舒缓喷雾",
           "weight": 88,
           "type": "category"
         },
         {
-          "word": "黑白羽翼",
+          "word": "香氛身体乳",
           "weight": 85,
           "type": "category"
         },
         {
-          "word": "预售毛",
+          "word": "罗小曼唇釉",
           "weight": 82,
           "type": "category"
         },
         {
-          "word": "售毛戈",
-          "weight": 79,
+          "word": "防晒霜",
+          "weight": 80,
           "type": "category"
         },
         {
-          "word": "毛戈平",
-          "weight": 76,
+          "word": "粉底液",
+          "weight": 78,
           "type": "category"
         },
         {
-          "word": "戈平黑",
-          "weight": 73,
+          "word": "口红",
+          "weight": 75,
           "type": "category"
         },
         {
-          "word": "平黑白",
+          "word": "卸妆油",
+          "weight": 72,
+          "type": "category"
+        },
+        {
+          "word": "洗面奶",
           "weight": 70,
           "type": "category"
         },
         {
-          "word": "黑白羽",
-          "weight": 67,
-          "type": "category"
-        },
-        {
-          "word": "白羽翼",
-          "weight": 64,
-          "type": "category"
-        },
-        {
-          "word": "预售",
-          "weight": 61,
-          "type": "category"
-        },
-        {
-          "word": "售毛",
-          "weight": 58,
-          "type": "category"
-        },
-        {
-          "word": "毛戈",
-          "weight": 55,
-          "type": "category"
-        },
-        {
-          "word": "戈平",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "平黑",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "黑白",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "白羽",
-          "weight": 43,
+          "word": "眼影",
+          "weight": 68,
           "type": "category"
         }
       ],
       "CLOT": [
         {
-          "word": "普通人的",
-          "weight": 100,
+          "word": "防晒衣",
+          "weight": 98,
           "type": "category"
         },
         {
-          "word": "通人的夏",
-          "weight": 97,
+          "word": "薄荷阔腿裤",
+          "weight": 95,
           "type": "category"
         },
         {
-          "word": "人的夏日",
-          "weight": 94,
+          "word": "洞洞鞋",
+          "weight": 93,
           "type": "category"
         },
         {
-          "word": "的夏日出",
-          "weight": 91,
+          "word": "带胸垫T恤",
+          "weight": 90,
           "type": "category"
         },
         {
-          "word": "夏日出片",
+          "word": "凉感T恤",
           "weight": 88,
           "type": "category"
         },
         {
-          "word": "日出片穿",
+          "word": "凉拖鞋",
           "weight": 85,
           "type": "category"
         },
         {
-          "word": "出片穿搭",
-          "weight": 82,
+          "word": "童袜",
+          "weight": 83,
           "type": "category"
         },
         {
-          "word": "普通人",
-          "weight": 79,
+          "word": "印花短袖",
+          "weight": 80,
           "type": "category"
         },
         {
-          "word": "通人的",
-          "weight": 76,
+          "word": "防蚊灯笼裤",
+          "weight": 78,
           "type": "category"
         },
         {
-          "word": "人的夏",
-          "weight": 73,
+          "word": "辣妹吊带",
+          "weight": 75,
           "type": "category"
         },
         {
-          "word": "的夏日",
+          "word": "保暖裤",
+          "weight": 72,
+          "type": "category"
+        },
+        {
+          "word": "防晒服",
           "weight": 70,
           "type": "category"
         },
         {
-          "word": "夏日出",
-          "weight": 67,
+          "word": "运动裤",
+          "weight": 68,
           "type": "category"
         },
         {
-          "word": "日出片",
-          "weight": 64,
-          "type": "category"
-        },
-        {
-          "word": "出片穿",
-          "weight": 61,
-          "type": "category"
-        },
-        {
-          "word": "片穿搭",
-          "weight": 58,
-          "type": "category"
-        },
-        {
-          "word": "普通",
-          "weight": 55,
-          "type": "category"
-        },
-        {
-          "word": "通人",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "人的",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "的夏",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "夏日",
-          "weight": 43,
+          "word": "帆布鞋",
+          "weight": 65,
           "type": "category"
         }
       ],
       "EDU": [
         {
-          "word": "阅读",
-          "weight": 100,
+          "word": "迪士尼汉语分级读物",
+          "weight": 95,
           "type": "category"
         },
         {
-          "word": "年级",
-          "weight": 97,
+          "word": "数学压轴题训练",
+          "weight": 93,
           "type": "category"
         },
         {
-          "word": "小学",
-          "weight": 94,
+          "word": "吃书的狐狸绘本",
+          "weight": 90,
           "type": "category"
         },
         {
-          "word": "英语",
-          "weight": 91,
-          "type": "category"
-        },
-        {
-          "word": "数学",
+          "word": "幼儿启蒙绘本",
           "weight": 88,
           "type": "category"
         },
         {
-          "word": "启蒙",
+          "word": "计算应用题练习册",
           "weight": 85,
           "type": "category"
         },
         {
-          "word": "读书",
-          "weight": 82,
+          "word": "中考抢分卷",
+          "weight": 83,
           "type": "category"
         },
         {
-          "word": "幼儿",
-          "weight": 79,
+          "word": "英文分级读物",
+          "weight": 80,
           "type": "category"
         },
         {
-          "word": "儿童",
-          "weight": 76,
+          "word": "十宗罪",
+          "weight": 78,
           "type": "category"
         },
         {
-          "word": "年级下",
+          "word": "卓有成效的管理者",
+          "weight": 75,
+          "type": "category"
+        },
+        {
+          "word": "被讨厌的勇气",
           "weight": 73,
           "type": "category"
         },
         {
-          "word": "级下",
+          "word": "MST物理教辅",
           "weight": 70,
           "type": "category"
         },
         {
-          "word": "管理",
-          "weight": 67,
+          "word": "黄冈随堂笔记",
+          "weight": 68,
           "type": "category"
         },
         {
-          "word": "勇气",
-          "weight": 64,
+          "word": "英语单词拆分手册",
+          "weight": 65,
           "type": "category"
         },
         {
-          "word": "杂志铺",
-          "weight": 61,
+          "word": "查理和巧克力工厂",
+          "weight": 63,
           "type": "category"
         },
         {
-          "word": "杂志",
+          "word": "幼小衔接教材",
+          "weight": 60,
+          "type": "category"
+        },
+        {
+          "word": "小学同步练习册",
           "weight": 58,
           "type": "category"
         },
         {
-          "word": "志铺",
+          "word": "中考复习资料",
           "weight": 55,
           "type": "category"
         },
         {
-          "word": "阅读包",
-          "weight": 52,
-          "type": "category"
-        },
-        {
-          "word": "读包",
-          "weight": 49,
-          "type": "category"
-        },
-        {
-          "word": "阅读盒",
-          "weight": 46,
-          "type": "category"
-        },
-        {
-          "word": "读盒",
-          "weight": 43,
+          "word": "儿童文学",
+          "weight": 53,
           "type": "category"
         }
       ]
