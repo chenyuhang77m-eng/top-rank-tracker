@@ -26,8 +26,11 @@ function loadLocalEnv() {
 
 loadLocalEnv();
 
+const eduEducationRe = /图书|书籍|童书|绘本|纸板书|分级读物|读物|教材|教辅|课本|练习册|习题|试卷|字帖|作文书|课外书|课外阅读|阅读书|名著|小说|文学|漫画|百科|词典|字典|考研书|公考书|真题|四六级|雅思|托福|幼小衔接|识字书|学习方法|小学|初中|高中|一年级|二年级|三年级|四年级|五年级|六年级|学习机|网课|在线教育|培训|考试|资格证/i;
+const eduPlatformRe = /京东|阿里巴巴|淘宝|天猫|拼多多|多多买菜|美团|饿了么|大众点评|滴滴|高德|携程|去哪儿|飞猪|同程|马蜂窝|Boss直聘|贝壳找房|链家|闲鱼|转转|爱回收|多抓鱼|本地生活|外卖|打车|出行|二手|回收|旅游|酒店|机票|景区门票|跟团游|自由行|团购|租房|长租公寓|平台经济|平台抽佣|平台补贴|抖音电商|抖音小店|快手电商|快手小店|小红书电商/i;
+
 const categoryRules = [
-  { key: "EDU", re: /图书|书籍|童书|绘本|纸板书|分级读物|读物|教材|教辅|课本|练习册|习题|试卷|字帖|作文书|课外书|课外阅读|阅读书|名著|小说|文学|漫画|百科|词典|字典|考研书|公考书|真题|四六级|雅思|托福|幼小衔接|识字书|学习方法|小学|初中|高中|一年级|二年级|三年级|四年级|五年级|六年级|学习机|网课|在线教育|培训|考试|资格证/i },
+  { key: "EDU", re: new RegExp(`${eduEducationRe.source}|${eduPlatformRe.source}`, "i") },
   { key: "FOOD", re: /即食|可食用|冲泡|冲调|饮用|烹饪|佐餐|下饭|代餐|调味|滋补|养生食材|食品|零食|饮料|茶饮|奶茶|咖啡|啤酒|白酒|红酒|葡萄酒|牛奶|酸奶|乳制品|椰子水|果汁|矿泉水|纯净水|苏打水|糕点|点心|饼干|薯片|糖果|巧克力|坚果|肉干|卤味|粮油|方便面|拌面|速食|轻食|熟食|预制菜|火锅底料|生鲜|水果|蔬菜|菌菇|肉|蛋|海鲜|水产|花胶|燕窝|参茸|汤料|粽|粽子|月饼|年货|腊味|食品礼盒|伴手礼|钙片|奶片|益生菌|维生素|蛋白粉|乳清/i },
   { key: "C3", re: /手机|iPhone|苹果|华为|小米|OPPO|vivo|荣耀|平板|iPad|电脑|笔记本|相机|大疆|耳机|蓝牙|充电|数码|芯片|GPU|AI|大模型|DeepSeek|GPT|算力|科技|鸿蒙|硬盘|路由器|智能设备|穿戴|手表|VR/i },
   { key: "HOME", re: /家居|家纺|家具|沙发|床垫|窗帘|地毯|装修|家装|建材|厨房|卫浴|马桶|花洒|洗衣|沐浴|纸巾|湿巾|清洁|拖把|垃圾袋|抽纸|洗衣液|消毒|个护|护理|卫生巾|植物|收纳|插排|插座/i },
@@ -39,6 +42,7 @@ const categoryRules = [
 
 function categoryOf(title = "", listName = "") {
   const text = `${listName} ${title}`;
+  if (/图书|书籍|教材|教辅|教育|学习|考试|培训|阅读/i.test(listName) && eduEducationRe.test(text)) return "EDU";
   return categoryRules.find((rule) => rule.re.test(text))?.key || null;
 }
 
@@ -265,18 +269,36 @@ const stopWords = new Set([
   "包邮", "活动", "优惠", "新款", "原价", "券后", "到手", "规格", "无规格", "预订", "赠品", "福利",
   "商城", "物流", "直发", "次日达", "全套", "单册", "新版", "现货", "拍下", "领取", "立即"
 ]);
+const curatedTerms = [
+  "外卖", "订书钉", "美团", "饿了么", "大众点评", "团购", "滴滴", "打车", "出行", "高德",
+  "携程", "飞猪", "酒店", "机票", "闲鱼", "转转", "回收", "二手", "图书", "童书",
+  "绘本", "分级阅读", "教材", "教辅", "练习册", "阅读", "学习机", "网课", "考试", "备考"
+];
+const badCloudFragmentRe = /什么|时候|可以|怎么|为何|是否|如何|多少|几个|女子|男子|网友/;
 
 function fallbackTerms(titles, type, limit) {
   const scores = new Map();
   const sources = new Map();
   for (const { title, sourceName, listName, weight = 1 } of titles) {
+    let hasCurated = false;
+    for (const term of curatedTerms) {
+      if (!String(title || "").includes(term)) continue;
+      hasCurated = true;
+      scores.set(term, (scores.get(term) || 0) + weight * 2);
+      const list = sources.get(term) || [];
+      if (!list.some((item) => item.title === title)) {
+        list.push({ sourceName, listName, title });
+        sources.set(term, list.slice(0, 4));
+      }
+    }
+    if (hasCurated) continue;
     const chunks = String(title || "").match(/[\u4e00-\u9fa5A-Za-z0-9]{2,12}/g) || [];
     for (const chunk of chunks) {
       const clean = chunk.replace(/\d+(?:g|kg|ml|L|元|只|件|本|册)?/gi, "");
       for (let size of [4, 3, 2]) {
         for (let i = 0; i <= clean.length - size; i += 1) {
           const word = clean.slice(i, i + size);
-          if (stopWords.has(word) || /^[A-Za-z0-9]+$/.test(word)) continue;
+          if (stopWords.has(word) || badCloudFragmentRe.test(word) || /^[A-Za-z0-9]+$/.test(word)) continue;
           scores.set(word, (scores.get(word) || 0) + weight);
           const list = sources.get(word) || [];
           if (!list.some((item) => item.title === title)) {

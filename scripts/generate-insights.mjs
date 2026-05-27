@@ -44,8 +44,11 @@ const categories = [
   { key: "FOOD", name: "食品饮料" },
   { key: "BEAU", name: "美妆护肤" },
   { key: "CLOT", name: "服饰穿戴" },
-  { key: "EDU", name: "平台教育" }
+  { key: "EDU", name: "平台/教育" }
 ];
+
+const eduEducationRe = /图书|书籍|童书|绘本|纸板书|分级读物|读物|教材|教辅|课本|练习册|习题|试卷|字帖|作文书|课外书|课外阅读|阅读书|名著|小说|文学|漫画|百科|词典|字典|考研书|公考书|真题|四六级|雅思|托福|幼小衔接|识字书|学习方法|小学生|中学生|初中|高中|一年级|二年级|三年级|四年级|五年级|六年级|学而思|新东方|猿辅导|高途|网易有道|有道精品课|作业帮|斑马AI|核桃编程|VIPKID|掌门一对一|好未来教育|学习机|网课|在线教育|教培|课外辅导|辅导班|培训班|培训机构|教师资格|雅思|托福|GRE|GMAT|MBA培训|公考|考证培训|资格证培训|职业资格|报考条件|早教/i;
+const eduPlatformRe = /京东|阿里巴巴|淘宝|天猫|拼多多|多多买菜|美团|饿了么|大众点评|滴滴|高德|携程|去哪儿|飞猪|同程|马蜂窝|Boss直聘|贝壳找房|链家|闲鱼|转转|爱回收|多抓鱼|本地生活|外卖|打车|出行|二手|回收|旅游|酒店|机票|景区门票|跟团游|自由行|团购|租房|长租公寓|平台经济|平台抽佣|平台补贴|抖音电商|抖音小店|快手电商|快手小店|小红书电商/i;
 
 const categoryRules = {
   C3: /手机|iPhone|苹果|华为|小米|OPPO|vivo|荣耀|平板|iPad|电脑|笔记本|相机|大疆|耳机|蓝牙|充电|数码|芯片|GPU|英伟达|AI|大模型|DeepSeek|文心|GPT|算力|算法|科技|发布会|HarmonyOS|鸿蒙|麒麟|U盘|硬盘|路由器|智能设备|穿戴|手表|VR|智能家居/i,
@@ -55,13 +58,17 @@ const categoryRules = {
   FOOD: /食品|零食|饼干|薯片|粽|月饼|奶茶|咖啡|牛奶|酸奶|啤酒|白酒|红酒|饮料|果汁|益生菌|坚果|巧克力|火锅|方便面|速食|生鲜|水果|蔬菜|肉|蛋|海鲜|皮皮虾|榴莲|车厘子|西瓜/,
   BEAU: /面膜|口红|粉底|精华|防晒霜|护肤|美妆|彩妆|香水|美瞳|眼影|腮红|护发|染发|脱毛|妆容|妆造|睫毛|眉笔|遮瑕|气垫|定妆|卸妆|洗面|爽肤水|乳液|身体乳|唇釉|韩束|完美日记|花西子|欧莱雅|兰蔻|雅诗兰黛/,
   CLOT: /T恤|连衣裙|裤|衬衫|外套|风衣|羽绒|羊绒|针织|毛衣|卫衣|背心|短袖|长袖|内衣|内裤|文胸|袜|鞋|靴|帽|围巾|手套|箱包|钱包|双肩包|手提包|眼镜|墨镜|手表|腕表|穿搭|服饰|时装|tutu|冰丝|防晒衣|防晒裤|冲锋衣|polo|短裙|长裙|户外|运动鞋|跑鞋/i,
-  EDU: /学而思|新东方|猿辅导|高途|网易有道|作业帮|斑马AI|核桃编程|VIPKID|掌门一对一|学习机|网课|在线教育|教培|教辅|课外辅导|辅导班|培训班|培训机构|考研|考公|公务员考试|事业编|教师资格|雅思|托福|GRE|GMAT|MBA培训|公考|考证培训|资格证培训|执业证培训|职业资格|报考条件|早教|学步|益智|绘本|图书音像|学龄前|幼小衔接|京东|阿里巴巴|淘宝|天猫|拼多多|美团|饿了么|大众点评|滴滴|高德|携程|飞猪|同程|马蜂窝|闲鱼|转转|爱回收|多抓鱼|本地生活|外卖|二手|回收|旅游|酒店|机票|景区|跟团游|自由行|抖音电商|抖音小店|快手电商|快手小店|小红书电商/
+  EDU: new RegExp(`${eduEducationRe.source}|${eduPlatformRe.source}`, "i")
 };
 
 const categoryOverrides = [
   {
     key: "EDU",
-    re: /图书|书籍|童书|绘本|纸板书|分级读物|读物|教材|教辅|课本|练习册|习题|试卷|字帖|作文书|课外书|课外阅读|阅读书|名著|小说|文学|漫画|百科|词典|字典|考研书|公考书|真题|四六级|雅思|托福|幼小衔接|识字书|学习方法报|小学生|中学生|初中|高中|一年级|二年级|三年级|四年级|五年级|六年级/i
+    re: eduPlatformRe
+  },
+  {
+    key: "EDU",
+    re: eduEducationRe
   },
   {
     key: "FOOD",
@@ -124,11 +131,11 @@ const fallbackPlaybook = {
     { sub: "箱包配饰", scene: "通勤收纳与穿搭点睛", topics: ["箱包", "帽子", "眼镜", "手表"] }
   ],
   EDU: [
-    { sub: "K12 学科辅导", scene: "暑期续报与提分焦虑", topics: ["学而思", "猿辅导", "作业帮", "学习机"] },
-    { sub: "考研考公", scene: "上岸叙事与倒计时冲刺", topics: ["考研", "考公", "新东方", "网课"] },
-    { sub: "本地餐饮", scene: "探店打卡与团购转化", topics: ["美团", "大众点评", "团购", "外卖"] },
-    { sub: "旅行出行", scene: "假期长线游与本地周边游", topics: ["携程", "飞猪", "酒店", "机票"] },
-    { sub: "二手回收", scene: "闲置流转与低预算换新", topics: ["闲鱼", "转转", "回收", "二手"] }
+    { sub: "本地生活/外卖", scene: "即时零售、外卖安全与团购转化", topics: ["美团", "饿了么", "大众点评", "团购", "外卖"] },
+    { sub: "出行打车", scene: "通勤出行与假期周边移动", topics: ["滴滴", "高德打车", "出行", "打车"] },
+    { sub: "酒旅预订", scene: "假期长线游与本地周边游", topics: ["携程", "飞猪", "酒店", "机票", "门票"] },
+    { sub: "图书童书", scene: "亲子阅读与童书囤货", topics: ["图书", "童书", "绘本", "分级阅读"] },
+    { sub: "教材教辅/备考", scene: "升学备考与学习工具", topics: ["教材", "教辅", "练习册", "考试", "学习机"] }
   ]
 };
 
@@ -148,6 +155,15 @@ function categoryOf(title = "", listName = "") {
   const forced = categoryOverrides.find((rule) => rule.re.test(text));
   if (forced) return forced.key;
   return categories.find((cat) => categoryRules[cat.key].test(text))?.key || null;
+}
+
+function eduIndustryOf(title = "", listName = "") {
+  const text = `${listName} ${title}`;
+  const listIsEducation = /图书|书籍|教材|教辅|教育|学习|考试|培训|阅读/i.test(listName);
+  if (listIsEducation && eduEducationRe.test(text)) return "education";
+  if (eduPlatformRe.test(text)) return "platform";
+  if (eduEducationRe.test(text)) return "education";
+  return null;
 }
 
 function uniq(values, limit = 6) {
@@ -177,6 +193,7 @@ function compactLatest(latest) {
         title: item.title,
         metric: item.metric,
         categoryKey: categoryOf(item.title, list.listName),
+        industry: categoryOf(item.title, list.listName) === "EDU" ? eduIndustryOf(item.title, list.listName) : null,
         metricValue: parseMetric(item.metric)
       }))
     }))
@@ -195,6 +212,7 @@ function compactLatest(latest) {
               title: item.title,
               metric: item.metric,
               rank: item.rank,
+              industry: cat.key === "EDU" ? eduIndustryOf(item.title, list.listName) : null,
               metricValue: parseMetric(item.metric)
             };
             if (list.category === "hot-search") hot.push(signal);
@@ -623,7 +641,7 @@ function buildSystemPrompt() {
     "Do not output mechanical suffixes or templates like 内容钩子, 场景种草, 话题钩子, 营销钩子, 人群痛点实测, 场景改造前后对比, 真实体验拆解, or 一周体验挑战.",
     "topics must equal topicIdeas for frontend compatibility.",
     "Use one unified playbook style for all eight categories: C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, and EDU. The strategy style must match the complete BEAU/CLOT/EDU examples: concrete benefit, scenario, content ideas, budget layering, real experience, and ByteDance placement.",
-    "EDU includes platform-economy rows such as 本地餐饮, 旅行出行, and 二手回收 when ranking signals support them. Keep these rows if relevant; do not replace them with only school/course categories.",
+    "EDU is a combined Platform/Education category. It may contain platform-economy signals such as 外卖, 美团, 滴滴, 打车, 酒旅, 二手回收, 电商平台, and education/book signals such as 图书, 童书, 绘本, 教材, 教辅, 考试, 学习机. Use the input field industry when available: platform rows and education rows must stay separate. Generate 3-5 rows from whichever side has real signals today; if both sides have signals, mix them without merging their row names.",
     "strategy must analyze category, hotspots, products, and topicIdeas. Write every strategy in this shape: 【重点】主打{具体利益点}的卖点，结合「{热点或场景}」的讨论热度/日常场景，输出「{3个topicIdeas}」等内容创意；内容重点突出场景痛点、预算分层和真实体验，让{sub}的选择理由更具体。若有相关商品信号，再补一句用热销 SKU 做案例露出和卖点验证。【投放】抖音首发，巨量引擎小额放大，巨量星图匹配垂类达人。",
     "Every strategy should be about 130-190 Chinese characters. Do not write short 70-100 character summaries. Do not output different strategy depths for different categories.",
     "The \u3010\u91cd\u70b9\u3011 part must include: main selling point, linked scenario/topic, concrete content ideas, budget layering, and real user experience. Do not write meta instructions such as 围绕热点拆出3条内容线, 先用热点解释降低理解门槛, 用人群痛点+产品场景做脚本, or 做常青内容.",
