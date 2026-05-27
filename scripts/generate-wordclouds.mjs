@@ -72,10 +72,11 @@ function compactLatest(latest) {
 function prompt() {
   return [
     "你是中文消费趋势词云分析师。只根据输入榜单标题生成 JSON，不要 Markdown。",
-    "输出结构: {\"wordClouds\":{\"topic\":[],\"product\":[],\"category\":{\"C3\":[],\"HOME\":[],\"APPL\":[],\"BABY\":[],\"FOOD\":[],\"BEAU\":[],\"CLOT\":[],\"EDU\":[]}}}",
+    "输出结构: {\"wordClouds\":{\"topic\":[],\"product\":[],\"topicCategory\":{\"C3\":[],\"HOME\":[],\"APPL\":[],\"BABY\":[],\"FOOD\":[],\"BEAU\":[],\"CLOT\":[],\"EDU\":[]},\"productCategory\":{\"C3\":[],\"HOME\":[],\"APPL\":[],\"BABY\":[],\"FOOD\":[],\"BEAU\":[],\"CLOT\":[],\"EDU\":[]}}}",
     "每个词条格式: {\"word\":\"词\",\"weight\":1-100,\"type\":\"topic/product/brand/selling/category\"}。",
     "topic 从 hot-search 榜单提炼 30-50 个词；product 从 shopping 榜单提炼 30-50 个词。",
-    "每个 category 数组输出 8-20 个词。没有强信号时也要根据对应 categoryKey 和标题提炼，不允许空数组。",
+    "topicCategory 只能从 hot-search 中对应 categoryKey 的标题提炼；productCategory 只能从 shopping 中对应 categoryKey 的标题提炼。",
+    "每个 topicCategory/productCategory 数组有对应标题时输出 8-20 个词；没有对应标题时返回空数组，不要跨来源或跨类目补词。",
     "优先中文短语、品牌名、品类词、卖点词，合并近义重复；不要输出价格、单位、排名、平台通用词。",
     "图书、童书、绘本、教材、教辅、小说、百科、分级阅读、幼小衔接等全部归 EDU，即使标题含儿童、宝宝。"
   ].join("\n");
@@ -163,9 +164,14 @@ function normalizeItem(item, fallbackType) {
 
 function normalizeClouds(content) {
   const source = content?.wordClouds || content;
-  const category = {};
+  const topicCategory = {};
+  const productCategory = {};
   for (const key of categoryKeys) {
-    category[key] = (Array.isArray(source?.category?.[key]) ? source.category[key] : [])
+    topicCategory[key] = (Array.isArray(source?.topicCategory?.[key]) ? source.topicCategory[key] : Array.isArray(source?.category?.[key]) ? source.category[key] : [])
+      .map((item) => normalizeItem(item, "topic"))
+      .filter(Boolean)
+      .slice(0, 60);
+    productCategory[key] = (Array.isArray(source?.productCategory?.[key]) ? source.productCategory[key] : Array.isArray(source?.category?.[key]) ? source.category[key] : [])
       .map((item) => normalizeItem(item, "category"))
       .filter(Boolean)
       .slice(0, 60);
@@ -173,13 +179,66 @@ function normalizeClouds(content) {
   return {
     topic: (Array.isArray(source?.topic) ? source.topic : []).map((item) => normalizeItem(item, "topic")).filter(Boolean).slice(0, 80),
     product: (Array.isArray(source?.product) ? source.product : []).map((item) => normalizeItem(item, "product")).filter(Boolean).slice(0, 80),
-    category
+    topicCategory,
+    productCategory
   };
 }
 
-function validateClouds(clouds) {
+function validateClouds(clouds, input) {
   if (!clouds.topic.length || !clouds.product.length) return false;
-  return categoryKeys.every((key) => Array.isArray(clouds.category[key]) && clouds.category[key].length > 0);
+  return categoryKeys.every((key) => {
+    const hasTopicRows = rowsForScope(input, "hot-search", key).length > 0;
+    const hasProductRows = rowsForScope(input, "shopping", key).length > 0;
+    return (!hasTopicRows || (Array.isArray(clouds.topicCategory[key]) && clouds.topicCategory[key].length > 0)) &&
+      (!hasProductRows || (Array.isArray(clouds.productCategory[key]) && clouds.productCategory[key].length > 0));
+  });
+}
+
+function rowsForScope(input, listCategory, categoryKey = null) {
+  const rows = [];
+  for (const list of input.lists) {
+    if (list.category !== listCategory) continue;
+    for (const item of list.items) {
+      if (categoryKey && item.categoryKey !== categoryKey) continue;
+      rows.push({
+        sourceName: list.sourceName,
+        listName: list.listName,
+        title: item.title,
+        weight: Math.max(metricValue(item.metric), 10_000)
+      });
+    }
+  }
+  return rows;
+}
+
+function attachSources(items, rows) {
+  return items.map((item) => {
+    const word = item.word || "";
+    const matched = rows
+      .filter((row) => word && row.title?.includes(word))
+      .sort((a, b) => b.weight - a.weight)
+      .slice(0, 4)
+      .map(({ sourceName, listName, title }) => ({ sourceName, listName, title }));
+    const fallback = matched.length ? matched : rows.slice(0, 2).map(({ sourceName, listName, title }) => ({ sourceName, listName, title }));
+    return { ...item, sources: item.sources?.length ? item.sources.slice(0, 4) : fallback };
+  });
+}
+
+function attachCloudSources(clouds, input) {
+  const topicRows = rowsForScope(input, "hot-search");
+  const productRows = rowsForScope(input, "shopping");
+  const topicCategory = {};
+  const productCategory = {};
+  for (const key of categoryKeys) {
+    topicCategory[key] = attachSources(clouds.topicCategory[key] || [], rowsForScope(input, "hot-search", key));
+    productCategory[key] = attachSources(clouds.productCategory[key] || [], rowsForScope(input, "shopping", key));
+  }
+  return {
+    topic: attachSources(clouds.topic || [], topicRows),
+    product: attachSources(clouds.product || [], productRows),
+    topicCategory,
+    productCategory
+  };
 }
 
 const stopWords = new Set([
@@ -190,7 +249,8 @@ const stopWords = new Set([
 
 function fallbackTerms(titles, type, limit) {
   const scores = new Map();
-  for (const { title, weight = 1 } of titles) {
+  const sources = new Map();
+  for (const { title, sourceName, listName, weight = 1 } of titles) {
     const chunks = String(title || "").match(/[\u4e00-\u9fa5A-Za-z0-9]{2,12}/g) || [];
     for (const chunk of chunks) {
       const clean = chunk.replace(/\d+(?:g|kg|ml|L|元|只|件|本|册)?/gi, "");
@@ -199,6 +259,11 @@ function fallbackTerms(titles, type, limit) {
           const word = clean.slice(i, i + size);
           if (stopWords.has(word) || /^[A-Za-z0-9]+$/.test(word)) continue;
           scores.set(word, (scores.get(word) || 0) + weight);
+          const list = sources.get(word) || [];
+          if (!list.some((item) => item.title === title)) {
+            list.push({ sourceName, listName, title });
+            sources.set(word, list.slice(0, 4));
+          }
         }
       }
     }
@@ -206,32 +271,41 @@ function fallbackTerms(titles, type, limit) {
   return [...scores.entries()]
     .sort((a, b) => b[1] - a[1])
     .slice(0, limit)
-    .map(([word], index) => ({ word, weight: Math.max(10, 100 - index * 3), type }));
+    .map(([word], index) => ({ word, weight: Math.max(10, 100 - index * 3), type, sources: sources.get(word) || [] }));
 }
 
 function fallbackClouds(input) {
   const hotTitles = [];
   const shopTitles = [];
-  const byCategory = Object.fromEntries(categoryKeys.map((key) => [key, []]));
+  const hotByCategory = Object.fromEntries(categoryKeys.map((key) => [key, []]));
+  const shopByCategory = Object.fromEntries(categoryKeys.map((key) => [key, []]));
 
   for (const list of input.lists) {
     for (const item of list.items) {
-      const row = { title: item.title, weight: Math.max(metricValue(item.metric), 10_000) };
+      const row = {
+        title: item.title,
+        sourceName: list.sourceName,
+        listName: list.listName,
+        weight: Math.max(metricValue(item.metric), 10_000)
+      };
       if (list.category === "hot-search") hotTitles.push(row);
       if (list.category === "shopping") shopTitles.push(row);
-      if (item.categoryKey && byCategory[item.categoryKey]) byCategory[item.categoryKey].push(row);
+      if (list.category === "hot-search" && item.categoryKey && hotByCategory[item.categoryKey]) hotByCategory[item.categoryKey].push(row);
+      if (list.category === "shopping" && item.categoryKey && shopByCategory[item.categoryKey]) shopByCategory[item.categoryKey].push(row);
     }
   }
 
-  const category = {};
+  const topicCategory = {};
+  const productCategory = {};
   for (const key of categoryKeys) {
-    category[key] = fallbackTerms(byCategory[key], "category", 20);
-    if (!category[key].length) category[key] = [{ word: key, weight: 10, type: "category" }];
+    topicCategory[key] = fallbackTerms(hotByCategory[key], "topic", 20);
+    productCategory[key] = fallbackTerms(shopByCategory[key], "category", 20);
   }
   return {
     topic: fallbackTerms(hotTitles, "topic", 50),
     product: fallbackTerms(shopTitles, "product", 50),
-    category
+    topicCategory,
+    productCategory
   };
 }
 
@@ -250,10 +324,10 @@ async function main() {
   try {
     const llm = await callLLM(input);
     const normalized = normalizeClouds(llm.content);
-    if (!validateClouds(normalized)) throw new Error("LLM returned empty word cloud arrays.");
+    if (!validateClouds(normalized, input)) throw new Error("LLM returned empty word cloud arrays for available source data.");
     model = llm.model;
     wordCloudSource = "llm";
-    wordClouds = normalized;
+    wordClouds = attachCloudSources(normalized, input);
   } catch (error) {
     fallbackReason = error.message;
     wordClouds = fallbackClouds(input);
