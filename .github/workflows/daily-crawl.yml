@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Crawl top lists and generate insights
+      - name: Crawl top lists, generate insights and word clouds
         run: npm run daily
         env:
           VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY || secrets.ARK_API_KEY }}
@@ -32,10 +32,11 @@ jobs:
           LLM_LIST_ITEMS_PER_SOURCE: "8"
           LLM_CATEGORY_HOT_LIMIT: "8"
           LLM_CATEGORY_SHOP_LIMIT: "8"
+          WORDCLOUD_ITEMS_PER_LIST: "20"
           REQUIRE_LLM: "1"
 
       - name: Commit data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update daily rank data"
-          file_pattern: data/*.json data/insights/*.json
+          file_pattern: data/*.json data/insights/*.json data/wordclouds/*.json

@@ -8,7 +8,8 @@
     "crawl:daily": "node scripts/crawl.mjs --skip-if-exists",
     "crawl:force": "node scripts/crawl.mjs",
     "insights": "node scripts/generate-insights.mjs",
-    "daily": "npm run crawl:force && npm run insights"
+    "wordclouds": "node scripts/generate-wordclouds.mjs",
+    "daily": "npm run crawl:force && npm run insights && npm run wordclouds"
   },
   "engines": {
     "node": ">=20"
