@@ -10,14 +10,13 @@
 2. 抓取指定榜单的 Top 30。
 3. 保存当天数据到 `data/YYYY-MM-DD.json`。
 4. 更新最新数据文件 `data/latest.json`。
-5. 更新全量历史文件 `data/all.json`。
-6. 更新日期索引文件 `data/index.json`。
-7. 自动提交并推送到 GitHub 仓库。
+5. 更新日期索引文件 `data/index.json`。
+6. 自动提交并推送到 GitHub 仓库。
 
 最终，别人或其他 AI 可以通过 raw 链接读取数据，例如：
 
 ```text
-https://raw.githubusercontent.com/<用户名>/<仓库名>/main/data/all.json
+https://raw.githubusercontent.com/<用户名>/<仓库名>/main/data/index.json
 ```
 
 ## 仓库结构
@@ -32,7 +31,6 @@ top-rank-tracker/
   data/
     YYYY-MM-DD.json
     latest.json
-    all.json
     index.json
   scripts/
     crawl.mjs
@@ -47,7 +45,6 @@ top-rank-tracker/
 - `package.json`：定义运行命令，例如 `npm run crawl:daily`。
 - `data/YYYY-MM-DD.json`：某一天的完整抓取结果。
 - `data/latest.json`：最近一次抓取结果。
-- `data/all.json`：所有日期数据的聚合文件。
 - `data/index.json`：所有已抓取日期和每日文件链接。
 
 ## 第一步：创建公开 GitHub 仓库
@@ -229,10 +226,10 @@ Daily Tophub Crawl
 推荐给 AI 的链接：
 
 ```text
-https://raw.githubusercontent.com/<用户名>/<仓库名>/main/data/all.json
+https://raw.githubusercontent.com/<用户名>/<仓库名>/main/data/index.json
 ```
 
-这个文件包含所有已抓取日期的数据，适合做历史趋势分析。
+这个文件包含所有已抓取日期和每日文件链接，适合按需读取历史数据、做趋势分析。
 
 也可以提供日期索引：
 
@@ -242,19 +239,18 @@ https://raw.githubusercontent.com/<用户名>/<仓库名>/main/data/index.json
 
 常见用法：
 
-- 读取 `all.json`：分析所有日期数据。
+- 读取 `index.json`：获取所有可用日期和每日文件链接。
 - 读取 `latest.json`：只分析最近一次数据。
 - 读取 `YYYY-MM-DD.json`：只分析某一天数据。
 
 ## 数据追溯方式
 
-`data/all.json` 支持以下维度：
+历史数据可以先读取 `data/index.json`，再按日期读取对应的 `data/YYYY-MM-DD.json`。单日文件支持以下维度：
 
-- 按日期：筛选 `snapshot.date`
 - 按榜单：筛选 `sourceName + listName`
 - 按类别：筛选 `categoryName`
 - 按排名：筛选 `items.rank`
-- 跨日期趋势：比较不同日期同一榜单里的条目变化
+- 跨日期趋势：按 `index.json` 的日期列表读取多天文件后比较同一榜单里的条目变化
 
 ## 兜底机制建议
 
@@ -298,16 +294,16 @@ GitHub Actions 跑在 GitHub 云端，不需要电脑开机。
 
 ## 当前项目示例
 
-本项目的全量数据链接：
-
-```text
-https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/all.json
-```
-
-日期索引链接：
+本项目的日期索引链接：
 
 ```text
 https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/index.json
+```
+
+最新数据链接：
+
+```text
+https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/latest.json
 ```
 
 GitHub Actions 配置：

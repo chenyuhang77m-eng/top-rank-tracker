@@ -54,7 +54,6 @@
 - `data/YYYY-MM-DD.json`：某一天的完整抓取结果
 - `data/latest.json`：最近一次抓取结果
 - `data/index.json`：所有已抓取日期和每日文件链接
-- `data/all.json`：所有日期数据的聚合文件，适合让 AI 一次读取历史全量
 - `data/insights/YYYY-MM-DD.json`：某一天的 AI 洞察结果
 - `data/insights/latest.json`：最近一次 AI 洞察结果
 
@@ -76,17 +75,13 @@
 
 ## 🌐 给 AI 读取的链接
 
-全量历史数据：
-
-```text
-https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/all.json
-```
-
 日期索引：
 
 ```text
 https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/index.json
 ```
+
+历史数据可以先读取 `data/index.json`，再按 `dates` 中的日期读取对应的 `data/YYYY-MM-DD.json`。
 
 最新抓取数据：
 

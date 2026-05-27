@@ -319,14 +319,7 @@ async function writeArchiveFiles(updatedAt) {
     .filter((file) => /^\d{4}-\d{2}-\d{2}\.json$/.test(file))
     .sort();
 
-  const snapshots = [];
-
-  for (const file of dailyFiles) {
-    const content = await fs.readFile(path.join(dataDir, file), "utf8");
-    snapshots.push(JSON.parse(content));
-  }
-
-  const dates = snapshots.map((snapshot) => snapshot.date);
+  const dates = dailyFiles.map((file) => file.replace(".json", ""));
   const index = {
     updatedAt,
     totalDays: dates.length,
@@ -338,15 +331,7 @@ async function writeArchiveFiles(updatedAt) {
     }))
   };
 
-  const all = {
-    updatedAt,
-    totalDays: snapshots.length,
-    dates,
-    snapshots
-  };
-
   await fs.writeFile(path.join(dataDir, "index.json"), `${JSON.stringify(index, null, 2)}\n`, "utf8");
-  await fs.writeFile(path.join(dataDir, "all.json"), `${JSON.stringify(all, null, 2)}\n`, "utf8");
 }
 
 main().catch((error) => {
