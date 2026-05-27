@@ -245,14 +245,14 @@ function rowScore(row, signals) {
 function highlightStrategy(text = "") {
   const trimmed = String(text || "").trim();
   if (!trimmed) return "";
-  if (/【重点】|【投放】/.test(trimmed)) return trimmed;
+  if (/【重点】/.test(trimmed)) return trimmed;
   return `【重点】${trimmed}`;
 }
 
 function isStrategyTooThin(text = "") {
   const strategy = String(text || "").trim();
   if (strategy.length < 120) return true;
-  if (!strategy.includes("【重点】") || !strategy.includes("【投放】")) return true;
+  if (!strategy.includes("【重点】")) return true;
   const requiredSignals = ["内容创意", "预算分层", "真实体验", "选择理由更具体"];
   return !requiredSignals.some((signal) => strategy.includes(signal));
 }
@@ -364,7 +364,7 @@ function strategyForRow(row, hotTitle, rowShop, topicIdeas) {
     : `结合「${row.scene}」的日常场景`;
   const ideas = uniq(contentIdeasForRow(row), 3).join("、") || uniq(topicIdeas, 3).join("、") || `${row.sub}选购清单、真实体验对比`;
   const productText = rowShop ? `，用热销 SKU 做案例露出和卖点验证` : "";
-  return `【重点】主打${benefit}的卖点，${sceneText}，输出「${ideas}」等内容创意；内容重点突出场景痛点、预算分层和真实体验，让${row.sub}的选择理由更具体${productText}。【投放】抖音首发，巨量引擎小额放大，巨量星图匹配垂类达人。`;
+  return `【重点】主打${benefit}的卖点，${sceneText}，输出「${ideas}」等内容创意；内容重点突出场景痛点、预算分层和真实体验，让${row.sub}的选择理由更具体${productText}。`;
 }
 
 function categoryFocusLabels(catKey, rows, hotSignals) {
@@ -640,13 +640,12 @@ function buildSystemPrompt() {
     "topicIdeas must not duplicate hotTerms. If hotTerms has 手机集体大降价, topicIdeas should be like 换机党价格避坑 or 线下新机还值不值, not 手机集体大降价 again.",
     "Do not output mechanical suffixes or templates like 内容钩子, 场景种草, 话题钩子, 营销钩子, 人群痛点实测, 场景改造前后对比, 真实体验拆解, or 一周体验挑战.",
     "topics must equal topicIdeas for frontend compatibility.",
-    "Use one unified playbook style for all eight categories: C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, and EDU. The strategy style must match the complete BEAU/CLOT/EDU examples: concrete benefit, scenario, content ideas, budget layering, real experience, and ByteDance placement.",
+    "Use one unified playbook style for all eight categories: C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, and EDU. The strategy style must include concrete benefit, scenario, content ideas, budget layering, and real experience.",
     "EDU is a combined Platform/Education category. It may contain platform-economy signals such as 外卖, 美团, 滴滴, 打车, 酒旅, 二手回收, 电商平台, and education/book signals such as 图书, 童书, 绘本, 教材, 教辅, 考试, 学习机. Use the input field industry when available: platform rows and education rows must stay separate. Generate 3-5 rows from whichever side has real signals today; if both sides have signals, mix them without merging their row names.",
-    "strategy must analyze category, hotspots, products, and topicIdeas. Write every strategy in this shape: 【重点】主打{具体利益点}的卖点，结合「{热点或场景}」的讨论热度/日常场景，输出「{3个topicIdeas}」等内容创意；内容重点突出场景痛点、预算分层和真实体验，让{sub}的选择理由更具体。若有相关商品信号，再补一句用热销 SKU 做案例露出和卖点验证。【投放】抖音首发，巨量引擎小额放大，巨量星图匹配垂类达人。",
+    "strategy must analyze category, hotspots, products, and topicIdeas. Write every strategy in this shape: 【重点】主打{具体利益点}的卖点，结合「{热点或场景}」的讨论热度/日常场景，输出「{3个topicIdeas}」等内容创意；内容重点突出场景痛点、预算分层和真实体验，让{sub}的选择理由更具体。若有相关商品信号，再补一句用热销 SKU 做案例露出和卖点验证。",
     "Every strategy should be about 130-190 Chinese characters. Do not write short 70-100 character summaries. Do not output different strategy depths for different categories.",
     "The \u3010\u91cd\u70b9\u3011 part must include: main selling point, linked scenario/topic, concrete content ideas, budget layering, and real user experience. Do not write meta instructions such as 围绕热点拆出3条内容线, 先用热点解释降低理解门槛, 用人群痛点+产品场景做脚本, or 做常青内容.",
-    "Use Chinese markers \u3010\u91cd\u70b9\u3011 and \u3010\u6295\u653e\u3011 only. Do not include a \u3010\u590d\u7528\u3011 section. The \u3010\u6295\u653e\u3011 part should be short, usually 1 sentence.",
-    "strategy placement must only use ByteDance ecosystem channels: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not literally write \u201c\u4ec5\u9650\u5b57\u8282\u751f\u6001\u201d. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
+    "Use Chinese marker \u3010\u91cd\u70b9\u3011 only. Do not include \u3010\u6295\u653e\u3011, channel placement, media buying, or platform placement sentences.",
     "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
     "Return a valid JSON object only. No Markdown. No commentary.",
     "Top-level JSON must include briefs, summary, and categories. summary.rows must be an empty array.",
