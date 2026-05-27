@@ -16,7 +16,7 @@ const sources = [
     category: "hot-search",
     categoryName: "热搜榜",
     url: "https://tophub.today/c/news?q=%E7%83%AD%E6%90%9C",
-    selectedNodeIds: ["1", "2", "140", "69", "223"]
+    selectedNodeIds: ["223", "1", "2", "140", "69"]
   },
   {
     category: "shopping",
@@ -35,6 +35,14 @@ const sources = [
     categoryName: "热销榜",
     url: "https://tophub.today/c/shopping?q=%E5%BF%AB%E6%89%8B",
     selectedNodeIds: ["36116"]
+  },
+  {
+    category: "shopping",
+    categoryName: "热销榜",
+    url: "https://tophub.today/n/x9ozr11oXb",
+    singleNodeId: "36108",
+    sourceName: "京东",
+    listName: "图书 ‧ 热销榜"
   }
 ];
 
@@ -236,10 +244,49 @@ function parseShoppingItems(block) {
   return parseNewsItems(block).slice(0, TOP_ITEM_LIMIT);
 }
 
+function parseSingleRankItems(html) {
+  const items = [];
+  const rowPattern = /<tr>[\s\S]*?<td[^>]*>\s*(\d+)\.\s*<\/td>[\s\S]*?<td class="al"[\s\S]*?<div><a\s+href="([^"]+)"[\s\S]*?>([\s\S]*?)<\/a><\/div>[\s\S]*?<\/tr>/g;
+
+  for (const match of html.matchAll(rowPattern)) {
+    const rank = Number(stripTags(match[1]));
+    const title = stripTags(match[3]);
+    if (rank && title) {
+      items.push({
+        rank,
+        title,
+        metric: "",
+        url: absoluteUrl(decodeHtml(match[2]))
+      });
+    }
+  }
+
+  return items.slice(0, TOP_ITEM_LIMIT);
+}
+
 async function crawlSource(source) {
   const html = await fetchHtml(source.url);
+  if (source.singleNodeId) {
+    const items = source.category === "shopping"
+      ? parseSingleRankItems(html)
+      : selectHotSearchItems(parseNewsItems(html));
+
+    return [{
+      category: source.category,
+      categoryName: source.categoryName,
+      nodeId: source.singleNodeId,
+      sourceName: source.sourceName,
+      listName: source.listName,
+      itemCount: items.length,
+      items
+    }];
+  }
+
   const selected = new Set(source.selectedNodeIds);
-  const blocks = getNodeBlocks(html).filter((block) => selected.has(block.nodeId));
+  const order = new Map(source.selectedNodeIds.map((nodeId, index) => [nodeId, index]));
+  const blocks = getNodeBlocks(html)
+    .filter((block) => selected.has(block.nodeId))
+    .sort((a, b) => order.get(a.nodeId) - order.get(b.nodeId));
 
   return blocks.map((block) => {
     const meta = parseCardMeta(block.html);

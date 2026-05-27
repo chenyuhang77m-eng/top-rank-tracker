@@ -59,6 +59,10 @@ const categoryRules = {
 
 const categoryOverrides = [
   {
+    key: "EDU",
+    re: /图书|书籍|童书|绘本|纸板书|分级读物|读物|教材|教辅|课本|练习册|习题|试卷|字帖|作文书|课外书|课外阅读|阅读书|名著|小说|文学|漫画|百科|词典|字典|考研书|公考书|真题|四六级|雅思|托福|幼小衔接|识字书|学习方法报|小学生|中学生|初中|高中|一年级|二年级|三年级|四年级|五年级|六年级/i
+  },
+  {
     key: "FOOD",
     re: /即食|可食用|冲泡|冲调|饮用|烹饪|佐餐|下饭|代餐|调味|滋补|养生食材|食品|零食|饮料|茶饮|奶茶|咖啡|啤酒|白酒|红酒|葡萄酒|洋酒|黄酒|奶|牛奶|酸奶|羊奶|驼奶|奶粉|乳制品|椰子水|电解质|果汁|苹果汁|矿泉水|纯净水|苏打水|糕点|点心|饼干|薯片|糖果|巧克力|坚果|肉干|卤味|粮油|米面|方便面|拌面|速食|轻食|熟食|预制菜|调味料|调料|酱料|火锅底料|生鲜|水果|蔬菜|菌菇|肉制品|鸡肉|牛肉|猪肉|羊肉|鱼肉|肉|蛋|海鲜|水产|皮皮虾|榴莲|车厘子|西瓜|燕窝|花胶|参茸|汤料|粽子|粽|月饼|年货|腊味|食品礼盒|伴手礼食品|钙片|奶片|益生菌|维生素|蛋白粉|乳清/i
   },
@@ -138,10 +142,11 @@ function parseMetric(metric = "") {
   return value;
 }
 
-function categoryOf(title = "") {
-  const forced = categoryOverrides.find((rule) => rule.re.test(title));
+function categoryOf(title = "", listName = "") {
+  const text = `${listName} ${title}`;
+  const forced = categoryOverrides.find((rule) => rule.re.test(text));
   if (forced) return forced.key;
-  return categories.find((cat) => categoryRules[cat.key].test(title))?.key || null;
+  return categories.find((cat) => categoryRules[cat.key].test(text))?.key || null;
 }
 
 function uniq(values, limit = 6) {
@@ -170,7 +175,7 @@ function compactLatest(latest) {
         rank: item.rank,
         title: item.title,
         metric: item.metric,
-        categoryKey: categoryOf(item.title),
+        categoryKey: categoryOf(item.title, list.listName),
         metricValue: parseMetric(item.metric)
       }))
     }))
@@ -182,7 +187,7 @@ function compactLatest(latest) {
       const shop = [];
       for (const list of latest.lists) {
         for (const item of list.items) {
-          if (categoryOf(item.title) === cat.key) {
+          if (categoryOf(item.title, list.listName) === cat.key) {
             const signal = {
               sourceName: list.sourceName,
               listType: list.category,
@@ -206,6 +211,46 @@ function compactLatest(latest) {
   compact.fallbackSubcategories = fallbackPlaybook;
 
   return compact;
+}
+
+function buildWordClouds(compact) {
+  const stopWords = new Set([
+    "原价", "券后", "到手", "规格", "无规格", "官方", "旗舰", "预订", "赠品", "福利",
+    "京东", "淘宝", "天猫", "商城", "物流", "直发", "次日达", "全套", "单册", "新版"
+  ]);
+  const tokenPattern = /[A-Za-z][A-Za-z0-9+.-]{1,}|[\u4e00-\u9fa5]{2,12}/g;
+  const collect = (signals, type) => {
+    const map = new Map();
+    for (const item of signals) {
+      const sourceText = item.title || "";
+      const weight = Math.max(Math.round(Math.log10((item.metricValue || 1) + 10) * 20), 10);
+      const tokens = sourceText.match(tokenPattern) || [];
+      for (const raw of tokens) {
+        const word = raw.trim();
+        if (word.length < 2 || stopWords.has(word) || /^\d+$/.test(word)) continue;
+        const current = map.get(word) || { word, weight: 0, type, source: item.sourceName };
+        current.weight += weight;
+        map.set(word, current);
+      }
+    }
+    return [...map.values()].sort((a, b) => b.weight - a.weight).slice(0, 80);
+  };
+
+  const hotSignals = [];
+  const shopSignals = [];
+  const category = {};
+  for (const cat of categories) {
+    const signalSet = compact.categorySignals[cat.key] || { hot: [], shop: [], all: [] };
+    hotSignals.push(...(signalSet.hot || []));
+    shopSignals.push(...(signalSet.shop || []));
+    category[cat.key] = collect(signalSet.all || [], "category");
+  }
+
+  return {
+    topic: collect(hotSignals, "topic"),
+    product: collect(shopSignals, "product"),
+    category
+  };
 }
 
 function rowScore(row, signals) {
@@ -505,7 +550,8 @@ function normalizeInsights(content, latest) {
     },
     categories: Object.fromEntries(
       categories.map((cat) => [cat.key, normalizeCategory(cat, content?.categories?.[cat.key], compact)])
-    )
+    ),
+    wordClouds: content?.wordClouds || buildWordClouds(compact)
   };
 }
 
@@ -551,10 +597,43 @@ function categorySchema(rowCount = rowsPerCategory) {
   };
 }
 
+function wordCloudItemSchema() {
+  return {
+    type: "object",
+    additionalProperties: false,
+    required: ["word", "weight", "type"],
+    properties: {
+      word: { type: "string" },
+      weight: { type: "number" },
+      type: { type: "string" }
+    }
+  };
+}
+
+function wordCloudSchema() {
+  return {
+    type: "object",
+    additionalProperties: false,
+    required: ["topic", "product", "category"],
+    properties: {
+      topic: { type: "array", maxItems: 80, items: wordCloudItemSchema() },
+      product: { type: "array", maxItems: 80, items: wordCloudItemSchema() },
+      category: {
+        type: "object",
+        additionalProperties: false,
+        required: categories.map((cat) => cat.key),
+        properties: Object.fromEntries(
+          categories.map((cat) => [cat.key, { type: "array", maxItems: 60, items: wordCloudItemSchema() }])
+        )
+      }
+    }
+  };
+}
+
 const responseSchema = {
   type: "object",
   additionalProperties: false,
-  required: ["briefs", "summary", "categories"],
+  required: ["briefs", "summary", "categories", "wordClouds"],
   properties: {
     briefs: {
       type: "object",
@@ -574,7 +653,8 @@ const responseSchema = {
       additionalProperties: false,
       required: categories.map((cat) => cat.key),
       properties: Object.fromEntries(categories.map((cat) => [cat.key, categorySchema()]))
-    }
+    },
+    wordClouds: wordCloudSchema()
   }
 };
 
@@ -622,7 +702,9 @@ function buildSystemPrompt() {
     "strategy placement must only use ByteDance ecosystem channels: Douyin, Douyin Search, Douyin Ecommerce, Ocean Engine, 巨量引擎, 巨量星图, 字节品牌广告, 今日头条, 西瓜视频, 懂车帝, 红果短剧. Do not literally write \u201c\u4ec5\u9650\u5b57\u8282\u751f\u6001\u201d. Do not mention 小红书, B站, 知乎, 视频号, 京东, 天猫, 快手, 微信, or other non-ByteDance channels.",
     "Every row must stay within its own subcategory. If a subcategory has no relevant hot-search signal today, say it has no strong signal and write an evergreen small-budget test; do not borrow another subcategory hotspot.",
     "Return a valid JSON object only. No Markdown. No commentary.",
-    "Top-level JSON must include briefs, summary, and categories. summary.rows must be an empty array.",
+    "Top-level JSON must include briefs, summary, categories, and wordClouds. summary.rows must be an empty array.",
+    "wordClouds must be generated by you from the input ranking titles, not copied from a fixed dictionary. Return topic, product, and category. Each item has word, weight from 1-100, and type such as topic, product, brand, selling, category. Merge near-duplicates and prefer meaningful Chinese phrases over single generic words.",
+    "wordClouds.topic should summarize hot-search topics. wordClouds.product should summarize ecommerce product/brand/selling terms. wordClouds.category must include C3, HOME, APPL, BABY, FOOD, BEAU, CLOT, EDU arrays. For EDU, all book-related terms such as 图书, 童书, 绘本, 教材, 教辅, 练习册, 小说, 百科, 分级阅读, 幼小衔接 must stay in EDU, even when the title mentions children or babies.",
     "briefs must include five module briefs: hot, shop, trend, cloud, marketing. Each brief has lead and 2-4 bullets.",
     "briefs.hot explains today's hot-search attention structure. briefs.shop explains ecommerce/hot-selling product signals in the same editorial style as category leads, for example: 今日家居家装类目电商热销品以清洁纸品、洗护囤货为主，520节点带动礼赠相关品类销量上涨. Do not only list SKU titles.",
     "All module briefs must be written by you from the input data, in concise Chinese editorial style, and must not be generic placeholders.",
@@ -748,7 +830,7 @@ async function postJsonRepair({ apiKey, baseUrl, model, invalidText, errorMessag
         role: "user",
         content: JSON.stringify({
           parseError: errorMessage,
-          requiredTopLevelKeys: ["summary", "categories"],
+          requiredTopLevelKeys: ["briefs", "summary", "categories", "wordClouds"],
           invalidJsonText: invalidText
         })
       }
@@ -952,7 +1034,8 @@ function fallbackInsights(latest, reason) {
         bullets: ["\u914d\u7f6e VOLCENGINE_API_KEY \u548c VOLCENGINE_MODEL \u540e\u4f1a\u81ea\u52a8\u751f\u6210\u6a21\u578b\u6d1e\u5bdf"],
         rows: []
       },
-      categories: Object.fromEntries(categories.map((cat) => [cat.key, makeCategory(cat)]))
+      categories: Object.fromEntries(categories.map((cat) => [cat.key, makeCategory(cat)])),
+      wordClouds: buildWordClouds(compact)
     }
   };
 }
