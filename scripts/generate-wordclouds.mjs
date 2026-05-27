@@ -74,6 +74,7 @@ function prompt() {
     "你是中文消费趋势词云分析师。只根据输入榜单标题生成 JSON，不要 Markdown。",
     "输出结构: {\"wordClouds\":{\"topic\":[],\"product\":[],\"topicCategory\":{\"C3\":[],\"HOME\":[],\"APPL\":[],\"BABY\":[],\"FOOD\":[],\"BEAU\":[],\"CLOT\":[],\"EDU\":[]},\"productCategory\":{\"C3\":[],\"HOME\":[],\"APPL\":[],\"BABY\":[],\"FOOD\":[],\"BEAU\":[],\"CLOT\":[],\"EDU\":[]}}}",
     "每个词条格式: {\"word\":\"词\",\"weight\":1-100,\"type\":\"topic/product/brand/selling/category\"}。",
+    "word 必须短，中文词优先 2-6 个字；英文品牌名可略长。不要输出整句标题、长 SKU、长卖点句或超过 8 个中文字符的短语。",
     "topic 从 hot-search 榜单提炼 30-50 个词；product 从 shopping 榜单提炼 30-50 个词。",
     "topicCategory 只能从 hot-search 中对应 categoryKey 的标题提炼；productCategory 只能从 shopping 中对应 categoryKey 的标题提炼。",
     "每个 topicCategory/productCategory 数组有对应标题时输出 8-20 个词；没有对应标题时返回空数组，不要跨来源或跨类目补词。",
@@ -155,8 +156,26 @@ async function callLLM(input) {
   return { model, content: JSON.parse(extractJsonText(outputText)) };
 }
 
+function shortenWord(value) {
+  const raw = String(value || "")
+    .replace(/[【】\[\]（）()《》"'“”‘’]/g, "")
+    .replace(/\d+(?:g|kg|ml|L|元|只|件|本|册|级|岁)?/gi, "")
+    .replace(/\s+/g, "")
+    .trim();
+  if (!raw) return "";
+  const cjkChars = raw.match(/[\u4e00-\u9fa5]/g) || [];
+  if (cjkChars.length <= 6) return raw;
+  const parts = raw.split(/[，,、/｜|·:：\-_\s]+/).filter(Boolean);
+  const candidate = parts.find((part) => {
+    const count = (part.match(/[\u4e00-\u9fa5]/g) || []).length;
+    return count >= 2 && count <= 6;
+  });
+  if (candidate) return candidate;
+  return cjkChars.slice(0, 6).join("");
+}
+
 function normalizeItem(item, fallbackType) {
-  const word = String(item?.word || item?.name || "").trim();
+  const word = shortenWord(item?.word || item?.name);
   const weight = Math.max(1, Math.min(100, Number(item?.weight || item?.value || 10)));
   if (!word) return null;
   return { word, weight, type: String(item?.type || fallbackType) };
