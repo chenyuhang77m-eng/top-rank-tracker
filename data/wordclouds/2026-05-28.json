@@ -1,15 +1,32 @@
 {
   "date": "2026-05-28",
-  "capturedAt": "2026-05-28T10:10:41+08:00",
+  "capturedAt": "2026-05-28T10:43:58+08:00",
   "sourceData": "data/latest.json",
   "model": "ep-20260519102839-pwzss",
-  "generatedAt": "2026-05-28T02:17:30.528Z",
+  "generatedAt": "2026-05-28T02:51:42.206Z",
   "wordCloudSource": "llm",
   "wordClouds": {
     "topic": [
       {
+        "word": "水晶宫夺冠",
+        "weight": 100,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
+          }
+        ]
+      },
+      {
         "word": "欧协联冠军",
-        "weight": 98,
+        "weight": 99,
         "type": "topic",
         "sources": [
           {
@@ -21,7 +38,7 @@
       },
       {
         "word": "和平精英",
-        "weight": 96,
+        "weight": 98,
         "type": "topic",
         "sources": [
           {
@@ -32,8 +49,8 @@
         ]
       },
       {
-        "word": "暑期版本",
-        "weight": 94,
+        "word": "暑期版本前瞻",
+        "weight": 97,
         "type": "topic",
         "sources": [
           {
@@ -45,7 +62,7 @@
       },
       {
         "word": "工业利润增长",
-        "weight": 92,
+        "weight": 96,
         "type": "topic",
         "sources": [
           {
@@ -62,7 +79,7 @@
       },
       {
         "word": "高考加油",
-        "weight": 90,
+        "weight": 95,
         "type": "topic",
         "sources": [
           {
@@ -78,20 +95,8 @@
         ]
       },
       {
-        "word": "国台办回应",
-        "weight": 88,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "国台办回应台陆委会言论"
-          }
-        ]
-      },
-      {
         "word": "神舟二十一号",
-        "weight": 86,
+        "weight": 94,
         "type": "topic",
         "sources": [
           {
@@ -102,8 +107,20 @@
         ]
       },
       {
-        "word": "育儿补贴辟谣",
-        "weight": 84,
+        "word": "航天员回家",
+        "weight": 93,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "百度",
+            "listName": "实时热点",
+            "title": "准备迎接神二十一航天员回家"
+          }
+        ]
+      },
+      {
+        "word": "客车追尾事故",
+        "weight": 92,
         "type": "topic",
         "sources": [
           {
@@ -119,8 +136,61 @@
         ]
       },
       {
-        "word": "白玉兰奖预测",
-        "weight": 82,
+        "word": "育儿补贴",
+        "weight": 91,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "“成都试点育儿补贴到6岁”不实"
+          }
+        ]
+      },
+      {
+        "word": "杨紫韩东君",
+        "weight": 90,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "杨紫韩东君真的拍了落地签"
+          }
+        ]
+      },
+      {
+        "word": "给阿嬷的情书",
+        "weight": 89,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "给阿嬷的情书情义长在"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "给阿嬷的情书为何能票房逆袭"
+          }
+        ]
+      },
+      {
+        "word": "票房逆袭",
+        "weight": 88,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "给阿嬷的情书为何能票房逆袭"
+          }
+        ]
+      },
+      {
+        "word": "火遮眼定档",
+        "weight": 87,
         "type": "topic",
         "sources": [
           {
@@ -136,42 +206,20 @@
         ]
       },
       {
-        "word": "空调省电",
-        "weight": 80,
+        "word": "猎德龙舟队",
+        "weight": 86,
         "type": "topic",
         "sources": [
           {
             "sourceName": "抖音",
             "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "运动装备",
-        "weight": 78,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
+            "title": "广东猎德龙舟队勇闯乌龙滩"
           }
         ]
       },
       {
         "word": "浪姐宿舍甲醛",
-        "weight": 76,
+        "weight": 85,
         "type": "topic",
         "sources": [
           {
@@ -188,7 +236,7 @@
       },
       {
         "word": "万彩礼",
-        "weight": 74,
+        "weight": 84,
         "type": "topic",
         "sources": [
           {
@@ -205,7 +253,7 @@
       },
       {
         "word": "香蕉补钾",
-        "weight": 72,
+        "weight": 83,
         "type": "topic",
         "sources": [
           {
@@ -221,8 +269,25 @@
         ]
       },
       {
+        "word": "王鹤棣",
+        "weight": 82,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "微博",
+            "listName": "热搜榜",
+            "title": "王鹤棣咸鱼飞升"
+          },
+          {
+            "sourceName": "微博",
+            "listName": "热搜榜",
+            "title": "王鹤棣不舒服只是迟到的自我保护"
+          }
+        ]
+      },
+      {
         "word": "雪糕",
-        "weight": 70,
+        "weight": 81,
         "type": "topic",
         "sources": [
           {
@@ -234,7 +299,7 @@
       },
       {
         "word": "微型电脑主机",
-        "weight": 68,
+        "weight": 80,
         "type": "topic",
         "sources": [
           {
@@ -246,13 +311,231 @@
       },
       {
         "word": "儿童智能手表",
-        "weight": 66,
+        "weight": 79,
         "type": "topic",
         "sources": [
           {
             "sourceName": "百度",
             "listName": "实时热点",
             "title": "儿童智能手表怎么成了家长的烦恼"
+          }
+        ]
+      },
+      {
+        "word": "华为芯片",
+        "weight": 78,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "夸克",
+            "listName": "热搜榜",
+            "title": "现在华为芯片能达到几纳米的水平?"
+          }
+        ]
+      },
+      {
+        "word": "印度高温",
+        "weight": 77,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
+          }
+        ]
+      },
+      {
+        "word": "高考倒计时",
+        "weight": 76,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "百度",
+            "listName": "实时热点",
+            "title": "高考倒计时10天"
+          }
+        ]
+      },
+      {
+        "word": "激光灭蚊神器",
+        "weight": 75,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "百度",
+            "listName": "实时热点",
+            "title": "中国造“激光灭蚊神器”海外爆单"
+          },
+          {
+            "sourceName": "夸克",
+            "listName": "热搜榜",
+            "title": "中国造“激光灭蚊神器”海外爆单"
+          }
+        ]
+      },
+      {
+        "word": "空调省电",
+        "weight": 74,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
+          }
+        ]
+      },
+      {
+        "word": "拼豆放毒",
+        "weight": 73,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
+          }
+        ]
+      },
+      {
+        "word": "代孕窝点",
+        "weight": 72,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "夸克",
+            "listName": "热搜榜",
+            "title": "记者暗访代孕窝点遭暴力拖拽致骨折"
+          },
+          {
+            "sourceName": "微博",
+            "listName": "热搜榜",
+            "title": "女记者暗访代孕窝点被打骨折"
+          },
+          {
+            "sourceName": "360搜索",
+            "listName": "实时热点榜单",
+            "title": "非法代孕窝点曝光"
+          }
+        ]
+      },
+      {
+        "word": "五个女博士",
+        "weight": 71,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "360搜索",
+            "listName": "实时热点榜单",
+            "title": "“五个女博士”过敏"
+          }
+        ]
+      },
+      {
+        "word": "羊肉串",
+        "weight": 70,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "360搜索",
+            "listName": "实时热点榜单",
+            "title": "中学烤211米羊肉串"
+          }
+        ]
+      },
+      {
+        "word": "穿搭灵感",
+        "weight": 69,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
+          }
+        ]
+      },
+      {
+        "word": "晨光送考生福",
+        "weight": 68,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
+          }
+        ]
+      },
+      {
+        "word": "德约科维奇",
+        "weight": 67,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "微博",
+            "listName": "热搜榜",
+            "title": "德约科维奇进法网32强"
+          }
+        ]
+      },
+      {
+        "word": "法网强",
+        "weight": 66,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
+          }
+        ]
+      },
+      {
+        "word": "猫咪容忍幼崽",
+        "weight": 65,
+        "type": "topic",
+        "sources": [
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "水晶宫夺欧协联冠军"
+          },
+          {
+            "sourceName": "抖音",
+            "listName": "热搜榜",
+            "title": "和平精英暑期版本前瞻"
           }
         ]
       },
@@ -274,42 +557,25 @@
         ]
       },
       {
-        "word": "激光灭蚊神器",
-        "weight": 62,
+        "word": "董明珠回应",
+        "weight": 63,
         "type": "topic",
         "sources": [
           {
             "sourceName": "百度",
             "listName": "实时热点",
-            "title": "中国造“激光灭蚊神器”海外爆单"
+            "title": "董明珠回应“不用海归派”言论"
           },
           {
             "sourceName": "夸克",
             "listName": "热搜榜",
-            "title": "中国造“激光灭蚊神器”海外爆单"
-          }
-        ]
-      },
-      {
-        "word": "印度高温",
-        "weight": 60,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
+            "title": "董明珠回应“不用海归派”言论"
           }
         ]
       },
       {
         "word": "荔枝泡水",
-        "weight": 58,
+        "weight": 62,
         "type": "topic",
         "sources": [
           {
@@ -325,289 +591,112 @@
         ]
       },
       {
-        "word": "拼豆有毒",
-        "weight": 56,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "代孕窝点",
-        "weight": 54,
+        "word": "外国网红",
+        "weight": 61,
         "type": "topic",
         "sources": [
           {
             "sourceName": "夸克",
             "listName": "热搜榜",
-            "title": "记者暗访代孕窝点遭暴力拖拽致骨折"
+            "title": "外国网红中国搭便车的视频火到国外"
           },
           {
             "sourceName": "微博",
             "listName": "热搜榜",
-            "title": "女记者暗访代孕窝点被打骨折"
-          },
-          {
-            "sourceName": "360搜索",
-            "listName": "实时热点榜单",
-            "title": "非法代孕窝点曝光"
+            "title": "外国网红中国搭便车的视频火到国外"
           }
         ]
       },
       {
-        "word": "高考捡漏北大",
-        "weight": 52,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "米羊肉串",
-        "weight": 50,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "360搜索",
-            "listName": "实时热点榜单",
-            "title": "中学烤211米羊肉串"
-          }
-        ]
-      },
-      {
-        "word": "榴莲退货",
-        "weight": 48,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "穿搭灵感",
-        "weight": 46,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "胡彦斌评论区",
-        "weight": 44,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "胡彦斌评论区全是歌手"
-          }
-        ]
-      },
-      {
-        "word": "内马尔归队",
-        "weight": 42,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "德约科维奇",
-        "weight": 40,
+        "word": "严浩翔学士服",
+        "weight": 60,
         "type": "topic",
         "sources": [
           {
             "sourceName": "微博",
             "listName": "热搜榜",
-            "title": "德约科维奇进法网32强"
-          }
-        ]
-      },
-      {
-        "word": "王鹤棣",
-        "weight": 38,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "微博",
-            "listName": "热搜榜",
-            "title": "王鹤棣咸鱼飞升"
-          },
-          {
-            "sourceName": "微博",
-            "listName": "热搜榜",
-            "title": "王鹤棣不舒服只是迟到的自我保护"
-          }
-        ]
-      },
-      {
-        "word": "晨光考生送福",
-        "weight": 36,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "歌手选手",
-        "weight": 34,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
-          }
-        ]
-      },
-      {
-        "word": "给阿嬷的情书",
-        "weight": 32,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "给阿嬷的情书情义长在"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "给阿嬷的情书为何能票房逆袭"
-          }
-        ]
-      },
-      {
-        "word": "电影定档",
-        "weight": 30,
-        "type": "topic",
-        "sources": [
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "水晶宫夺欧协联冠军"
-          },
-          {
-            "sourceName": "抖音",
-            "listName": "热搜榜",
-            "title": "和平精英暑期版本前瞻"
+            "title": "严浩翔学士服路透"
           }
         ]
       }
     ],
     "product": [
       {
-        "word": "纸尿裤",
+        "word": "蚕丝尿裤",
+        "weight": 100,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "膏药贴",
+        "weight": 99,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "柯基纸尿裤",
         "weight": 98,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
-            "listName": "每日爆款清单",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
           }
         ]
       },
       {
-        "word": "成长裤",
-        "weight": 96,
+        "word": "洗衣机养护液",
+        "weight": 97,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
           },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "每日爆款清单",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-          }
-        ]
-      },
-      {
-        "word": "膏药贴",
-        "weight": 94,
-        "type": "product",
-        "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+            "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "每日爆款清单",
-            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+            "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
           }
         ]
       },
       {
         "word": "润喉糖",
-        "weight": 92,
+        "weight": 96,
         "type": "product",
         "sources": [
           {
@@ -618,25 +707,8 @@
         ]
       },
       {
-        "word": "大包装薯片",
-        "weight": 90,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
-          }
-        ]
-      },
-      {
         "word": "亲肤洗衣液",
-        "weight": 88,
+        "weight": 95,
         "type": "product",
         "sources": [
           {
@@ -647,42 +719,25 @@
         ]
       },
       {
-        "word": "洗衣机养护液",
-        "weight": 86,
+        "word": "大克重薯片",
+        "weight": 94,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "每日爆款清单",
-            "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
-          }
-        ]
-      },
-      {
-        "word": "爆炸盐",
-        "weight": 84,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【皇宇】三重爆炸盐800g 原价¥24.9 券后¥11.9"
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
           }
         ]
       },
       {
         "word": "鱼子酱发膜",
-        "weight": 82,
+        "weight": 93,
         "type": "product",
         "sources": [
           {
@@ -693,31 +748,232 @@
         ]
       },
       {
-        "word": "桃叶爽身露",
-        "weight": 80,
+        "word": "早餐面包",
+        "weight": 92,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "爆炸盐",
+        "weight": 91,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【皇宇】三重爆炸盐800g 原价¥24.9 券后¥11.9"
+          }
+        ]
+      },
+      {
+        "word": "婴儿桃子水",
+        "weight": 90,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "植物精油贴",
+        "weight": 89,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "babycare植物精油贴72贴 原价¥19.9 券后¥19.9"
+          }
+        ]
+      },
+      {
+        "word": "超薄安全套",
+        "weight": 88,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
           }
         ]
       },
       {
         "word": "卫生巾组合",
+        "weight": 87,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "竹炭牙膏",
+        "weight": 86,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "补了！【继续1w单】高露洁竹炭牙膏8件套 原价¥15.86 券后¥15.86"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "补了！【继续1w单】高露洁竹炭牙膏8件套 原价¥15.86 券后¥15.86"
+          }
+        ]
+      },
+      {
+        "word": "紫草膏",
+        "weight": 85,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "兔头妈妈紫草膏舒缓蚊虫叮咬6.5g*2支 原价¥49.9 券后¥19.9"
+          },
+          {
+            "sourceName": "快手电商",
+            "listName": "月销热榜",
+            "title": "小狗紫草膏紫草驱蚊膏便携式清凉舒缓棒止痒膏 到手价¥4.99"
+          }
+        ]
+      },
+      {
+        "word": "阿尔卑斯棒棒",
+        "weight": 84,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "圣罗兰粉底液",
+        "weight": 83,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "玉兰油面霜",
+        "weight": 82,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "彩棠妆前乳",
+        "weight": 81,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "蛋白棒",
+        "weight": 80,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "MagicFocus蛋白棒杨枝甘露能量棒7支 原价¥4.75 券后¥4.75"
+          }
+        ]
+      },
+      {
+        "word": "中药灸疗贴",
+        "weight": 79,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "【2盒】张仲景颈肩腰腿中药灸疗贴 原价¥65 券后¥25"
+          }
+        ]
+      },
+      {
+        "word": "香氛洗衣液",
         "weight": 78,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
@@ -727,14 +983,38 @@
         ]
       },
       {
-        "word": "防臭凉拖鞋",
+        "word": "智能泡奶机",
+        "weight": 77,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "「新」波咯咯智能泡奶机恒温壶 原价¥271.5 券后¥271.5"
+          }
+        ]
+      },
+      {
+        "word": "控温夏凉被",
         "weight": 76,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "怡蔓婷深睡双感控温夏凉被凉感锦安夏季空调 原价¥619.9 券后¥119.9"
+          }
+        ]
+      },
+      {
+        "word": "得力软抄本",
+        "weight": 75,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
@@ -744,72 +1024,130 @@
         ]
       },
       {
-        "word": "湿厕纸",
+        "word": "课堂笔记",
         "weight": 74,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【下拉秒杀】心相印湿厕纸家庭装80抽5包 原价¥29.63 券后¥29.63"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【下拉秒杀】心相印湿厕纸家庭装80抽5包 原价¥29.63 券后¥29.63"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
             "listName": "每日爆款清单",
-            "title": "【下拉秒杀】心相印湿厕纸家庭装80抽5包 原价¥29.63 券后¥29.63"
+            "title": "2026春季新！课堂笔记！【1-6年上下】任选 原价¥12.8 券后¥5.8"
+          },
+          {
+            "sourceName": "京东",
+            "listName": "图书 ‧ 热销榜",
+            "title": "2026春黄冈随堂笔记一二三年级下四五六年级下册语文数学英语人教版北师版苏教版小学1-6年级上下册同步训练教材全解讲解学霸课堂笔记试卷教辅 【2册】语文+数学北师版 四年级下册（26春） 原价¥64.8 券后¥52.8"
           }
         ]
       },
       {
         "word": "儿童防晒霜",
-        "weight": 72,
+        "weight": 73,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
+            "listName": "每日爆款清单",
             "title": "漏【6月+可用】贝德美儿童防晒霜 原价¥59.9 券后¥19.9"
           }
         ]
       },
       {
-        "word": "蚊香液",
+        "word": "烟酰胺亮肤皂",
+        "weight": 72,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "每日爆款清单",
+            "title": "纯本元植萃烟酰胺亮肤皂控油祛痘洁面男女 原价¥29.92 券后¥6.92"
+          }
+        ]
+      },
+      {
+        "word": "抗皱面霜",
+        "weight": 71,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "一次性PE手套",
         "weight": 70,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "每日爆款清单",
-            "title": "润本蚊香液4液+1器！！下拉金币后20.84元! 原价¥29.9 券后¥22.9"
+            "title": "手慢无速度！100只食品级一次性PE手套 原价¥2.98 券后¥2.98"
           }
         ]
       },
       {
-        "word": "方便面",
-        "weight": 68,
+        "word": "罗小曼唇釉",
+        "weight": 69,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
-            "listName": "每日爆款清单",
-            "title": "康师傅方便面老母鸡面5包 原价¥12.9 券后¥9.9"
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
           }
         ]
       },
       {
-        "word": "早餐面包",
+        "word": "卫龙辣条",
+        "weight": 68,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "今日热卖",
+            "listName": "全网线报聚合",
+            "title": "猫超首页搜【卫龙】部分账号有2元品牌金卫龙辣条零食组合小吃豆干782g，领1.53礼金 3券，"
+          }
+        ]
+      },
+      {
+        "word": "蒙牛纯牛奶",
+        "weight": 67,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "三元婴儿奶粉",
         "weight": 66,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
@@ -819,78 +1157,25 @@
         ]
       },
       {
-        "word": "唇釉",
-        "weight": 64,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "今日热卖",
-            "listName": "全网线报聚合",
-            "title": "罗小曼 唇釉任意3支，凑25左右"
-          }
-        ]
-      },
-      {
-        "word": "辣条组合",
-        "weight": 62,
+        "word": "百草味鹌鹑蛋",
+        "weight": 65,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
             "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
-          }
-        ]
-      },
-      {
-        "word": "纯牛奶",
-        "weight": 60,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "今日热卖",
-            "listName": "全网线报聚合",
-            "title": "地区价 蒙牛全脂纯牛奶250ml*24盒，29.9 亓"
-          }
-        ]
-      },
-      {
-        "word": "婴儿奶粉",
-        "weight": 58,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
-          }
-        ]
-      },
-      {
-        "word": "鹌鹑蛋",
-        "weight": 56,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "今日热卖",
-            "listName": "全网线报聚合",
-            "title": "百草味老汤慢卤鹌鹑蛋450g，领0.63礼金 2券，详情页进入淘金币页面加购1件商品下方如有2"
           }
         ]
       },
       {
         "word": "驼奶钙片",
-        "weight": 54,
+        "weight": 64,
         "type": "product",
         "sources": [
           {
@@ -901,26 +1186,14 @@
         ]
       },
       {
-        "word": "隔汗巾",
-        "weight": 52,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "欧孕（OUYUN）汗巾儿童纯棉幼儿园隔汗巾男童女童宝宝吸汗巾婴儿垫背止汗巾春秋 5条装 萌趣伙伴 【4层纱布】 S码 原价¥24.9 券后¥21.9"
-          }
-        ]
-      },
-      {
-        "word": "开袋即食笋",
-        "weight": 50,
+        "word": "叶黄素眼贴",
+        "weight": 63,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
@@ -930,14 +1203,14 @@
         ]
       },
       {
-        "word": "婴儿益生菌",
-        "weight": 48,
+        "word": "儿童隔汗巾",
+        "weight": 62,
         "type": "product",
         "sources": [
           {
             "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
           },
           {
             "sourceName": "淘宝 ‧ 天猫",
@@ -947,20 +1220,93 @@
         ]
       },
       {
-        "word": "沙发盖布",
-        "weight": 46,
+        "word": "即食手剥笋",
+        "weight": 61,
         "type": "product",
         "sources": [
           {
-            "sourceName": "京东",
+            "sourceName": "淘宝 ‧ 天猫",
             "listName": "热销总榜",
-            "title": "珂米2024新款沙发盖布轻奢高级感全盖夏季沙发巾罩套四季通用全包防滑 花开漫烂-灰 180*420cm(五人位) 原价¥219 券后¥159"
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "决明子养生茶",
+        "weight": 60,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "无甲醛乳胶漆",
+        "weight": 59,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "婴幼儿益生菌",
+        "weight": 58,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
+          }
+        ]
+      },
+      {
+        "word": "轻奢沙发盖布",
+        "weight": 57,
+        "type": "product",
+        "sources": [
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "柚贝零感蚕丝超柔细尿裤 原价¥169.9 券后¥62.9"
+          },
+          {
+            "sourceName": "淘宝 ‧ 天猫",
+            "listName": "热销总榜",
+            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
           }
         ]
       },
       {
         "word": "碳性电池",
-        "weight": 44,
+        "weight": 56,
         "type": "product",
         "sources": [
           {
@@ -969,177 +1315,13 @@
             "title": "EVERLAST （文质）碳性电池5号20粒+7号20粒 低耗玩具遥控器时钟计算器 碱性5号10粒+7号10粒大容量耐用 碳性5号20粒+7号20粒 原价¥69.8 券后¥14.8"
           }
         ]
-      },
-      {
-        "word": "鞋底贴",
-        "weight": 42,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "dreambox钧博vibram橡胶贴片鞋底贴底服务耐磨防滑前掌贴后跟底片 整片式（vibram橡胶片贴底服务） 原价¥398 券后¥258"
-          }
-        ]
-      },
-      {
-        "word": "矫正鞋",
-        "weight": 40,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "洛崽崽儿童内八脚矫正鞋夏季扁平足足外翻专用机能鞋XO型腿矫形长短腿 咖啡色 内八字专用 28 码 （合适脚长17/内长18） 原价¥203 券后¥186"
-          }
-        ]
-      },
-      {
-        "word": "应急启动电源",
-        "weight": 38,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "谱硕汽车应急启动电源充气泵一体机数显车载电瓶搭电宝强启打火神器各类轮胎电动打气泵带户外照明灯 顶配/黑【12V不限排丨2000A电流】智能夹+收纳袋 原价¥169 券后¥149"
-          }
-        ]
-      },
-      {
-        "word": "焦糖饼干",
-        "weight": 36,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "味滋源焦糖饼干曲奇饼500g/盒 原价¥42.9 券后¥12.9"
-          }
-        ]
-      },
-      {
-        "word": "酱香型白酒",
-        "weight": 34,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "摘要【限量发售】封坛窖藏 53度酱香型白酒 稀缺老酒 收藏宴请送礼 53%vol 500mL 2瓶 原价¥2598 券后¥1299"
-          }
-        ]
-      },
-      {
-        "word": "地板精油",
-        "weight": 32,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "涤太太香樟木地板精油实木地板保养上光蜡液复合竹地板护理木地板油 1瓶地板油精【买2瓶送1瓶+1拖把】 500ml/瓶 原价¥198 券后¥173"
-          }
-        ]
-      },
-      {
-        "word": "防晒衣",
-        "weight": 30,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "京东",
-            "listName": "热销总榜",
-            "title": "茉寻【赵露思同款】落肩防晒衣女新款夏季户外防晒服外套凉感透气 插肩款--灰色 XL 身高166-175cm，体重150斤以下 原价¥118 券后¥91"
-          },
-          {
-            "sourceName": "快手电商",
-            "listName": "月销热榜",
-            "title": "MISSWISS夏季轻薄透气防晒衣短款女士户外骑行遮阳防紫外线皮肤衣 到手价¥99.00"
-          }
-        ]
-      },
-      {
-        "word": "千层蛋糕",
-        "weight": 28,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "快手电商",
-            "listName": "月销热榜",
-            "title": "彬敬蛋糕 千层蛋糕/蓝莓/草莓/芒果/抹茶 到手价¥16.99"
-          }
-        ]
-      },
-      {
-        "word": "盐焗鸭翅根",
-        "weight": 26,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "快手电商",
-            "listName": "月销热榜",
-            "title": "好味来盐焗鸭翅根 到手价¥29.90"
-          }
-        ]
-      },
-      {
-        "word": "儿童短袖套装",
-        "weight": 24,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
-          }
-        ]
-      },
-      {
-        "word": "教辅资料",
-        "weight": 22,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
-          }
-        ]
-      },
-      {
-        "word": "儿童绘本",
-        "weight": 20,
-        "type": "product",
-        "sources": [
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-          },
-          {
-            "sourceName": "淘宝 ‧ 天猫",
-            "listName": "热销总榜",
-            "title": "【武夫人】颈肩腰腿骨关节专用膏药贴10贴 原价¥89.9 券后¥15.9"
-          }
-        ]
       }
     ],
     "topicCategory": {
       "C3": [
         {
           "word": "微型电脑主机",
-          "weight": 90,
+          "weight": 80,
           "type": "topic",
           "sources": [
             {
@@ -1151,7 +1333,7 @@
         },
         {
           "word": "儿童智能手表",
-          "weight": 87,
+          "weight": 79,
           "type": "topic",
           "sources": [
             {
@@ -1162,32 +1344,22 @@
           ]
         },
         {
-          "word": "智能穿戴",
-          "weight": 82,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "微博",
-              "listName": "热搜榜",
-              "title": "微型电脑主机全球卖爆了"
-            },
-            {
-              "sourceName": "百度",
-              "listName": "实时热点",
-              "title": "儿童智能手表怎么成了家长的烦恼"
-            }
-          ]
-        },
-        {
-          "word": "消费电子",
+          "word": "华为芯片",
           "weight": 78,
           "type": "topic",
           "sources": [
             {
-              "sourceName": "微博",
+              "sourceName": "夸克",
               "listName": "热搜榜",
-              "title": "微型电脑主机全球卖爆了"
-            },
+              "title": "现在华为芯片能达到几纳米的水平?"
+            }
+          ]
+        },
+        {
+          "word": "智能手表",
+          "weight": 77,
+          "type": "topic",
+          "sources": [
             {
               "sourceName": "百度",
               "listName": "实时热点",
@@ -1196,7 +1368,19 @@
           ]
         },
         {
-          "word": "数码产品",
+          "word": "电脑主机",
+          "weight": 76,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "微博",
+              "listName": "热搜榜",
+              "title": "微型电脑主机全球卖爆了"
+            }
+          ]
+        },
+        {
+          "word": "芯片技术",
           "weight": 75,
           "type": "topic",
           "sources": [
@@ -1213,8 +1397,8 @@
           ]
         },
         {
-          "word": "电子配件",
-          "weight": 70,
+          "word": "消费电子",
+          "weight": 74,
           "type": "topic",
           "sources": [
             {
@@ -1230,25 +1414,8 @@
           ]
         },
         {
-          "word": "智能设备",
-          "weight": 66,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "微博",
-              "listName": "热搜榜",
-              "title": "微型电脑主机全球卖爆了"
-            },
-            {
-              "sourceName": "百度",
-              "listName": "实时热点",
-              "title": "儿童智能手表怎么成了家长的烦恼"
-            }
-          ]
-        },
-        {
-          "word": "便携数码",
-          "weight": 62,
+          "word": "数码产品",
+          "weight": 73,
           "type": "topic",
           "sources": [
             {
@@ -1267,15 +1434,10 @@
       "HOME": [],
       "APPL": [
         {
-          "word": "空调",
-          "weight": 95,
+          "word": "空调省电",
+          "weight": 74,
           "type": "topic",
           "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
             {
               "sourceName": "夸克",
               "listName": "热搜榜",
@@ -1285,14 +1447,9 @@
         },
         {
           "word": "省电技巧",
-          "weight": 90,
+          "weight": 73,
           "type": "topic",
           "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
             {
               "sourceName": "夸克",
               "listName": "热搜榜",
@@ -1301,15 +1458,10 @@
           ]
         },
         {
-          "word": "制冷",
-          "weight": 86,
+          "word": "家电节能",
+          "weight": 72,
           "type": "topic",
           "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
             {
               "sourceName": "夸克",
               "listName": "热搜榜",
@@ -1318,15 +1470,10 @@
           ]
         },
         {
-          "word": "降温家电",
-          "weight": 82,
+          "word": "变频空调",
+          "weight": 71,
           "type": "topic",
           "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
             {
               "sourceName": "夸克",
               "listName": "热搜榜",
@@ -1335,49 +1482,22 @@
           ]
         },
         {
-          "word": "电器使用",
-          "weight": 78,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
-            {
-              "sourceName": "夸克",
-              "listName": "热搜榜",
-              "title": "空调并不是开26度最省电？"
-            }
-          ]
-        },
-        {
-          "word": "家用空调",
-          "weight": 74,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
-            {
-              "sourceName": "夸克",
-              "listName": "热搜榜",
-              "title": "空调并不是开26度最省电？"
-            }
-          ]
-        },
-        {
-          "word": "清凉家电",
+          "word": "用电技巧",
           "weight": 70,
           "type": "topic",
           "sources": [
             {
-              "sourceName": "抖音",
+              "sourceName": "夸克",
               "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
+              "title": "空调并不是开26度最省电？"
+            }
+          ]
+        },
+        {
+          "word": "制冷技巧",
+          "weight": 69,
+          "type": "topic",
+          "sources": [
             {
               "sourceName": "夸克",
               "listName": "热搜榜",
@@ -1386,15 +1506,22 @@
           ]
         },
         {
-          "word": "空调节能",
-          "weight": 66,
+          "word": "空调保养",
+          "weight": 68,
           "type": "topic",
           "sources": [
             {
-              "sourceName": "抖音",
+              "sourceName": "夸克",
               "listName": "热搜榜",
-              "title": "天气热了请你们吹空调"
-            },
+              "title": "空调并不是开26度最省电？"
+            }
+          ]
+        },
+        {
+          "word": "夏季家电",
+          "weight": 67,
+          "type": "topic",
+          "sources": [
             {
               "sourceName": "夸克",
               "listName": "热搜榜",
@@ -1407,31 +1534,7 @@
       "FOOD": [
         {
           "word": "羊肉串",
-          "weight": 95,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "360搜索",
-              "listName": "实时热点榜单",
-              "title": "中学烤211米羊肉串"
-            }
-          ]
-        },
-        {
-          "word": "榴莲",
-          "weight": 92,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "360搜索",
-              "listName": "实时热点榜单",
-              "title": "中学烤211米羊肉串"
-            }
-          ]
-        },
-        {
-          "word": "香蕉",
-          "weight": 88,
+          "weight": 70,
           "type": "topic",
           "sources": [
             {
@@ -1443,7 +1546,19 @@
         },
         {
           "word": "荔枝",
-          "weight": 85,
+          "weight": 62,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "360搜索",
+              "listName": "实时热点榜单",
+              "title": "中学烤211米羊肉串"
+            }
+          ]
+        },
+        {
+          "word": "香蕉",
+          "weight": 83,
           "type": "topic",
           "sources": [
             {
@@ -1455,7 +1570,7 @@
         },
         {
           "word": "雪糕",
-          "weight": 82,
+          "weight": 81,
           "type": "topic",
           "sources": [
             {
@@ -1467,7 +1582,7 @@
         },
         {
           "word": "补钾",
-          "weight": 78,
+          "weight": 82,
           "type": "topic",
           "sources": [
             {
@@ -1478,8 +1593,8 @@
           ]
         },
         {
-          "word": "休闲零食",
-          "weight": 74,
+          "word": "健康饮食",
+          "weight": 69,
           "type": "topic",
           "sources": [
             {
@@ -1490,8 +1605,44 @@
           ]
         },
         {
-          "word": "生鲜水果",
-          "weight": 70,
+          "word": "食品安全",
+          "weight": 68,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "360搜索",
+              "listName": "实时热点榜单",
+              "title": "中学烤211米羊肉串"
+            }
+          ]
+        },
+        {
+          "word": "网红零食",
+          "weight": 67,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "360搜索",
+              "listName": "实时热点榜单",
+              "title": "中学烤211米羊肉串"
+            }
+          ]
+        },
+        {
+          "word": "夏季美食",
+          "weight": 66,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "360搜索",
+              "listName": "实时热点榜单",
+              "title": "中学烤211米羊肉串"
+            }
+          ]
+        },
+        {
+          "word": "水果保鲜",
+          "weight": 65,
           "type": "topic",
           "sources": [
             {
@@ -1506,7 +1657,7 @@
       "CLOT": [
         {
           "word": "穿搭灵感",
-          "weight": 95,
+          "weight": 69,
           "type": "topic",
           "sources": [
             {
@@ -1517,8 +1668,8 @@
           ]
         },
         {
-          "word": "夏日穿搭",
-          "weight": 90,
+          "word": "夏季穿搭",
+          "weight": 68,
           "type": "topic",
           "sources": [
             {
@@ -1530,43 +1681,7 @@
         },
         {
           "word": "服饰搭配",
-          "weight": 86,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "当我穿搭时突然灵机一动"
-            }
-          ]
-        },
-        {
-          "word": "穿搭技巧",
-          "weight": 82,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "当我穿搭时突然灵机一动"
-            }
-          ]
-        },
-        {
-          "word": "日常穿搭",
-          "weight": 78,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "抖音",
-              "listName": "热搜榜",
-              "title": "当我穿搭时突然灵机一动"
-            }
-          ]
-        },
-        {
-          "word": "个性穿搭",
-          "weight": 74,
+          "weight": 67,
           "type": "topic",
           "sources": [
             {
@@ -1578,7 +1693,7 @@
         },
         {
           "word": "潮流穿搭",
-          "weight": 70,
+          "weight": 66,
           "type": "topic",
           "sources": [
             {
@@ -1589,8 +1704,44 @@
           ]
         },
         {
-          "word": "穿搭创意",
-          "weight": 66,
+          "word": "个性穿搭",
+          "weight": 65,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "抖音",
+              "listName": "热搜榜",
+              "title": "当我穿搭时突然灵机一动"
+            }
+          ]
+        },
+        {
+          "word": "日常穿搭",
+          "weight": 64,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "抖音",
+              "listName": "热搜榜",
+              "title": "当我穿搭时突然灵机一动"
+            }
+          ]
+        },
+        {
+          "word": "穿搭技巧",
+          "weight": 63,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "抖音",
+              "listName": "热搜榜",
+              "title": "当我穿搭时突然灵机一动"
+            }
+          ]
+        },
+        {
+          "word": "时尚穿搭",
+          "weight": 62,
           "type": "topic",
           "sources": [
             {
@@ -1603,7 +1754,7 @@
       ],
       "EDU": [
         {
-          "word": "高考",
+          "word": "高考加油",
           "weight": 95,
           "type": "topic",
           "sources": [
@@ -1620,20 +1771,25 @@
           ]
         },
         {
-          "word": "考生送福",
-          "weight": 90,
+          "word": "高考倒计时",
+          "weight": 76,
           "type": "topic",
           "sources": [
             {
               "sourceName": "微博",
               "listName": "热搜榜",
               "title": "晨光携京东给考生送福"
+            },
+            {
+              "sourceName": "百度",
+              "listName": "实时热点",
+              "title": "19岁男子带狗送外卖日跑单10小时"
             }
           ]
         },
         {
           "word": "考生福利",
-          "weight": 86,
+          "weight": 68,
           "type": "topic",
           "sources": [
             {
@@ -1649,8 +1805,8 @@
           ]
         },
         {
-          "word": "高考捡漏",
-          "weight": 82,
+          "word": "晨光文具",
+          "weight": 67,
           "type": "topic",
           "sources": [
             {
@@ -1666,59 +1822,59 @@
           ]
         },
         {
-          "word": "模考卷",
-          "weight": 78,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "微博",
-              "listName": "热搜榜",
-              "title": "晨光携京东给考生送福"
-            },
-            {
-              "sourceName": "百度",
-              "listName": "实时热点",
-              "title": "19岁男子带狗送外卖日跑单10小时"
-            }
-          ]
-        },
-        {
-          "word": "学习资料",
-          "weight": 74,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "微博",
-              "listName": "热搜榜",
-              "title": "晨光携京东给考生送福"
-            },
-            {
-              "sourceName": "百度",
-              "listName": "实时热点",
-              "title": "19岁男子带狗送外卖日跑单10小时"
-            }
-          ]
-        },
-        {
-          "word": "文具福利",
-          "weight": 70,
-          "type": "topic",
-          "sources": [
-            {
-              "sourceName": "微博",
-              "listName": "热搜榜",
-              "title": "晨光携京东给考生送福"
-            },
-            {
-              "sourceName": "百度",
-              "listName": "实时热点",
-              "title": "19岁男子带狗送外卖日跑单10小时"
-            }
-          ]
-        },
-        {
-          "word": "考生加油",
+          "word": "考前准备",
           "weight": 66,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "微博",
+              "listName": "热搜榜",
+              "title": "晨光携京东给考生送福"
+            },
+            {
+              "sourceName": "百度",
+              "listName": "实时热点",
+              "title": "19岁男子带狗送外卖日跑单10小时"
+            }
+          ]
+        },
+        {
+          "word": "学习用品",
+          "weight": 65,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "微博",
+              "listName": "热搜榜",
+              "title": "晨光携京东给考生送福"
+            },
+            {
+              "sourceName": "百度",
+              "listName": "实时热点",
+              "title": "19岁男子带狗送外卖日跑单10小时"
+            }
+          ]
+        },
+        {
+          "word": "高考祝福",
+          "weight": 64,
+          "type": "topic",
+          "sources": [
+            {
+              "sourceName": "微博",
+              "listName": "热搜榜",
+              "title": "晨光携京东给考生送福"
+            },
+            {
+              "sourceName": "百度",
+              "listName": "实时热点",
+              "title": "19岁男子带狗送外卖日跑单10小时"
+            }
+          ]
+        },
+        {
+          "word": "中考复习",
+          "weight": 63,
           "type": "topic",
           "sources": [
             {
@@ -1738,10 +1894,39 @@
     "productCategory": {
       "C3": [
         {
-          "word": "桌面风扇",
-          "weight": 95,
+          "word": "软抄本",
+          "weight": 75,
           "type": "product",
           "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "得力加厚软抄本笔记本子12本 原价¥16.9 券后¥9.9"
+            }
+          ]
+        },
+        {
+          "word": "笔记本",
+          "weight": 74,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "得力加厚软抄本笔记本子12本 原价¥16.9 券后¥9.9"
+            }
+          ]
+        },
+        {
+          "word": "桌面风扇",
+          "weight": 73,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "得力加厚软抄本笔记本子12本 原价¥16.9 券后¥9.9"
+            },
             {
               "sourceName": "京东",
               "listName": "热销总榜",
@@ -1751,9 +1936,14 @@
         },
         {
           "word": "USB风扇",
-          "weight": 90,
+          "weight": 72,
           "type": "product",
           "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "得力加厚软抄本笔记本子12本 原价¥16.9 券后¥9.9"
+            },
             {
               "sourceName": "京东",
               "listName": "热销总榜",
@@ -1762,57 +1952,21 @@
           ]
         },
         {
-          "word": "充电风扇",
-          "weight": 86,
-          "type": "product",
+          "word": "得力",
+          "weight": 71,
+          "type": "brand",
           "sources": [
             {
-              "sourceName": "京东",
-              "listName": "热销总榜",
-              "title": "LAMJIE创意飞机风扇双涡轮usb充电风扇办公室宿舍电竞潮玩炫酷桌面摆件风扇长续航夏天降温静音小风扇 5000毫安【无刷电机/炫彩灯光】 5000mAh 【灰瀚银】三重风量加速/长效续航/静音 原价¥169 券后¥159"
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "得力加厚软抄本笔记本子12本 原价¥16.9 券后¥9.9"
             }
           ]
         },
         {
-          "word": "静音风扇",
-          "weight": 82,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "热销总榜",
-              "title": "LAMJIE创意飞机风扇双涡轮usb充电风扇办公室宿舍电竞潮玩炫酷桌面摆件风扇长续航夏天降温静音小风扇 5000毫安【无刷电机/炫彩灯光】 5000mAh 【灰瀚银】三重风量加速/长效续航/静音 原价¥169 券后¥159"
-            }
-          ]
-        },
-        {
-          "word": "数码小电器",
-          "weight": 78,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "热销总榜",
-              "title": "LAMJIE创意飞机风扇双涡轮usb充电风扇办公室宿舍电竞潮玩炫酷桌面摆件风扇长续航夏天降温静音小风扇 5000毫安【无刷电机/炫彩灯光】 5000mAh 【灰瀚银】三重风量加速/长效续航/静音 原价¥169 券后¥159"
-            }
-          ]
-        },
-        {
-          "word": "电子配件",
-          "weight": 74,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "热销总榜",
-              "title": "LAMJIE创意飞机风扇双涡轮usb充电风扇办公室宿舍电竞潮玩炫酷桌面摆件风扇长续航夏天降温静音小风扇 5000毫安【无刷电机/炫彩灯光】 5000mAh 【灰瀚银】三重风量加速/长效续航/静音 原价¥169 券后¥159"
-            }
-          ]
-        },
-        {
-          "word": "便携风扇",
+          "word": "LAMJIE",
           "weight": 70,
-          "type": "product",
+          "type": "brand",
           "sources": [
             {
               "sourceName": "京东",
@@ -1822,10 +1976,32 @@
           ]
         },
         {
-          "word": "降温小电器",
-          "weight": 66,
-          "type": "product",
+          "word": "数码配件",
+          "weight": 69,
+          "type": "category",
           "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "得力加厚软抄本笔记本子12本 原价¥16.9 券后¥9.9"
+            },
+            {
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "LAMJIE创意飞机风扇双涡轮usb充电风扇办公室宿舍电竞潮玩炫酷桌面摆件风扇长续航夏天降温静音小风扇 5000毫安【无刷电机/炫彩灯光】 5000mAh 【灰瀚银】三重风量加速/长效续航/静音 原价¥169 券后¥159"
+            }
+          ]
+        },
+        {
+          "word": "办公文具",
+          "weight": 68,
+          "type": "category",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "得力加厚软抄本笔记本子12本 原价¥16.9 券后¥9.9"
+            },
             {
               "sourceName": "京东",
               "listName": "热销总榜",
@@ -1835,6 +2011,28 @@
         }
       ],
       "HOME": [
+        {
+          "word": "洗衣机养护液",
+          "weight": 97,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "热销总榜",
+              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
+            },
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "热销总榜",
+              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
+            },
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
+            }
+          ]
+        },
         {
           "word": "洗衣液",
           "weight": 95,
@@ -1853,64 +2051,32 @@
           ]
         },
         {
-          "word": "洗衣机养护液",
-          "weight": 90,
+          "word": "植物精油贴",
+          "weight": 89,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
+              "title": "babycare植物精油贴72贴 原价¥19.9 券后¥19.9"
             }
           ]
         },
         {
           "word": "卫生巾",
-          "weight": 86,
+          "weight": 87,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
               "title": "无护垫！薇尔卫生巾日夜用组合96片 原价¥39.9 券后¥39.9"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "无护垫！薇尔卫生巾日夜用组合96片 原价¥39.9 券后¥39.9"
-            }
-          ]
-        },
-        {
-          "word": "湿厕纸",
-          "weight": 82,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "百补50元！好爸爸天然亲肤洗衣液13.8斤 原价¥51.11 券后¥50.11"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
             }
           ]
         },
         {
           "word": "沙发盖布",
-          "weight": 78,
+          "weight": 57,
           "type": "product",
           "sources": [
             {
@@ -1921,8 +2087,20 @@
           ]
         },
         {
+          "word": "应急启动电源",
+          "weight": 53,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "谱硕汽车应急启动电源充气泵一体机数显车载电瓶搭电宝强启打火神器各类轮胎电动打气泵带户外照明灯 顶配/黑【12V不限排丨2000A电流】智能夹+收纳袋 原价¥169 券后¥149"
+            }
+          ]
+        },
+        {
           "word": "地板精油",
-          "weight": 74,
+          "weight": 52,
           "type": "product",
           "sources": [
             {
@@ -1934,7 +2112,7 @@
         },
         {
           "word": "澡巾",
-          "weight": 70,
+          "weight": 51,
           "type": "product",
           "sources": [
             {
@@ -1945,53 +2123,60 @@
           ]
         },
         {
-          "word": "家居清洁剂",
-          "weight": 66,
-          "type": "product",
+          "word": "水卫士",
+          "weight": 96,
+          "type": "brand",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "百补50元！好爸爸天然亲肤洗衣液13.8斤 原价¥51.11 券后¥50.11"
+              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
             },
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
+              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
+            },
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
               "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
             }
           ]
         },
         {
-          "word": "凉感夏被",
-          "weight": 62,
-          "type": "product",
+          "word": "好爸爸",
+          "weight": 94,
+          "type": "brand",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
               "title": "百补50元！好爸爸天然亲肤洗衣液13.8斤 原价¥51.11 券后¥50.11"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
             }
           ]
         },
         {
-          "word": "清洁用品",
-          "weight": 58,
-          "type": "product",
+          "word": "babycare",
+          "weight": 88,
+          "type": "brand",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "百补50元！好爸爸天然亲肤洗衣液13.8斤 原价¥51.11 券后¥50.11"
-            },
+              "title": "babycare植物精油贴72贴 原价¥19.9 券后¥19.9"
+            }
+          ]
+        },
+        {
+          "word": "薇尔",
+          "weight": 86,
+          "type": "brand",
+          "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "【爆款】水卫士洗衣机养护液270ml*3瓶装 原价¥39.9 券后¥19.9"
+              "title": "无护垫！薇尔卫生巾日夜用组合96片 原价¥39.9 券后¥39.9"
             }
           ]
         }
@@ -1999,7 +2184,7 @@
       "APPL": [
         {
           "word": "夏凉被",
-          "weight": 95,
+          "weight": 76,
           "type": "product",
           "sources": [
             {
@@ -2011,7 +2196,7 @@
         },
         {
           "word": "空调被",
-          "weight": 90,
+          "weight": 75,
           "type": "product",
           "sources": [
             {
@@ -2023,42 +2208,6 @@
         },
         {
           "word": "控温被",
-          "weight": 86,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "怡蔓婷深睡双感控温夏凉被凉感锦安夏季空调 原价¥619.9 券后¥119.9"
-            }
-          ]
-        },
-        {
-          "word": "凉感家纺",
-          "weight": 82,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "怡蔓婷深睡双感控温夏凉被凉感锦安夏季空调 原价¥619.9 券后¥119.9"
-            }
-          ]
-        },
-        {
-          "word": "夏季床品",
-          "weight": 78,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "怡蔓婷深睡双感控温夏凉被凉感锦安夏季空调 原价¥619.9 券后¥119.9"
-            }
-          ]
-        },
-        {
-          "word": "冰丝被子",
           "weight": 74,
           "type": "product",
           "sources": [
@@ -2070,8 +2219,8 @@
           ]
         },
         {
-          "word": "家用凉被",
-          "weight": 70,
+          "word": "凉感被",
+          "weight": 73,
           "type": "product",
           "sources": [
             {
@@ -2082,9 +2231,45 @@
           ]
         },
         {
-          "word": "透气夏被",
-          "weight": 66,
-          "type": "product",
+          "word": "怡蔓婷",
+          "weight": 72,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "怡蔓婷深睡双感控温夏凉被凉感锦安夏季空调 原价¥619.9 券后¥119.9"
+            }
+          ]
+        },
+        {
+          "word": "夏季床品",
+          "weight": 71,
+          "type": "category",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "怡蔓婷深睡双感控温夏凉被凉感锦安夏季空调 原价¥619.9 券后¥119.9"
+            }
+          ]
+        },
+        {
+          "word": "家纺用品",
+          "weight": 70,
+          "type": "category",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "怡蔓婷深睡双感控温夏凉被凉感锦安夏季空调 原价¥619.9 券后¥119.9"
+            }
+          ]
+        },
+        {
+          "word": "制冷床品",
+          "weight": 69,
+          "type": "category",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
@@ -2097,87 +2282,55 @@
       "BABY": [
         {
           "word": "纸尿裤",
-          "weight": 95,
+          "weight": 98,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
               "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
             }
           ]
         },
         {
           "word": "成长裤",
+          "weight": 97,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "热销总榜",
+              "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            }
+          ]
+        },
+        {
+          "word": "桃子水",
           "weight": 90,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-            }
-          ]
-        },
-        {
-          "word": "爽身露",
-          "weight": 86,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
+              "title": "贝亲婴儿液体爽身粉痱子粉桃子水 原价¥40.1 券后¥30.1"
             }
           ]
         },
         {
           "word": "儿童防晒霜",
-          "weight": 82,
+          "weight": 73,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
+              "listName": "每日爆款清单",
               "title": "漏【6月+可用】贝德美儿童防晒霜 原价¥59.9 券后¥19.9"
             }
           ]
         },
         {
-          "word": "婴儿奶粉",
-          "weight": 78,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
-            }
-          ]
-        },
-        {
           "word": "隔汗巾",
-          "weight": 74,
+          "weight": 62,
           "type": "product",
           "sources": [
             {
@@ -2188,8 +2341,8 @@
           ]
         },
         {
-          "word": "儿童短袖",
-          "weight": 70,
+          "word": "儿童短袖套装",
+          "weight": 61,
           "type": "product",
           "sources": [
             {
@@ -2200,13 +2353,13 @@
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
+              "title": "贝亲婴儿液体爽身粉痱子粉桃子水 原价¥40.1 券后¥30.1"
             }
           ]
         },
         {
           "word": "学步带",
-          "weight": 66,
+          "weight": 60,
           "type": "product",
           "sources": [
             {
@@ -2217,8 +2370,8 @@
           ]
         },
         {
-          "word": "婴儿益生菌",
-          "weight": 62,
+          "word": "婴儿奶粉",
+          "weight": 66,
           "type": "product",
           "sources": [
             {
@@ -2229,12 +2382,12 @@
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
-              "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
+              "title": "贝亲婴儿液体爽身粉痱子粉桃子水 原价¥40.1 券后¥30.1"
             }
           ]
         },
         {
-          "word": "宝宝用品",
+          "word": "益生菌",
           "weight": 58,
           "type": "product",
           "sources": [
@@ -2246,7 +2399,77 @@
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "热销总榜",
+              "title": "贝亲婴儿液体爽身粉痱子粉桃子水 原价¥40.1 券后¥30.1"
+            }
+          ]
+        },
+        {
+          "word": "好奇",
+          "weight": 99,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "热销总榜",
+              "title": "好奇柯基裤纸尿裤成长裤S-XXXL软萌星人 原价¥181.05 券后¥139.05"
+            }
+          ]
+        },
+        {
+          "word": "贝亲",
+          "weight": 89,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "热销总榜",
+              "title": "贝亲婴儿液体爽身粉痱子粉桃子水 原价¥40.1 券后¥30.1"
+            },
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "热销总榜",
               "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
+            },
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "热销总榜",
+              "title": "贝亲桃叶爽身露宝宝液体爽身粉200ml 原价¥35.3 券后¥22.3"
+            }
+          ]
+        },
+        {
+          "word": "贝德美",
+          "weight": 72,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "漏【6月+可用】贝德美儿童防晒霜 原价¥59.9 券后¥19.9"
+            }
+          ]
+        },
+        {
+          "word": "欧孕",
+          "weight": 63,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "欧孕（OUYUN）汗巾儿童纯棉幼儿园隔汗巾男童女童宝宝吸汗巾婴儿垫背止汗巾春秋 5条装 萌趣伙伴 【4层纱布】 S码 原价¥24.9 券后¥21.9"
+            }
+          ]
+        },
+        {
+          "word": "巴布豆",
+          "weight": 61,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "快手电商",
+              "listName": "月销热榜",
+              "title": "巴布豆儿童纯棉短袖套装2026新款男童薄款洋气两件装男宝宝童装潮 到手价¥52.90"
             }
           ]
         }
@@ -2254,7 +2477,7 @@
       "FOOD": [
         {
           "word": "薯片",
-          "weight": 95,
+          "weight": 94,
           "type": "product",
           "sources": [
             {
@@ -2270,44 +2493,37 @@
           ]
         },
         {
-          "word": "咖啡液",
-          "weight": 90,
+          "word": "蛋白棒",
+          "weight": 80,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "每日爆款清单",
-              "title": "低至44.9【瑞幸】生椰拿铁浓缩咖啡液32杯 原价¥69 券后¥69"
+              "title": "MagicFocus蛋白棒杨枝甘露能量棒7支 原价¥4.75 券后¥4.75"
             }
           ]
         },
         {
-          "word": "方便面",
-          "weight": 86,
+          "word": "一次性手套",
+          "weight": 70,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "康师傅方便面老母鸡面5包 原价¥12.9 券后¥9.9"
-            }
-          ]
-        },
-        {
-          "word": "吐司面包",
-          "weight": 82,
-          "type": "product",
-          "sources": [
+              "listName": "热销总榜",
+              "title": "40克的大克重!不是小g重全球薯片大哥大！ 原价¥30.9 券后¥23.9"
+            },
             {
               "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "19.9元任选3盒三只松鼠吐司面包糕点点心 原价¥39.9 券后¥19.9"
+              "listName": "热销总榜",
+              "title": "40克的大克重!不是小g重全球薯片大哥大！ 原价¥30.9 券后¥23.9"
             }
           ]
         },
         {
           "word": "辣条",
-          "weight": 78,
+          "weight": 68,
           "type": "product",
           "sources": [
             {
@@ -2319,7 +2535,7 @@
         },
         {
           "word": "纯牛奶",
-          "weight": 74,
+          "weight": 67,
           "type": "product",
           "sources": [
             {
@@ -2331,7 +2547,7 @@
         },
         {
           "word": "鹌鹑蛋",
-          "weight": 70,
+          "weight": 65,
           "type": "product",
           "sources": [
             {
@@ -2343,7 +2559,7 @@
         },
         {
           "word": "驼奶钙片",
-          "weight": 66,
+          "weight": 64,
           "type": "product",
           "sources": [
             {
@@ -2355,7 +2571,7 @@
         },
         {
           "word": "手剥笋",
-          "weight": 62,
+          "weight": 61,
           "type": "product",
           "sources": [
             {
@@ -2367,7 +2583,7 @@
         },
         {
           "word": "焦糖饼干",
-          "weight": 58,
+          "weight": 52,
           "type": "product",
           "sources": [
             {
@@ -2378,44 +2594,8 @@
           ]
         },
         {
-          "word": "白酒",
-          "weight": 54,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "热销总榜",
-              "title": "摘要【限量发售】封坛窖藏 53度酱香型白酒 稀缺老酒 收藏宴请送礼 53%vol 500mL 2瓶 原价¥2598 券后¥1299"
-            }
-          ]
-        },
-        {
-          "word": "千层蛋糕",
-          "weight": 50,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "快手电商",
-              "listName": "月销热榜",
-              "title": "彬敬蛋糕 千层蛋糕/蓝莓/草莓/芒果/抹茶 到手价¥16.99"
-            }
-          ]
-        },
-        {
-          "word": "干面皮",
-          "weight": 46,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "快手电商",
-              "listName": "月销热榜",
-              "title": "SH【10.9发3斤】干面皮干凉皮免煮凉拌速食不含胶手工干货 到手价¥10.90"
-            }
-          ]
-        },
-        {
           "word": "烤肠",
-          "weight": 42,
+          "weight": 51,
           "type": "product",
           "sources": [
             {
@@ -2424,36 +2604,84 @@
               "title": "【仁道乐享】到手30根火山石烤肠原味黑胡椒味肉肠香肠200g*3袋X5 到手价¥9.96"
             }
           ]
-        }
-      ],
-      "BEAU": [
+        },
         {
-          "word": "防晒霜",
-          "weight": 95,
-          "type": "product",
+          "word": "卫龙",
+          "weight": 69,
+          "type": "brand",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "40ml拍两件Mistine泰国蜜丝婷小黄帽防晒霜 原价¥131.52 券后¥56.52"
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "猫超首页搜【卫龙】部分账号有2元品牌金卫龙辣条零食组合小吃豆干782g，领1.53礼金 3券，"
             }
           ]
         },
         {
-          "word": "腮红",
-          "weight": 90,
+          "word": "蒙牛",
+          "weight": 67,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "地区价 蒙牛全脂纯牛奶250ml*24盒，29.9 亓"
+            }
+          ]
+        },
+        {
+          "word": "百草味",
+          "weight": 65,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "百草味老汤慢卤鹌鹑蛋450g，领0.63礼金 2券，详情页进入淘金币页面加购1件商品下方如有2"
+            }
+          ]
+        },
+        {
+          "word": "斐驼力",
+          "weight": 64,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "斐驼力驼奶钙片FAINDELI儿童青少年学生成人正品高钙30片/瓶装 45g*5盒 【每瓶30粒】 原价¥88 券后¥86"
+            }
+          ]
+        },
+        {
+          "word": "味滋源",
+          "weight": 52,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "味滋源焦糖饼干曲奇饼500g/盒 原价¥42.9 券后¥12.9"
+            }
+          ]
+        }
+      ],
+      "BEAU": [
+        {
+          "word": "粉底液",
+          "weight": 83,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "每日爆款清单",
-              "title": "小马宝莉联名罗小曼单色腮红盘 原价¥18.72 券后¥16.72"
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
             }
           ]
         },
         {
           "word": "唇釉",
-          "weight": 86,
+          "weight": 69,
           "type": "product",
           "sources": [
             {
@@ -2464,117 +2692,165 @@
           ]
         },
         {
-          "word": "面霜",
-          "weight": 82,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "40ml拍两件Mistine泰国蜜丝婷小黄帽防晒霜 原价¥131.52 券后¥56.52"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "小马宝莉联名罗小曼单色腮红盘 原价¥18.72 券后¥16.72"
-            }
-          ]
-        },
-        {
-          "word": "洗发水",
-          "weight": 78,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "40ml拍两件Mistine泰国蜜丝婷小黄帽防晒霜 原价¥131.52 券后¥56.52"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "小马宝莉联名罗小曼单色腮红盘 原价¥18.72 券后¥16.72"
-            }
-          ]
-        },
-        {
           "word": "发膜",
-          "weight": 74,
+          "weight": 93,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "每日爆款清单",
-              "title": "40ml拍两件Mistine泰国蜜丝婷小黄帽防晒霜 原价¥131.52 券后¥56.52"
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
             },
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "小马宝莉联名罗小曼单色腮红盘 原价¥18.72 券后¥16.72"
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
             }
           ]
         },
         {
-          "word": "美妆产品",
-          "weight": 70,
+          "word": "妆前乳",
+          "weight": 81,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "每日爆款清单",
-              "title": "40ml拍两件Mistine泰国蜜丝婷小黄帽防晒霜 原价¥131.52 券后¥56.52"
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
             },
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "小马宝莉联名罗小曼单色腮红盘 原价¥18.72 券后¥16.72"
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
             }
           ]
         },
         {
-          "word": "防晒用品",
-          "weight": 66,
+          "word": "亮肤皂",
+          "weight": 72,
           "type": "product",
           "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "每日爆款清单",
-              "title": "40ml拍两件Mistine泰国蜜丝婷小黄帽防晒霜 原价¥131.52 券后¥56.52"
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
             },
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
+            }
+          ]
+        },
+        {
+          "word": "抗皱面霜",
+          "weight": 71,
+          "type": "product",
+          "sources": [
             {
               "sourceName": "淘宝 ‧ 天猫",
               "listName": "每日爆款清单",
-              "title": "小马宝莉联名罗小曼单色腮红盘 原价¥18.72 券后¥16.72"
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
+            },
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
+            }
+          ]
+        },
+        {
+          "word": "防晒霜",
+          "weight": 73,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
+            },
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
+            }
+          ]
+        },
+        {
+          "word": "YSL",
+          "weight": 82,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
+            }
+          ]
+        },
+        {
+          "word": "罗小曼",
+          "weight": 69,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
+            }
+          ]
+        },
+        {
+          "word": "拉芳",
+          "weight": 92,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
+            },
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
+            }
+          ]
+        },
+        {
+          "word": "彩棠",
+          "weight": 80,
+          "type": "brand",
+          "sources": [
+            {
+              "sourceName": "淘宝 ‧ 天猫",
+              "listName": "每日爆款清单",
+              "title": "【到手50ml】YSL圣罗兰恒久粉底液25ml 原价¥590 券后¥590"
+            },
+            {
+              "sourceName": "今日热卖",
+              "listName": "全网线报聚合",
+              "title": "罗小曼 唇釉任意3支，凑25左右"
             }
           ]
         }
       ],
       "CLOT": [
         {
-          "word": "凉拖鞋",
-          "weight": 95,
+          "word": "鞋底贴",
+          "weight": 55,
           "type": "product",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
+              "sourceName": "京东",
               "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
-            },
-            {
-              "sourceName": "快手电商",
-              "listName": "月销热榜",
-              "title": "【以晨专属】复古平底一字带凉拖鞋女勃肯鞋新款软皮休闲外穿拖鞋 到手价¥39.99"
+              "title": "dreambox钧博vibram橡胶贴片鞋底贴底服务耐磨防滑前掌贴后跟底片 整片式（vibram橡胶片贴底服务） 原价¥398 券后¥258"
             }
           ]
         },
         {
           "word": "防晒衣",
-          "weight": 90,
+          "weight": 54,
           "type": "product",
           "sources": [
             {
@@ -2590,163 +2866,261 @@
           ]
         },
         {
-          "word": "波点衬衫",
-          "weight": 86,
+          "word": "印花衬衫",
+          "weight": 53,
           "type": "product",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
+              "sourceName": "京东",
               "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "title": "dreambox钧博vibram橡胶贴片鞋底贴底服务耐磨防滑前掌贴后跟底片 整片式（vibram橡胶片贴底服务） 原价¥398 券后¥258"
             },
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "茉寻【赵露思同款】落肩防晒衣女新款夏季户外防晒服外套凉感透气 插肩款--灰色 XL 身高166-175cm，体重150斤以下 原价¥118 券后¥91"
+            }
+          ]
+        },
+        {
+          "word": "凉拖鞋",
+          "weight": 52,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "快手电商",
+              "listName": "月销热榜",
+              "title": "【以晨专属】复古平底一字带凉拖鞋女勃肯鞋新款软皮休闲外穿拖鞋 到手价¥39.99"
             }
           ]
         },
         {
           "word": "速干短袖",
-          "weight": 82,
+          "weight": 51,
           "type": "product",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
+              "sourceName": "京东",
               "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "title": "dreambox钧博vibram橡胶贴片鞋底贴底服务耐磨防滑前掌贴后跟底片 整片式（vibram橡胶片贴底服务） 原价¥398 券后¥258"
             },
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "茉寻【赵露思同款】落肩防晒衣女新款夏季户外防晒服外套凉感透气 插肩款--灰色 XL 身高166-175cm，体重150斤以下 原价¥118 券后¥91"
             }
           ]
         },
         {
           "word": "灯笼裤",
-          "weight": 78,
+          "weight": 50,
           "type": "product",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
+              "sourceName": "京东",
               "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "title": "dreambox钧博vibram橡胶贴片鞋底贴底服务耐磨防滑前掌贴后跟底片 整片式（vibram橡胶片贴底服务） 原价¥398 券后¥258"
             },
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "茉寻【赵露思同款】落肩防晒衣女新款夏季户外防晒服外套凉感透气 插肩款--灰色 XL 身高166-175cm，体重150斤以下 原价¥118 券后¥91"
             }
           ]
         },
         {
-          "word": "休闲裤",
-          "weight": 74,
+          "word": "保暖裤",
+          "weight": 49,
           "type": "product",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
+              "sourceName": "京东",
               "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "title": "dreambox钧博vibram橡胶贴片鞋底贴底服务耐磨防滑前掌贴后跟底片 整片式（vibram橡胶片贴底服务） 原价¥398 券后¥258"
             },
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "sourceName": "京东",
+              "listName": "热销总榜",
+              "title": "茉寻【赵露思同款】落肩防晒衣女新款夏季户外防晒服外套凉感透气 插肩款--灰色 XL 身高166-175cm，体重150斤以下 原价¥118 券后¥91"
             }
           ]
         },
         {
-          "word": "服饰配件",
-          "weight": 70,
-          "type": "product",
+          "word": "茉寻",
+          "weight": 54,
+          "type": "brand",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
+              "sourceName": "京东",
               "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "title": "茉寻【赵露思同款】落肩防晒衣女新款夏季户外防晒服外套凉感透气 插肩款--灰色 XL 身高166-175cm，体重150斤以下 原价¥118 券后¥91"
             }
           ]
         },
         {
-          "word": "夏季服饰",
-          "weight": 66,
-          "type": "product",
+          "word": "MISSWISS",
+          "weight": 53,
+          "type": "brand",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "sourceName": "快手电商",
+              "listName": "月销热榜",
+              "title": "MISSWISS夏季轻薄透气防晒衣短款女士户外骑行遮阳防紫外线皮肤衣 到手价¥99.00"
             }
           ]
         },
         {
-          "word": "防臭拖鞋",
-          "weight": 62,
-          "type": "product",
+          "word": "dreambox",
+          "weight": 55,
+          "type": "brand",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
+              "sourceName": "京东",
               "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "title": "dreambox钧博vibram橡胶贴片鞋底贴底服务耐磨防滑前掌贴后跟底片 整片式（vibram橡胶片贴底服务） 原价¥398 券后¥258"
             }
           ]
         },
         {
-          "word": "凉感服饰",
-          "weight": 58,
-          "type": "product",
+          "word": "迈徒",
+          "weight": 51,
+          "type": "brand",
           "sources": [
             {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "热销总榜",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
-            },
-            {
-              "sourceName": "淘宝 ‧ 天猫",
-              "listName": "每日爆款清单",
-              "title": "买一送一防臭情侣凉拖鞋男女款居家踩屎感 原价¥12.99 券后¥9.99"
+              "sourceName": "快手电商",
+              "listName": "月销热榜",
+              "title": "迈徒男士新款高品质无缝速干抗菌圆领短袖772729 到手价¥69.90"
             }
           ]
         }
       ],
       "EDU": [
         {
-          "word": "教辅书",
+          "word": "数学压轴题",
+          "weight": 100,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
+            }
+          ]
+        },
+        {
+          "word": "吃书的狐狸",
+          "weight": 99,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+            }
+          ]
+        },
+        {
+          "word": "雅各布绘本",
+          "weight": 98,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
+            },
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+            }
+          ]
+        },
+        {
+          "word": "口算练习册",
+          "weight": 97,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
+            },
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+            }
+          ]
+        },
+        {
+          "word": "中考抢分卷",
+          "weight": 96,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
+            },
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+            }
+          ]
+        },
+        {
+          "word": "伊索寓言",
           "weight": 95,
           "type": "product",
           "sources": [
             {
               "sourceName": "京东",
               "listName": "图书 ‧ 热销榜",
-              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
-            },
-            {
-              "sourceName": "京东",
-              "listName": "图书 ‧ 热销榜",
-              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+              "title": "伊索寓言 来川英文原著分级足量阅读 初中高中生英语课外读物 英文书籍中英双语版书籍英语书籍双语读物英语小说 可选套餐：童话故事 短篇小说 汤姆索亚历险记 老人与海等 10本：伊索 童话 短篇小王子汤姆 原价¥338 券后¥298"
             }
           ]
         },
         {
-          "word": "儿童绘本",
-          "weight": 90,
+          "word": "十宗罪",
+          "weight": 94,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【现货速发】十宗罪无删减全套7册套装蜘蛛着123456集+前传七册套装书电视剧恐怖惊悚侦探悬疑无删减完整蜘蛛着真实刑侦案件惊悚恐怖推理小说无删减 十宗罪全套7本【无删减】 原价¥80 券后¥73"
+            }
+          ]
+        },
+        {
+          "word": "卓有成效的管",
+          "weight": 93,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "卓有成效的管理者 55周年新译本 “现代管理学之父”彼得·德鲁克写给每个人的自我发展指南 德鲁克力作 自我发展指南 管理学 管理 职场提升 正版 中文版 卓有成效的管理者 55周年新译本 原价¥32.5 券后¥30.5"
+            }
+          ]
+        },
+        {
+          "word": "被讨厌的勇气",
+          "weight": 92,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【勇气三部曲】被讨厌的勇气+幸福的勇气+被拒绝的勇气 共3册 (日)岸见一郎 古贺史健 勇气两部曲 自我启发之父阿德勒的哲学课 心理学入门必读书籍 心理励志书籍 原版 樊登推荐 勇气三部曲 原价¥66.5 券后¥20.5"
+            }
+          ]
+        },
+        {
+          "word": "物理教辅",
+          "weight": 91,
           "type": "product",
           "sources": [
             {
@@ -2762,7 +3136,65 @@
           ]
         },
         {
-          "word": "口算题卡",
+          "word": "认知藏猫猫",
+          "weight": 90,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【点读版】宝宝认知藏猫猫 全6册早教专注力图形色彩认知水果被谁吃了点读版0-3岁儿童早教书玩具书幼儿启蒙宝宝睡前故事书 小鸡球球点读书 宝宝认知藏猫猫：全6册 原价¥29.8 券后¥27.8"
+            }
+          ]
+        },
+        {
+          "word": "小复习试卷",
+          "weight": 89,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
+            },
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+            }
+          ]
+        },
+        {
+          "word": "中考试题研究",
+          "weight": 88,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
+            },
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+            }
+          ]
+        },
+        {
+          "word": "黄冈随堂笔记",
+          "weight": 87,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "2026春黄冈随堂笔记一二三年级下四五六年级下册语文数学英语人教版北师版苏教版小学1-6年级上下册同步训练教材全解讲解学霸课堂笔记试卷教辅 【2册】语文+数学北师版 四年级下册（26春） 原价¥64.8 券后¥52.8"
+            }
+          ]
+        },
+        {
+          "word": "英语单词手册",
           "weight": 86,
           "type": "product",
           "sources": [
@@ -2779,8 +3211,20 @@
           ]
         },
         {
+          "word": "魔法拼音国",
+          "weight": 85,
+          "type": "product",
+          "sources": [
+            {
+              "sourceName": "京东",
+              "listName": "图书 ‧ 热销榜",
+              "title": "魔法拼音国 升级版全彩共10册 魔法拼音国 拼音真好玩 魔法拼音王国 魔法拼音国 原价¥63.9 券后¥59.9"
+            }
+          ]
+        },
+        {
           "word": "分级阅读",
-          "weight": 82,
+          "weight": 84,
           "type": "product",
           "sources": [
             {
@@ -2791,84 +3235,26 @@
           ]
         },
         {
-          "word": "中考卷",
-          "weight": 78,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "图书 ‧ 热销榜",
-              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
-            },
-            {
-              "sourceName": "京东",
-              "listName": "图书 ‧ 热销榜",
-              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
-            }
-          ]
-        },
-        {
-          "word": "高考复习资料",
-          "weight": 74,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "图书 ‧ 热销榜",
-              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
-            },
-            {
-              "sourceName": "京东",
-              "listName": "图书 ‧ 热销榜",
-              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
-            }
-          ]
-        },
-        {
-          "word": "启蒙绘本",
-          "weight": 70,
+          "word": "幼儿启蒙",
+          "weight": 83,
           "type": "product",
           "sources": [
             {
               "sourceName": "京东",
               "listName": "图书 ‧ 热销榜",
               "title": "【点读版】德国好宝宝雅各布幼儿启蒙绘本全8册儿童故事书 0-4岁幼儿撕不烂纸板书情景体验机关玩具绘本 行为习惯养成情绪管理绘本 小鸡球球点读笔配套书儿童节礼物 雅各布幼儿启蒙绘本全8册 原价¥98 券后¥88"
-            }
-          ]
-        },
-        {
-          "word": "文学小说",
-          "weight": 66,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "图书 ‧ 热销榜",
-              "title": "2026初中78年级下【数学压轴题思维训练】期末冲刺AI批改学习方法报 八年级下北师大版 无规格 原价¥30 券后¥29"
             },
             {
               "sourceName": "京东",
               "listName": "图书 ‧ 热销榜",
-              "title": "【京仓直发+京东物流次日达】吃书的狐狸（注音版全4册）亲近母语中国中小学生分级阅读一年级自主阅读书目 原价¥129.2 券后¥90.2"
+              "title": "【点读版】宝宝认知藏猫猫 全6册早教专注力图形色彩认知水果被谁吃了点读版0-3岁儿童早教书玩具书幼儿启蒙宝宝睡前故事书 小鸡球球点读书 宝宝认知藏猫猫：全6册 原价¥29.8 券后¥27.8"
             }
           ]
         },
         {
-          "word": "同步练习册",
-          "weight": 62,
-          "type": "product",
-          "sources": [
-            {
-              "sourceName": "京东",
-              "listName": "图书 ‧ 热销榜",
-              "title": "小学数学口算竖式脱式计算应用题强化训练一本通天天练人教版一二三四五六年级上下册同步练习册三合一练习题 【单册】计算应用题一本通 一年级下 原价¥15.8 券后¥12.8"
-            }
-          ]
-        },
-        {
-          "word": "课外阅读书",
-          "weight": 58,
-          "type": "product",
+          "word": "教辅资料",
+          "weight": 82,
+          "type": "category",
           "sources": [
             {
               "sourceName": "京东",
