@@ -1,127 +1,148 @@
-# 📊 Top Rank Tracker
+# Top Rank Tracker
 
-每日自动抓取 TopHub 热搜榜与热销榜数据，记录重点榜单 Top 30，并生成可供 AI、程序或数据分析工具读取的历史 JSON 数据。
+这是 `AI 热点捕手` 的数据源仓库，负责每天抓取热搜榜、热销榜，生成结构化 JSON、AI 洞察和词云数据。前端仓库 `ai-trend-hunter` 会直接读取这里的静态数据来渲染网页。
 
-完整搭建教程见：[GitHub Actions 每日榜单抓取工作流搭建指南](WORKFLOW_GUIDE.md)
-
-## ✅ 当前状态
-
-- 最新数据日期：以 `data/latest.json` 为准
-- 当前已归档日期索引：`data/index.json`
-- 每日抓取规模：10 个榜单，每榜 30 条，共 300 条
-- 热搜榜会过滤时事、政治、经济、军事、新闻类热点，并向后顺延补齐
-- 热销榜不做内容过滤，按来源榜单顺序抓取 Top 30
-- 目前还会生成每日 AI 洞察，保存到 `data/insights/`
-
-## 🎯 抓取范围
-
-### 🔥 热搜榜
-
-默认抓取以下 5 个榜单，每个榜单保留 30 条：
-
-- 微博 / 热搜榜
-- 百度 / 实时热点
-- 夸克 / 热搜榜
-- 360搜索 / 实时热点榜单
-- 抖音 / 热搜榜
-
-热搜榜过滤规则：
-
-- 跳过时事、政治、经济、军事、新闻类热点
-- 如果原榜前 30 中有内容被过滤，会继续向后顺延补齐
-- 数据保留来源榜单的原始排名，不重新编号，方便追溯
-
-### 🛒 热销榜
-
-默认抓取以下 5 个榜单，每个榜单保留 30 条：
-
-- 淘宝・天猫 / 热销总榜
-- 淘宝・天猫 / 每日爆款清单
-- 今日热卖 / 全网线报聚合
-- 京东 / 热销总榜
-- 快手电商 / 月销热榜
-
-选择逻辑：
-
-- 淘宝、京东总榜必选
-- 其余榜单优先选择覆盖面广、更新稳定、公开页面可直接拿到 Top 30 的榜单
-- 当当 / 畅销图书榜在 TopHub 公开页面展示条数不足，因此默认不选
-
-## 🧩 数据文件
-
-每日运行后会生成或更新：
-
-- `data/YYYY-MM-DD.json`：某一天的完整抓取结果
-- `data/latest.json`：最近一次抓取结果
-- `data/index.json`：所有已抓取日期和每日文件链接
-- `data/insights/YYYY-MM-DD.json`：某一天的 AI 洞察结果
-- `data/insights/latest.json`：最近一次 AI 洞察结果
-
-每条榜单数据包含：
-
-- `category` / `categoryName`：榜单分类
-- `nodeId`：TopHub 榜单节点 ID
-- `sourceName`：榜单来源，例如微博、百度、淘宝、京东
-- `listName`：榜单名称
-- `itemCount`：实际保存条数
-- `items`：榜单条目
-
-每个 `items` 条目包含：
-
-- `rank`：来源榜单原始排名
-- `title`：标题
-- `metric`：热度、销量或作者等补充信息
-- `url`：原始链接
-
-## 🌐 给 AI 读取的链接
-
-日期索引：
-
-```text
-https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/index.json
-```
-
-历史数据可以先读取 `data/index.json`，再按 `dates` 中的日期读取对应的 `data/YYYY-MM-DD.json`。
-
-最新抓取数据：
+在线数据地址：
 
 ```text
 https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/latest.json
 ```
 
-最新 AI 洞察：
+## 数据内容
+
+当前每日数据包含三类：
+
+- 榜单原始数据：`data/YYYY-MM-DD.json`、`data/latest.json`
+- AI 洞察：`data/insights/YYYY-MM-DD.json`、`data/insights/latest.json`
+- 词云：`data/wordclouds/YYYY-MM-DD.json`、`data/wordclouds/latest.json`
+
+日期索引保存在：
 
 ```text
-https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/insights/latest.json
+data/index.json
 ```
 
-也可以按日期读取：
+网页本身不会每天生成一份快照，留存的是每天的数据文件。前端可以读取历史日期数据进行回看。
+
+## 榜单范围
+
+热搜榜目前抓取 5 个来源：
+
+- 抖音热搜
+- 微博热搜
+- 百度实时热点
+- 夸克热搜
+- 360 搜索实时热点
+
+热销榜目前抓取 6 个来源：
+
+- 淘宝天猫热销总榜
+- 淘宝天猫每日爆款清单
+- 今日热卖聚合榜
+- 京东热销总榜
+- 快手电商热销榜
+- 京东图书热销榜
+
+图书榜单来自 TopHub：
 
 ```text
-https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/YYYY-MM-DD.json
-https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/insights/YYYY-MM-DD.json
+https://tophub.today/n/x9ozr11oXb
 ```
 
-## 🧰 本地运行
+图书、童书、绘本、教材、教辅、分级阅读等统一归入 `平台/教育` 类目下的教育侧。
 
-强制抓取当天数据：
+## 类目体系
+
+数据会按 8 个一级类目进行归类：
+
+- 3C 数码
+- 家居家装
+- 家用电器
+- 母婴亲子
+- 食品饮料
+- 美妆护肤
+- 服饰穿戴
+- 平台/教育
+
+`平台/教育` 是一个合并展示类目，内部按两类信号理解：
+
+- 平台侧：外卖、本地生活、团购、滴滴/打车、酒旅、二手回收、电商平台等
+- 教育侧：图书、童书、绘本、教材、教辅、考试备考、学习工具等
+
+在 AI 洞察输入中，`平台/教育` 的信号会尽量标记为：
+
+- `platform`
+- `education`
+
+这样 LLM 在生成二级类目时，可以把平台行业和教育行业分开，不把二者混成一个二级类目。
+
+## AI 洞察
+
+洞察脚本：
+
+```text
+scripts/generate-insights.mjs
+```
+
+输出位置：
+
+```text
+data/insights/latest.json
+data/insights/YYYY-MM-DD.json
+```
+
+洞察的核心逻辑：
+
+- 每个一级类目由 LLM 根据当天真实数据生成 3-5 个二级类目
+- 优先使用热搜信号判断当天用户关注点
+- 热销榜只作为商品、卖点和转化参考，不直接把长 SKU 当作热点
+- 如果 LLM 生成不足 3 个有效二级类目，则使用固定二级类目池兜底
+- 策略文案只保留内容策略，不再输出固定投放尾句
+
+## 词云
+
+词云脚本：
+
+```text
+scripts/generate-wordclouds.mjs
+```
+
+输出位置：
+
+```text
+data/wordclouds/latest.json
+data/wordclouds/YYYY-MM-DD.json
+```
+
+词云规则：
+
+- `topic`：只来自热搜榜
+- `product`：只来自热销榜
+- `topicCategory`：按类目拆分的热搜词云
+- `productCategory`：按类目拆分的热销词云
+- 热搜词云和热销词云严格分开，不跨来源补词
+- 每个词条会尽量附带来源标题，供前端悬停展示
+- LLM 词条优先控制在 2-6 个中文字符，避免长 SKU 或整句标题进入词云
+- 如果 LLM 不可用或返回空数组，会使用规则兜底生成非空词云
+
+## 本地运行
+
+强制抓取并覆盖当天数据：
 
 ```bash
-npm run crawl
+npm run crawl:force
 ```
-
-定时任务使用的抓取命令：
-
-```bash
-npm run crawl:daily
-```
-
-如果当天数据已经存在，`crawl:daily` 会跳过抓取，避免重复覆盖。
 
 只生成 AI 洞察：
 
 ```bash
 npm run insights
+```
+
+只生成词云：
+
+```bash
+npm run wordclouds
 ```
 
 完整每日流程：
@@ -130,40 +151,62 @@ npm run insights
 npm run daily
 ```
 
-`daily` 会先执行 `crawl:daily`，再执行 `insights`。
+`daily` 会依次执行：
 
-## 🚀 自动运行
+```text
+crawl:force -> insights -> wordclouds
+```
 
-主链路使用 Codex worktree 自动化，每天北京时间 09:25 检查并补抓。
+## GitHub Actions
 
-GitHub Actions 也保留自动任务，配置文件在：
+自动任务配置在：
 
 ```text
 .github/workflows/daily-crawl.yml
 ```
 
-当前 GitHub Actions 执行：
+当前 workflow 会：
 
-```bash
-npm run daily
-```
+1. 抓取最新榜单
+2. 生成 AI 洞察
+3. 生成词云
+4. 提交更新后的 `data/*.json`、`data/insights/*.json` 和 `data/wordclouds/*.json`
 
-也就是：
-
-1. 检查当天数据是否存在
-2. 缺失时抓取榜单数据
-3. 生成 AI 洞察
-4. 将 `data/*.json` 和 `data/insights/*.json` 自动提交回仓库
-
-AI 洞察依赖火山方舟 / Ark 兼容接口，需要在 GitHub Secrets 或 Variables 中配置相关模型参数。当前工作流支持：
+AI 生成依赖火山方舟 / Ark 兼容接口，需要配置：
 
 - `VOLCENGINE_API_KEY` 或 `ARK_API_KEY`
 - `VOLCENGINE_BASE_URL` 或 `ARK_BASE_URL`
 - `VOLCENGINE_MODEL` 或 `ARK_MODEL`
 
-## ⚠️ 重要说明
+## 给前端读取的主要入口
 
-- GitHub Actions 的 `schedule` 事件不保证准点触发，可能延迟。
-- `raw.githubusercontent.com` 可能有短缓存，刚推送后如果看到旧数据，可以稍等几分钟再刷新。
-- 热搜过滤使用关键词规则，适合日常自动归档，但不是严格新闻分类模型。
-- 如果 TopHub 页面结构变化，可能需要维护 `scripts/crawl.mjs` 的解析逻辑。
+最新榜单：
+
+```text
+https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/latest.json
+```
+
+最新洞察：
+
+```text
+https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/insights/latest.json
+```
+
+最新词云：
+
+```text
+https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/wordclouds/latest.json
+```
+
+日期索引：
+
+```text
+https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/index.json
+```
+
+## 注意事项
+
+- GitHub Actions 的定时任务可能会延迟触发，不保证精确到分钟
+- `raw.githubusercontent.com` 有短暂缓存，刚推送后可能需要等待几分钟
+- 分类规则是规则词典和 LLM 洞察结合，不是严格行业分类模型
+- 如果 TopHub 页面结构变化，可能需要维护 `scripts/crawl.mjs`

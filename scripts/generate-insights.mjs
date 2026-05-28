@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import https from "node:https";
@@ -509,13 +509,155 @@ function normalizeCategory(cat, inputCategory, compact) {
   };
 }
 
+function sanitizeUnverifiedMetrics(value) {
+  if (typeof value === "string") {
+    const cleaned = value
+      .replace(/[^。；;.!！?？\n]*(点击率|完播率|转化率|搜索量|曝光量|播放量|成交率|环比|同比)[^。；;.!！?？\n]*\d+(?:\.\d+)?%[^。；;.!！?？\n]*/g, "相关榜单关注度走强")
+      .replace(/[^。；;.!！?？\n]*\d+(?:\.\d+)?%[^。；;.!！?？\n]*/g, "相关榜单关注度走强")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (/点击率|完播率|转化率|曝光量|播放量|成交率/.test(cleaned) && !/不代表|禁止|Do not output/.test(cleaned)) {
+      return "相关榜单关注度走强";
+    }
+    return cleaned;
+  }
+  if (Array.isArray(value)) return value.map(sanitizeUnverifiedMetrics);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, sanitizeUnverifiedMetrics(item)]));
+  }
+  return value;
+}
+
+function previousSnapshotFor(date) {
+  try {
+    const previous = readdirSync(dataDir)
+      .filter((name) => /^\d{4}-\d{2}-\d{2}\.json$/.test(name))
+      .map((name) => ({ date: name.replace(/\.json$/, ""), file: path.join(dataDir, name) }))
+      .filter((item) => item.date < date)
+      .sort((a, b) => b.date.localeCompare(a.date))[0];
+    return previous ? JSON.parse(readFileSync(previous.file, "utf8")) : null;
+  } catch {
+    return null;
+  }
+}
+
+function themeTerms(row) {
+  return uniq([
+    row?.sub,
+    ...(Array.isArray(row?.hotTerms) ? row.hotTerms : []),
+    ...(Array.isArray(row?.topicIdeas) ? row.topicIdeas : []),
+    ...(Array.isArray(row?.topics) ? row.topics : [])
+  ], 20)
+    .map((term) => String(term || "").trim())
+    .filter((term) => term.length >= 2 && term.length <= 24);
+}
+
+function themeScore(snapshot, catKey, terms) {
+  if (!snapshot || !Array.isArray(snapshot.lists) || !terms.length) {
+    return { score: 0, examples: [] };
+  }
+  let score = 0;
+  const examples = [];
+  for (const list of snapshot.lists) {
+    const items = Array.isArray(list.items) ? list.items : [];
+    const total = Math.max(items.length, 1);
+    for (const item of items) {
+      const title = String(item.title || "");
+      if (categoryOf(title, list.listName) !== catKey) continue;
+      if (!terms.some((term) => title.includes(term) || term.includes(title))) continue;
+      const rank = Number(item.rank) || total;
+      const rankScore = Math.max(1, total - rank + 1) / total * 100;
+      score += rankScore;
+      if (examples.length < 3) examples.push({ sourceName: list.sourceName, title, rank: item.rank });
+    }
+  }
+  return { score: Number(score.toFixed(1)), examples };
+}
+
+function buildThemeMomentum(content, latest) {
+  const previous = previousSnapshotFor(latest.date);
+  const rows = [];
+  for (const cat of categories) {
+    const category = content.categories?.[cat.key];
+    for (const row of category?.rows || []) {
+      const terms = themeTerms(row);
+      const current = themeScore(latest, cat.key, terms);
+      const before = themeScore(previous, cat.key, terms);
+      if (!current.score && !before.score) continue;
+      const changePct = before.score > 0 ? Math.round((current.score / before.score - 1) * 100) : null;
+      rows.push({
+        categoryKey: cat.key,
+        categoryName: cat.name,
+        theme: row.sub,
+        score: current.score,
+        previousScore: before.score,
+        changePct,
+        status: before.score === 0 ? "new" : changePct > 0 ? "up" : changePct < 0 ? "down" : "flat",
+        examples: current.examples
+      });
+    }
+  }
+  return rows.sort((a, b) => {
+    const aRank = a.changePct == null ? -999 : Math.abs(a.changePct);
+    const bRank = b.changePct == null ? -999 : Math.abs(b.changePct);
+    return bRank - aRank || b.score - a.score;
+  });
+}
+
+function themeMomentumBullets(momentum) {
+  return momentum.slice(0, 4).map((item) => {
+    if (item.changePct == null) {
+      return `${item.theme}今日出现新的榜单信号，当前榜单热度指数${item.score}`;
+    }
+    if (item.changePct > 0) return `${item.theme}榜单热度指数环比上涨${item.changePct}%`;
+    if (item.changePct < 0) return `${item.theme}榜单热度指数环比下降${Math.abs(item.changePct)}%`;
+    return `${item.theme}榜单热度指数与上一期基本持平`;
+  });
+}
+
+function isGenericAttentionText(text = "") {
+  return String(text || "").trim() === "相关榜单关注度走强";
+}
+
+function repairCloudBrief(content) {
+  const cloud = content.briefs?.cloud;
+  if (!cloud) return;
+  const bullets = Array.isArray(cloud.bullets) ? cloud.bullets : [];
+  const genericCount = [cloud.lead, ...bullets].filter(isGenericAttentionText).length;
+  if (genericCount < 3) return;
+  content.briefs.cloud = {
+    lead: "今日词云主要反映榜单里的高频话题、商品卖点和可承接场景，适合用来判断内容选题方向。",
+    bullets: [
+      "热搜词云用于观察当日用户注意力，不等同于销售表现",
+      "热销词云用于观察商品卖点和消费场景，不等同于舆论热度",
+      "优先关注同时出现在热搜和热销里的词，它们更适合做内容承接",
+      "低频但明确的场景词可作为细分选题，用于小预算内容测试"
+    ]
+  };
+}
+
+function applyThemeMomentum(content, latest) {
+  const clean = sanitizeUnverifiedMetrics(content);
+  repairCloudBrief(clean);
+  const momentum = buildThemeMomentum(clean, latest);
+  const bullets = themeMomentumBullets(momentum);
+  if (bullets.length) {
+    clean.briefs.trend = {
+      lead: "以下趋势百分比来自榜单排名标准化后的热度指数环比，不代表点击率、完播率或真实搜索量。",
+      bullets
+    };
+  }
+  clean.themeMomentum = momentum;
+  return clean;
+}
+
 function normalizeInsights(content, latest) {
   const compact = compactLatest(latest);
   const normalizeBrief = (brief, fallbackLead) => ({
     lead: brief?.lead || fallbackLead,
     bullets: Array.isArray(brief?.bullets) ? brief.bullets.slice(0, 4) : []
   });
-  return {
+  const normalized = {
     briefs: {
       hot: normalizeBrief(content?.briefs?.hot, "今日热搜 Brief 已按最新榜单生成。"),
       shop: normalizeBrief(content?.briefs?.shop, "今日热销 Brief 已按最新榜单生成。"),
@@ -532,6 +674,7 @@ function normalizeInsights(content, latest) {
       categories.map((cat) => [cat.key, normalizeCategory(cat, content?.categories?.[cat.key], compact)])
     )
   };
+  return applyThemeMomentum(normalized, latest);
 }
 
 function briefSchema() {
@@ -630,6 +773,7 @@ function buildSystemPrompt() {
   return [
     "You are a Chinese consumer trend and marketing strategy analyst. Write all user-facing content in Simplified Chinese.",
     "Only use real ranking data from the input JSON. Do not invent hotspots, brands, products, or platforms.",
+    "Do not output concrete percentages or claims about click-through rate, completion rate, conversion rate, exposure, search volume, month-over-month growth, or year-over-year growth. The code will calculate any allowed ranking heat-index percentage after your JSON is returned.",
     "Workflow: first inspect categorySignals.hot for each category and decide which subcategories deserve display today; then use categorySignals.shop only as product/conversion support. Never treat a long shopping SKU title as a hotspot.",
     "Each category must output 3-5 rows. Generate the subcategories from today's real hot-search signals first; use fallbackSubcategories only when hotspot coverage is not enough.",
     "For each row: sub is the secondary category; scene is one concise marketing scenario generated from the hotspot insight and the subcategory. It must never be empty.",
@@ -995,12 +1139,26 @@ async function main() {
   const latest = JSON.parse(await fs.readFile(latestPath, "utf8"));
 
   let payload;
-  try {
-    payload = await callLLM(latest);
-  } catch (error) {
-    if (process.env.REQUIRE_LLM === "1") throw error;
-    console.warn(`Falling back without LLM: ${error.message}`);
-    payload = fallbackInsights(latest, error.message);
+  const reusePath = path.join(insightDir, "latest.json");
+  if (process.env.REUSE_EXISTING_INSIGHTS === "1" && existsSync(reusePath)) {
+    const existing = JSON.parse(await fs.readFile(reusePath, "utf8"));
+    payload = {
+      model: existing.model || "existing",
+      generatedAt: existing.generatedAt || new Date().toISOString(),
+      fallbackReason: existing.fallbackReason,
+      content: existing.content
+    };
+  } else {
+    try {
+      payload = await callLLM(latest);
+    } catch (error) {
+      if (process.env.REQUIRE_LLM === "1") throw error;
+      console.warn(`Falling back without LLM: ${error.message}`);
+      payload = fallbackInsights(latest, error.message);
+    }
+  }
+  if (payload?.content) {
+    payload.content = applyThemeMomentum(payload.content, latest);
   }
 
   const output = {
