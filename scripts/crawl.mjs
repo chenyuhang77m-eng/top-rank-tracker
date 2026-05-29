@@ -16,7 +16,7 @@ const sources = [
     category: "hot-search",
     categoryName: "热搜榜",
     url: "https://tophub.today/c/news?q=%E7%83%AD%E6%90%9C",
-    selectedNodeIds: ["223", "1", "2", "140", "4714"]
+    selectedNodeIds: ["223", "1", "2", "140", "4714", "69"]
   },
   {
     category: "shopping",
