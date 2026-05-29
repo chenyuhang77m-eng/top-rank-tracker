@@ -16,7 +16,7 @@ const sources = [
     category: "hot-search",
     categoryName: "热搜榜",
     url: "https://tophub.today/c/news?q=%E7%83%AD%E6%90%9C",
-    selectedNodeIds: ["223", "1", "2", "140", "69"]
+    selectedNodeIds: ["223", "1", "2", "140", "4714"]
   },
   {
     category: "shopping",
@@ -50,7 +50,7 @@ const userAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
   "(KHTML, like Gecko) Chrome/124.0 Safari/537.36";
 
-const TOP_ITEM_LIMIT = 30;
+const TOP_ITEM_LIMIT = 50;
 
 // 黑名单策略：过滤"时政外交/军事/灾难事故/犯罪案件/疫情医疗负面"等不适合做营销话题的硬新闻，
 // 但保留明星娱乐、影视综艺、品类商业等可被品牌借势的热点。
