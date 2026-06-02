@@ -237,13 +237,17 @@ function rowsForScope(input, listCategory, categoryKey = null) {
 function attachSources(items, rows) {
   return items.map((item) => {
     const word = item.word || "";
+    const provided = Array.isArray(item.sources)
+      ? item.sources
+          .filter((source) => word && String(source?.title || source || "").includes(word))
+          .slice(0, 4)
+      : [];
     const matched = rows
       .filter((row) => word && row.title?.includes(word))
       .sort((a, b) => b.weight - a.weight)
       .slice(0, 4)
       .map(({ sourceName, listName, title }) => ({ sourceName, listName, title }));
-    const fallback = matched.length ? matched : rows.slice(0, 2).map(({ sourceName, listName, title }) => ({ sourceName, listName, title }));
-    return { ...item, sources: item.sources?.length ? item.sources.slice(0, 4) : fallback };
+    return { ...item, sources: provided.length ? provided : matched };
   });
 }
 
