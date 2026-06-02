@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-29T18:16:39+08:00",
-  "totalDays": 18,
+  "updatedAt": "2026-06-02T13:52:54+08:00",
+  "totalDays": 22,
   "dates": [
     "2026-05-12",
     "2026-05-13",
@@ -19,7 +19,11 @@
     "2026-05-26",
     "2026-05-27",
     "2026-05-28",
-    "2026-05-29"
+    "2026-05-29",
+    "2026-05-30",
+    "2026-05-31",
+    "2026-06-01",
+    "2026-06-02"
   ],
   "files": [
     {
@@ -111,6 +115,26 @@
       "date": "2026-05-29",
       "path": "data/2026-05-29.json",
       "rawUrl": "https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/2026-05-29.json"
+    },
+    {
+      "date": "2026-05-30",
+      "path": "data/2026-05-30.json",
+      "rawUrl": "https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/2026-05-30.json"
+    },
+    {
+      "date": "2026-05-31",
+      "path": "data/2026-05-31.json",
+      "rawUrl": "https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/2026-05-31.json"
+    },
+    {
+      "date": "2026-06-01",
+      "path": "data/2026-06-01.json",
+      "rawUrl": "https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/2026-06-01.json"
+    },
+    {
+      "date": "2026-06-02",
+      "path": "data/2026-06-02.json",
+      "rawUrl": "https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/2026-06-02.json"
     }
   ]
 }
