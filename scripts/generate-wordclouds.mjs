@@ -163,23 +163,24 @@ async function callLLM(input) {
 function shortenWord(value) {
   const raw = String(value || "")
     .replace(/[【】\[\]（）()《》"'“”‘’]/g, "")
-    .replace(/\d+(?:g|kg|ml|L|元|只|件|本|册|级|岁)?/gi, "")
+    .replace(/(?:原价|券后|到手价|售价|补贴价)?\s*[¥￥]?\d+(?:\.\d+)?\s*(?:元|块|折)?/gi, "")
+    .replace(/\d+(?:\.\d+)?\s*(?:g|kg|ml|l|L|斤|克|片|粒|包|盒|瓶|袋|本|册|只|件|双|条|台|支|罐|抽|卷|对)(?:\s*[x×*]\s*\d+)?/gi, "")
     .replace(/\s+/g, "")
     .trim();
   if (!raw) return "";
   const cjkChars = raw.match(/[\u4e00-\u9fa5]/g) || [];
-  if (cjkChars.length <= 6) return raw;
+  if (cjkChars.length >= 2 && cjkChars.length <= 8 && raw.length <= 18) return raw;
   const parts = raw.split(/[，,、/｜|·:：\-_\s]+/).filter(Boolean);
   const candidate = parts.find((part) => {
     const count = (part.match(/[\u4e00-\u9fa5]/g) || []).length;
-    return count >= 2 && count <= 6;
+    return count >= 2 && count <= 8 && part.length <= 18;
   });
   if (candidate) return candidate;
-  return cjkChars.slice(0, 6).join("");
+  return "";
 }
 
 function normalizeItem(item, fallbackType) {
-  const word = shortenWord(item?.word || item?.name);
+  const word = cleanCandidateTerm(item?.word || item?.name);
   const weight = Math.max(1, Math.min(100, Number(item?.weight || item?.value || 10)));
   if (!word) return null;
   return { word, weight, type: String(item?.type || fallbackType) };
@@ -237,18 +238,13 @@ function rowsForScope(input, listCategory, categoryKey = null) {
 function attachSources(items, rows) {
   return items.map((item) => {
     const word = item.word || "";
-    const provided = Array.isArray(item.sources)
-      ? item.sources
-          .filter((source) => word && String(source?.title || source || "").includes(word))
-          .slice(0, 4)
-      : [];
     const matched = rows
       .filter((row) => word && row.title?.includes(word))
       .sort((a, b) => b.weight - a.weight)
       .slice(0, 4)
       .map(({ sourceName, listName, title }) => ({ sourceName, listName, title }));
-    return { ...item, sources: provided.length ? provided : matched };
-  });
+    return { ...item, sources: matched };
+  }).filter((item) => item.sources.length);
 }
 
 function attachCloudSources(clouds, input) {
@@ -276,40 +272,58 @@ const stopWords = new Set([
 const curatedTerms = [
   "外卖", "订书钉", "美团", "饿了么", "大众点评", "团购", "滴滴", "打车", "出行", "高德",
   "携程", "飞猪", "酒店", "机票", "闲鱼", "转转", "回收", "二手", "图书", "童书",
-  "绘本", "分级阅读", "教材", "教辅", "练习册", "阅读", "学习机", "网课", "考试", "备考"
+  "绘本", "分级阅读", "教材", "教辅", "练习册", "阅读", "学习机", "网课", "考试", "备考",
+  "世界杯", "C罗", "夏日穿搭", "英伟达", "电池容量", "高压氧舱", "育儿补贴", "宝宝近视", "火锅", "骑手外卖", "租房", "空调", "租房空调", "儿童防晒", "防晒霜", "修复面膜",
+  "爽肤水", "洗地机", "除螨仪", "纯牛奶", "酸奶", "蛋白棒", "蒟蒻果冻", "牛肉馅饼",
+  "祛湿足贴", "精制井盐", "黄芪", "枸杞", "香皂", "驱蚊", "作业本", "洗衣液",
+  "厨房湿巾", "养生壶", "唇釉", "奶粉", "益生菌", "沙发盖布", "应急启动电源"
 ];
-const badCloudFragmentRe = /什么|时候|可以|怎么|为何|是否|如何|多少|几个|女子|男子|网友/;
+const badCloudFragmentRe = /什么|时候|可以|怎么|为何|是否|如何|多少|几个|女子|男子|网友|见这|天塌|塌了|遇见这|调天塌/;
+const meaningfulTermRe =
+  /[\u4e00-\u9fa5A-Za-z0-9]*(?:世界杯|穿搭|妆|股价|管网|天气|动漫|运动|火锅|茅台|近视|补贴|婚礼|队|电动车|租房|空调|防晒|面膜|爽肤水|洗地机|除螨仪|牛奶|酸奶|蛋白棒|果冻|馅饼|足贴|井盐|黄芪|枸杞|香皂|作业本|湿巾|养生壶|唇釉|奶粉|益生菌|沙发盖布|电源|饼干|风扇|清洁剂|童书|绘本|教材|教辅|机票|酒店|外卖|团购|回收|二手)[\u4e00-\u9fa5A-Za-z0-9]*/g;
+
+function cleanCandidateTerm(value = "") {
+  const original = String(value || "").trim();
+  if (original === "C罗") return original;
+  let word = shortenWord(value)
+    .replace(/[0-9A-Za-z亓]+/g, "")
+    .replace(/^(?:这|这个|这种|那|那个|那些|见这|遇见这|遇见|见)/g, "")
+    .replace(/^(?:个?月|个月|个|只|件|本|册|袋|盒|瓶|包|片|粒|对|抽|卷|台|支|罐)+/g, "")
+    .replace(/^(?:后|前)/g, "")
+    .replace(/袋.*$/g, "")
+    .replace(/(?:下达|曝光|回应|官宣|开播|开启|大涨|走红|抵杭|被查|获刑|超|欲写|嫌|(?<!防)晒|任意).*$/g, "")
+    .replace(/[克斤元度支抽卷袋盒瓶包片粒对台罐千]+$/g, "")
+    .trim();
+  if (!word || stopWords.has(word) || badCloudFragmentRe.test(word) || /^[A-Za-z0-9]+$/.test(word)) return "";
+  const cjkCount = (word.match(/[\u4e00-\u9fa5]/g) || []).length;
+  if (cjkCount < 2 || cjkCount > 8 || word.length > 18) return "";
+  return word;
+}
+
+function candidateTermsFromTitle(title = "") {
+  const text = String(title || "");
+  const hits = [];
+  for (const term of curatedTerms) {
+    if (text.includes(term)) hits.push(term);
+  }
+  for (const match of text.matchAll(meaningfulTermRe)) {
+    const cleaned = cleanCandidateTerm(match[0]);
+    if (cleaned) hits.push(cleaned);
+  }
+  return [...new Set(hits)];
+}
 
 function fallbackTerms(titles, type, limit) {
   const scores = new Map();
   const sources = new Map();
   for (const { title, sourceName, listName, weight = 1 } of titles) {
-    let hasCurated = false;
-    for (const term of curatedTerms) {
-      if (!String(title || "").includes(term)) continue;
-      hasCurated = true;
-      scores.set(term, (scores.get(term) || 0) + weight * 2);
+    const candidates = candidateTermsFromTitle(title);
+    for (const term of candidates) {
+      scores.set(term, (scores.get(term) || 0) + weight * (curatedTerms.includes(term) ? 2 : 1));
       const list = sources.get(term) || [];
       if (!list.some((item) => item.title === title)) {
         list.push({ sourceName, listName, title });
         sources.set(term, list.slice(0, 4));
-      }
-    }
-    if (hasCurated) continue;
-    const chunks = String(title || "").match(/[\u4e00-\u9fa5A-Za-z0-9]{2,12}/g) || [];
-    for (const chunk of chunks) {
-      const clean = chunk.replace(/\d+(?:g|kg|ml|L|元|只|件|本|册)?/gi, "");
-      for (let size of [4, 3, 2]) {
-        for (let i = 0; i <= clean.length - size; i += 1) {
-          const word = clean.slice(i, i + size);
-          if (stopWords.has(word) || badCloudFragmentRe.test(word) || /^[A-Za-z0-9]+$/.test(word)) continue;
-          scores.set(word, (scores.get(word) || 0) + weight);
-          const list = sources.get(word) || [];
-          if (!list.some((item) => item.title === title)) {
-            list.push({ sourceName, listName, title });
-            sources.set(word, list.slice(0, 4));
-          }
-        }
       }
     }
   }
