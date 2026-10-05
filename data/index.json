@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-04T14:40:42+08:00",
-  "totalDays": 135,
+  "updatedAt": "2026-10-05T14:40:09+08:00",
+  "totalDays": 136,
   "dates": [
     "2026-05-12",
     "2026-05-13",
@@ -136,7 +136,8 @@
     "2026-10-01",
     "2026-10-02",
     "2026-10-03",
-    "2026-10-04"
+    "2026-10-04",
+    "2026-10-05"
   ],
   "files": [
     {
@@ -813,6 +814,11 @@
       "date": "2026-10-04",
       "path": "data/2026-10-04.json",
       "rawUrl": "https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/2026-10-04.json"
+    },
+    {
+      "date": "2026-10-05",
+      "path": "data/2026-10-05.json",
+      "rawUrl": "https://raw.githubusercontent.com/chenyuhang77m-eng/top-rank-tracker/main/data/2026-10-05.json"
     }
   ]
 }
