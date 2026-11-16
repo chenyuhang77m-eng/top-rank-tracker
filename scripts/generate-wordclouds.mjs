@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import https from "node:https";
 import http from "node:http";
+import dns from "node:dns";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -95,7 +96,22 @@ function getLlmConfig() {
   return { apiKey, baseUrl, model };
 }
 
-function httpsPostJson(url, { headers = {}, body } = {}) {
+const retryableNetworkCodes = new Set(["ETIMEDOUT", "ENETUNREACH", "ECONNRESET", "ECONNREFUSED", "EAI_AGAIN"]);
+const llmConnectRetries = Number(process.env.LLM_CONNECT_RETRIES || 4);
+const llmConnectRetryDelayMs = Number(process.env.LLM_CONNECT_RETRY_DELAY_MS || 15_000);
+const ipv4FirstLookup = (hostname, options, callback) => dns.lookup(hostname, { ...options, family: 4 }, callback);
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableNetworkError(error) {
+  if (!error) return false;
+  if (retryableNetworkCodes.has(error.code)) return true;
+  return Array.isArray(error.errors) && error.errors.some((item) => retryableNetworkCodes.has(item?.code));
+}
+
+function httpsPostJsonOnce(url, { headers = {}, body } = {}) {
   return new Promise((resolve, reject) => {
     let u;
     try { u = new URL(url); } catch (error) { return reject(error); }
@@ -106,6 +122,7 @@ function httpsPostJson(url, { headers = {}, body } = {}) {
       hostname: u.hostname,
       port: u.port || (u.protocol === "http:" ? 80 : 443),
       path: `${u.pathname}${u.search}`,
+      lookup: ipv4FirstLookup,
       headers: {
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(payload),
@@ -127,6 +144,22 @@ function httpsPostJson(url, { headers = {}, body } = {}) {
     req.write(payload);
     req.end();
   });
+}
+
+async function httpsPostJson(url, options = {}) {
+  let lastError;
+  for (let attempt = 1; attempt <= llmConnectRetries; attempt += 1) {
+    try {
+      return await httpsPostJsonOnce(url, options);
+    } catch (error) {
+      lastError = error;
+      if (!isRetryableNetworkError(error) || attempt >= llmConnectRetries) throw error;
+      const delay = llmConnectRetryDelayMs * attempt;
+      console.warn(`LLM request network error (${error.code || "unknown"}), retrying ${attempt}/${llmConnectRetries - 1} after ${delay}ms...`);
+      await sleep(delay);
+    }
+  }
+  throw lastError;
 }
 
 function extractJsonText(text = "") {
@@ -388,6 +421,7 @@ async function main() {
     wordCloudSource = "llm";
     wordClouds = attachCloudSources(normalized, input);
   } catch (error) {
+    if (process.env.REQUIRE_LLM === "1") throw error;
     fallbackReason = error.message;
     wordClouds = fallbackClouds(input);
   }
